@@ -10,14 +10,16 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { del as blobDel, issueSignedToken, list as blobList, presignUrl, put as blobPut } from "@vercel/blob";
 
 /**
  * 원본 이미지와 딥줌 타일을 두는 곳.
  * - local: 개발·테스트. 앱의 .data/storage 폴더에 두고, 어드민의 /files 경로로 내보낸다.
- * - s3: 운영. Cloudflare R2 같은 S3 호환 스토리지에 두고, 공개 도메인(CDN)으로 내보낸다.
+ * - s3: Cloudflare R2 같은 S3 호환 스토리지에 두고, 공개 도메인(CDN)으로 내보낸다.
+ * - blob: Vercel Blob. 공개 저장소의 고정 경로(addRandomSuffix: false)에 두고 Blob CDN으로 내보낸다.
  */
 export interface Storage {
-  readonly driver: "local" | "s3";
+  readonly driver: "local" | "s3" | "blob";
   put(key: string, body: Buffer, contentType: string, cacheControl?: string): Promise<void>;
   /** 로컬 폴더 안의 파일들을 prefix 아래로 올린다. 타일처럼 파일이 많을 때 쓴다. */
   putFiles(
@@ -183,8 +185,85 @@ export class S3Storage implements Storage {
   }
 }
 
+/** Blob 읽기·쓰기 토큰(vercel_blob_rw_<storeId>_<secret>)에서 공개 주소를 만든다. */
+export function blobPublicUrlFromToken(token: string): string {
+  const storeId = token.match(/^vercel_blob_rw_([A-Za-z0-9]+)_/)?.[1];
+  if (!storeId) throw new Error("BLOB_READ_WRITE_TOKEN 형식을 알 수 없습니다.");
+  return `https://${storeId.toLowerCase()}.public.blob.vercel-storage.com`;
+}
+
+export type BlobConfig = { token: string; publicUrl: string };
+
+export class BlobStorage implements Storage {
+  readonly driver = "blob" as const;
+  constructor(private readonly config: BlobConfig) {}
+
+  async put(key: string, body: Buffer, contentType: string, cacheControl = IMMUTABLE) {
+    await blobPut(safeKey(key), body, {
+      access: "public",
+      token: this.config.token,
+      contentType,
+      addRandomSuffix: false,
+      allowOverwrite: true,
+      // Blob은 최소 60초. 목록(manifest)처럼 바뀌는 파일은 최소값을 쓴다.
+      cacheControlMaxAge: cacheControl === IMMUTABLE ? 31_536_000 : 60,
+    });
+  }
+
+  async putFiles(localDir: string, files: string[], prefix: string, contentTypeOf: (file: string) => string) {
+    // Blob API의 요청 제한을 넘지 않도록 동시에 8개씩 올린다.
+    await mapLimit(files, 8, async (f) =>
+      this.put(`${prefix}/${f}`, await readFile(path.join(/*turbopackIgnore: true*/ localDir, f)), contentTypeOf(f)),
+    );
+  }
+
+  async get(key: string) {
+    // CDN 캐시를 건너뛰어 방금 쓴 목록도 읽는다.
+    const res = await fetch(`${this.publicUrl(key)}?v=${Date.now()}`, { cache: "no-store" });
+    return res.ok ? Buffer.from(await res.arrayBuffer()) : null;
+  }
+
+  async removePrefix(prefix: string) {
+    let cursor: string | undefined;
+    do {
+      const page = await blobList({ prefix: `${safeKey(prefix)}/`, cursor, limit: 1000, token: this.config.token });
+      if (page.blobs.length) await blobDel(page.blobs.map((b) => b.url), { token: this.config.token });
+      cursor = page.hasMore ? page.cursor : undefined;
+    } while (cursor);
+  }
+
+  publicUrl(key: string) {
+    return `${this.config.publicUrl.replace(/\/$/, "")}/${safeKey(key)}`;
+  }
+
+  async presignUpload(key: string, contentType: string) {
+    const pathname = safeKey(key);
+    const signed = await issueSignedToken({
+      token: this.config.token,
+      pathname,
+      operations: ["put"],
+      allowedContentTypes: [contentType],
+      validUntil: Date.now() + 10 * 60_000,
+    });
+    const { presignedUrl } = await presignUrl(signed, {
+      operation: "put",
+      pathname,
+      access: "public",
+      allowedContentTypes: [contentType],
+      allowOverwrite: true,
+      addRandomSuffix: false,
+    });
+    return presignedUrl;
+  }
+}
+
 /** 환경 변수로 스토리지를 고른다. STORAGE_DRIVER=s3이면 S3_* 값이 모두 있어야 한다. */
 export function storageFromEnv(env: NodeJS.ProcessEnv, localRoot: string, localBaseUrl = "/files"): Storage {
+  if (env.STORAGE_DRIVER === "blob") {
+    const token = env.BLOB_READ_WRITE_TOKEN;
+    if (!token) throw new Error("Blob 스토리지 설정이 없습니다: BLOB_READ_WRITE_TOKEN");
+    return new BlobStorage({ token, publicUrl: env.STORAGE_PUBLIC_URL || blobPublicUrlFromToken(token) });
+  }
   if (env.STORAGE_DRIVER !== "s3") return new LocalStorage(localRoot, env.STORAGE_PUBLIC_URL || localBaseUrl);
   const required = ["S3_ENDPOINT", "S3_BUCKET", "S3_ACCESS_KEY_ID", "S3_SECRET_ACCESS_KEY", "STORAGE_PUBLIC_URL"];
   const missing = required.filter((k) => !env[k]);

@@ -51,7 +51,7 @@
 | 공통 | pnpm 워크스페이스 + Turborepo, Next.js 16 (App Router, Cache Components), React 19, TypeScript, zod |
 | 공개 사이트 | styled-components, Redux Toolkit + redux-saga, OpenSeadragon, Pretendard·Unbounded·Space Mono |
 | 관리 화면 | shadcn/ui(Base UI) + Tailwind CSS 4, Drizzle ORM + PostgreSQL(개발·테스트는 PGlite), Auth.js, Annotorious |
-| 이미지 | sharp(DZI 타일·미리보기·LQIP), S3 호환 스토리지(Cloudflare R2) |
+| 이미지·배포 | sharp(DZI 타일·미리보기·LQIP), Vercel Blob(S3 호환 R2 드라이버도 있음), Vercel |
 | 품질 | ESLint(FSD 경계 규칙), Vitest + Testing Library, redux-saga-test-plan, Storybook 10 스토리 테스트(axe), Playwright E2E, GitHub Actions |
 
 ## 시작하기
@@ -60,11 +60,10 @@ Node.js 24(`.node-version`)와 pnpm 12가 필요합니다.
 
 ```bash
 pnpm install
-pnpm seed:images   # 시드 유물 16점의 원본을 받아 딥줌 타일로 자른다(처음 한 번, 몇 분)
 pnpm dev           # 관리 화면 http://localhost:3000, 공개 사이트 http://localhost:3001
 ```
 
-관리 화면은 **게스트로 둘러보기**(읽기 전용) 또는 `curator@rizer.dev` / `rizer1234`(개발용)로 들어갑니다.
+시드 유물 16점의 딥줌 타일은 저장소에 들어 있습니다. 관리 화면은 **게스트로 둘러보기**(읽기 전용) 또는 `curator@rizer.dev` / `rizer1234`(개발용)로 들어갑니다.
 
 | 명령 | 설명 |
 |---|---|
@@ -83,7 +82,7 @@ apps/
 packages/
 ├─ domain/     유물·주석(W3C Web Annotation) 스키마, 공개 API 계약, 시드 유물 16점
 ├─ tiles/      sharp 딥줌 타일 생성과 CLI
-├─ storage/    로컬·S3(R2) 스토리지
+├─ storage/    로컬·S3(R2)·Vercel Blob 스토리지
 ├─ ui/         shadcn/ui 컴포넌트와 테마 (관리 화면)
 └─ config/     tsconfig, ESLint(FSD 경계), 보안 헤더
 ```
@@ -94,6 +93,6 @@ packages/
 |---|---|
 | [개발 가이드](docs/development.md) | 명령, 환경 변수, 시드 이미지, 테스트 |
 | [아키텍처](docs/architecture.md) | 앱 구성, 데이터 흐름, 딥줌·주석, 상태 관리, 접근성 |
-| [배포](docs/deployment.md) | Vercel + Neon + Cloudflare R2 설정 |
+| [배포](docs/deployment.md) | Vercel 프로젝트 둘, Neon, Vercel Blob, 시드 타일 정적 제공 |
 | [이미지 출처](docs/credits.md) | 유물별 사진 출처와 라이선스 |
 | [변경 기록](CHANGELOG.md) | 버전별 변경 사항 |

@@ -5,6 +5,8 @@ import { hash } from "bcryptjs";
 import { getStorage } from "@/server/storage";
 import { SEED_MANIFEST_KEY, type SeedImageManifest } from "@/entities/artifact";
 
+import bundledSeedImages from "./seed-images.json";
+
 import { type Database, openPglite, openPostgres } from "./index";
 import { DEV_CURATOR_PASSWORD, GUEST_PASSWORD, insertSeedData, isEmpty, syncSeedImages } from "./seed";
 
@@ -24,14 +26,20 @@ export function getDb(): Promise<Database> {
   }));
 }
 
+/**
+ * 시드 이미지 목록. 스토리지에 있으면(pnpm seed:images로 만든 로컬 타일) 그것을,
+ * 없으면 저장소에 넣은 목록(공개 사이트의 정적 타일, scripts/export-seed-tiles.mts)을 쓴다.
+ */
 async function readManifest(): Promise<SeedImageManifest> {
   const raw = await getStorage().get(SEED_MANIFEST_KEY);
-  if (!raw) return {};
-  try {
-    return JSON.parse(raw.toString("utf8")) as SeedImageManifest;
-  } catch {
-    return {};
+  if (raw) {
+    try {
+      return JSON.parse(raw.toString("utf8")) as SeedImageManifest;
+    } catch {
+      /* 아래 목록을 쓴다. */
+    }
   }
+  return bundledSeedImages as SeedImageManifest;
 }
 
 async function open() {

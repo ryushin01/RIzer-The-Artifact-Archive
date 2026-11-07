@@ -1,14 +1,22 @@
 import { securityHeaders } from "@rizer/config/security-headers";
 import type { NextConfig } from "next";
 
-// 타일은 R2 공개 도메인(운영) 또는 /files(개발)에서 온다.
-const tileOrigin = process.env.STORAGE_PUBLIC_URL?.startsWith("http")
-  ? [new URL(process.env.STORAGE_PUBLIC_URL).origin]
-  : [];
-// 운영 스토리지에는 브라우저가 서명된 주소로 원본을 직접 올린다.
-const uploadOrigin = process.env.S3_ENDPOINT ? [new URL(process.env.S3_ENDPOINT).origin] : [];
+const origin = (url?: string) => (url?.startsWith("http") ? [new URL(url).origin] : []);
 
-const headers = securityHeaders({ imgSrc: tileOrigin, connectSrc: uploadOrigin });
+// 타일은 스토리지 공개 도메인(R2·Blob, 개발은 /files)과, 시드 타일은 공개 사이트의 정적 파일에서 온다.
+const tileOrigins = [
+  ...origin(process.env.STORAGE_PUBLIC_URL),
+  ...origin(process.env.STATIC_TILES_URL || process.env.WEB_URL),
+  // Blob 공개 주소는 토큰에서 정해지므로 도메인 전체를 허용한다.
+  ...(process.env.STORAGE_DRIVER === "blob" ? ["https://*.public.blob.vercel-storage.com"] : []),
+];
+// 운영 스토리지에는 브라우저가 서명된 주소로 원본을 직접 올린다(R2 엔드포인트 또는 Vercel Blob API).
+const uploadOrigins = [
+  ...origin(process.env.S3_ENDPOINT),
+  ...(process.env.STORAGE_DRIVER === "blob" ? ["https://vercel.com"] : []),
+];
+
+const headers = securityHeaders({ imgSrc: tileOrigins, connectSrc: uploadOrigins });
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,

@@ -4,7 +4,7 @@ import path from "node:path";
 
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-import { LocalStorage, S3Storage, safeKey, storageFromEnv } from "./index";
+import { BlobStorage, blobPublicUrlFromToken, LocalStorage, S3Storage, safeKey, storageFromEnv } from "./index";
 
 let root: string;
 beforeAll(async () => {
@@ -65,5 +65,15 @@ describe("storageFromEnv", () => {
     );
     expect(s3).toBeInstanceOf(S3Storage);
     expect(s3.publicUrl("a/b.dzi")).toBe("https://tiles.example.com/a/b.dzi");
+  });
+
+  it("blob은 토큰에서 공개 주소를 만든다", () => {
+    expect(() => storageFromEnv({ STORAGE_DRIVER: "blob" }, root)).toThrow(/BLOB_READ_WRITE_TOKEN/);
+    const blob = storageFromEnv({ STORAGE_DRIVER: "blob", BLOB_READ_WRITE_TOKEN: "vercel_blob_rw_AbC123_secret" }, root);
+    expect(blob).toBeInstanceOf(BlobStorage);
+    expect(blob.publicUrl("/artifacts/a/v1/image.dzi")).toBe(
+      "https://abc123.public.blob.vercel-storage.com/artifacts/a/v1/image.dzi",
+    );
+    expect(() => blobPublicUrlFromToken("nope")).toThrow();
   });
 });

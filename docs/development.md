@@ -3,7 +3,7 @@
 ## 준비
 
 - Node.js 24(`.node-version`), pnpm 12(`packageManager`에 고정). 저장소 루트에서 명령을 실행합니다.
-- 처음 한 번 `pnpm seed:images`로 시드 유물 16점의 원본을 받아 딥줌 타일로 자릅니다. 결과는 `apps/admin/.data/storage`에 생기고 git에 넣지 않습니다.
+- 시드 유물 16점의 타일은 저장소(`apps/web/public/tiles`)에 들어 있어, 받은 그대로 실행해도 이미지가 보입니다. 원본부터 다시 만들려면 `pnpm seed:images`로 원본을 받아 `apps/admin/.data/storage`에 자르고(git에 넣지 않음), 공개용으로 바꿀 때는 `pnpm --filter @rizer/admin export:seed-tiles`로 정적 타일과 `src/db/seed-images.json`을 다시 만듭니다. 이유는 [배포](deployment.md)를 보세요.
   - 원본은 The Met Open Access에서 받아 `apps/admin/.data/originals`에 보관합니다. 다시 실행하면 받은 원본을 재사용합니다.
   - 네트워크 없이 확인하려면 `pnpm --filter @rizer/admin seed:images --synthetic`(무늬 이미지, CI·E2E용).
   - 한 점만: `pnpm --filter @rizer/admin seed:images --only excalibur,gram`
@@ -45,7 +45,8 @@
 | admin | `DATABASE_URL` | 비우면 PGlite |
 | admin | `NEXTAUTH_URL`, `NEXTAUTH_SECRET` | 로그인 |
 | admin | `SEED_DEMO`, `CURATOR_PASSWORD` | 운영에서 시드를 넣을지, 큐레이터 비밀번호 |
-| admin | `STORAGE_DRIVER`(`local`·`s3`), `S3_*`, `STORAGE_PUBLIC_URL` | 원본·타일 저장소 |
+| admin | `STORAGE_DRIVER`(`local`·`s3`·`blob`), `S3_*`·`BLOB_READ_WRITE_TOKEN`, `STORAGE_PUBLIC_URL` | 원본·타일 저장소 |
+| admin | `STATIC_TILES_URL` | 시드 타일(`tiles/…`)을 내보내는 곳. 기본 `WEB_URL` |
 | admin | `WEB_URL`, `WEB_REVALIDATE_URL`, `REVALIDATE_SECRET` | 공개 사이트 링크와 캐시 비우기 |
 | web | `ARCHIVE_API_URL`, `NEXT_PUBLIC_ARCHIVE_API_URL` | 관리 화면의 공개 API(서버·브라우저). `NEXT_PUBLIC_`은 빌드 때 들어갑니다 |
 | web | `REVALIDATE_SECRET`, `SITE_URL`, `STORAGE_PUBLIC_URL` | 캐시 비우기, 사이트 주소, 타일 도메인(CSP) |

@@ -13,7 +13,8 @@
     "test:watch": "vitest",
     "db:generate": "drizzle-kit generate",
     "db:reset": "node -e \"require('fs').rmSync('.data/pglite',{recursive:true,force:true})\" && echo \"개발 DB를 지웠습니다. 다음 실행 때 시드로 다시 만듭니다.\"",
-    "seed:images": "tsx scripts/seed-images.mts"
+    "seed:images": "tsx scripts/seed-images.mts",
+    "export:seed-tiles": "tsx scripts/export-seed-tiles.mts"
   },
   "dependencies": {
     "@annotorious/openseadragon": "^3.9.5",

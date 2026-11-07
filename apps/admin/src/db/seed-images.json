@@ -1,0 +1,178 @@
+{
+  "excalibur": {
+    "dziKey": "tiles/art_excalibur/v20261107100227/image.dzi",
+    "previewKey": "tiles/art_excalibur/v20261107100227/preview.webp",
+    "originalKey": "",
+    "width": 1998,
+    "height": 4000,
+    "lqip": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAAAwAwCdASoMABgAPu1iqU2ppaQiMAgBMB2JaQAAetGkgSAAAP7oIhmtBoQ41GeiD2Fm5+Hpi8NL4AAA",
+    "dominantColor": "#a8a8a8",
+    "tileCount": 180,
+    "version": "20261107100227"
+  },
+  "holy-grail": {
+    "dziKey": "tiles/art_holy_grail/v20261107100234/image.dzi",
+    "previewKey": "tiles/art_holy_grail/v20261107100234/preview.webp",
+    "originalKey": "",
+    "width": 2978,
+    "height": 3722,
+    "lqip": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAADwBACdASoTABgAPu1qr1CppaQiqAqpMB2JZwDM0BEZnh2aeQlO/wqJmlF6VrZlXgAA/tpBsZJTauKB6z+O3piVlAwIvDzQc2O/7QfdJRHnYn86tFZlSc0oYLarIJSwGVAp1HgA",
+    "dominantColor": "#b8b8b8",
+    "tileCount": 254,
+    "version": "20261107100234"
+  },
+  "durandal": {
+    "dziKey": "tiles/art_durandal/v20261107100239/image.dzi",
+    "previewKey": "tiles/art_durandal/v20261107100239/preview.webp",
+    "originalKey": "",
+    "width": 2857,
+    "height": 4000,
+    "lqip": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAACQAwCdASoRABgAPu1sq1EppiOiqAqpMB2JaQAA7TTvHwVlK8sAAPGX0/NUoCK8zfEIEXXSwWuwtTWZMr3RTxO/pcHOgAAA",
+    "dominantColor": "#989898",
+    "tileCount": 266,
+    "version": "20261107100239"
+  },
+  "mjolnir": {
+    "dziKey": "tiles/art_mjolnir/v20261107100243/image.dzi",
+    "previewKey": "tiles/art_mjolnir/v20261107100243/preview.webp",
+    "originalKey": "",
+    "width": 2419,
+    "height": 4000,
+    "lqip": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACQAwCdASoOABgAPu1qrU8ppiQiMAgBMB2JZwAASn3k2KybkRMQAP6vlumoklMEVBMUElO/ix8ta/V9eyZ9zE0wsv8JXMOAAAA=",
+    "dominantColor": "#b8b8b8",
+    "tileCount": 226,
+    "version": "20261107100243"
+  },
+  "gungnir": {
+    "dziKey": "tiles/art_gungnir/v20261107100252/image.dzi",
+    "previewKey": "tiles/art_gungnir/v20261107100252/preview.webp",
+    "originalKey": "",
+    "width": 2250,
+    "height": 4000,
+    "lqip": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAABQAwCdASoNABgAPu1Ct1apoqakGAEwHYlpAAEd6qvAL0UZwAD+9xBRFYzEE2Q0PZ3XTvzc1ZfGBwAAgOdgAijWB4OAAA==",
+    "dominantColor": "#d8d8d8",
+    "tileCount": 210,
+    "version": "20261107100252"
+  },
+  "gram": {
+    "dziKey": "tiles/art_gram/v20261107100255/image.dzi",
+    "previewKey": "tiles/art_gram/v20261107100255/preview.webp",
+    "originalKey": "",
+    "width": 1411,
+    "height": 3722,
+    "lqip": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAABQAwCdASoJABgAPu1iqU2ppaOiMAgBMB2JaQAAW+n8pCA5cAD+0yMCHjcnhkNkwQXGGFW0AAA=",
+    "dominantColor": "#c8c8c8",
+    "tileCount": 134,
+    "version": "20261107100255"
+  },
+  "draupnir": {
+    "dziKey": "tiles/art_draupnir/v20261107100258/image.dzi",
+    "previewKey": "tiles/art_draupnir/v20261107100258/preview.webp",
+    "originalKey": "",
+    "width": 4000,
+    "height": 4000,
+    "lqip": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAABwBACdASoYABgAPulep02pJSOiN/VYASAdCWYAy2gQ7+9FGGeeaMWnSpJMgAD+0toWHRPiQZohVkcqZWmO/LfTIBbZ8B1la0oadiQ5P4C/EhIeIAA=",
+    "dominantColor": "#c8c8c8",
+    "tileCount": 350,
+    "version": "20261107100258"
+  },
+  "aegis": {
+    "dziKey": "tiles/art_aegis/v20261107100314/image.dzi",
+    "previewKey": "tiles/art_aegis/v20261107100314/preview.webp",
+    "originalKey": "",
+    "width": 4000,
+    "height": 4000,
+    "lqip": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAAAwBQCdASoYABgAPu1qqE+ppiOiKA1RMB2JZwDMWYuGcZXoJBlMPy/4VMVIPhIg0khSYAD+8d7SHWvSNnvNeaazDfrGgNkClX2hJok+L0aHKHqnp0RD2cj8mqaAnLo1LVVHEh1sd5torQDyUp/ABbF+ChxEKntglE4ugPu02LFs/bOmNEWBswGmzy0QS5ih2R3PTQhkZzpiqaOcjwAAAA==",
+    "dominantColor": "#f8f8f8",
+    "tileCount": 350,
+    "version": "20261107100314"
+  },
+  "golden-fleece": {
+    "dziKey": "tiles/art_golden_fleece/v20261107110731/image.dzi",
+    "previewKey": "tiles/art_golden_fleece/v20261107110731/preview.webp",
+    "originalKey": "",
+    "width": 4000,
+    "height": 3854,
+    "lqip": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAABwBACdASoYABcAPu1srlCppiQiqAqpMB2JbADM0BEcrw88wP2BUIe05aEcYAD+6mYmPdsEe29YgDXnCk9EFKJ59RMrmQxRMUqeDmfZHrgQq/zEJqdVyAZxEAgAAA==",
+    "dominantColor": "#d8d8d8",
+    "tileCount": 350,
+    "version": "20261107110731"
+  },
+  "shield-of-achilles": {
+    "dziKey": "tiles/art_shield_of_achilles/v20261107110736/image.dzi",
+    "previewKey": "tiles/art_shield_of_achilles/v20261107110736/preview.webp",
+    "originalKey": "",
+    "width": 4000,
+    "height": 2952,
+    "lqip": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAACwBACdASoYABIAPu1qq1EppaOiqAqpMB2JaQAAICgTaRfYO9TVNTOFLOubXdwAAP6e6a8triFJ0uG7MdyiixZIp3eptLt4xZDY809mRrJmg+gCQVvrX6HO8RPWzwebRQKWrGypLIm8W+aGnfo0zRhHaObucdUtJ9Z7fPEaax1UwAAA",
+    "dominantColor": "#585858",
+    "tileCount": 266,
+    "version": "20261107110736"
+  },
+  "spear-of-longinus": {
+    "dziKey": "tiles/art_spear_of_longinus/v20261107100324/image.dzi",
+    "previewKey": "tiles/art_spear_of_longinus/v20261107100324/preview.webp",
+    "originalKey": "",
+    "width": 2120,
+    "height": 3722,
+    "lqip": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAAAwAwCdASoOABgAPu1Ct1apoqakGAEwHYlnAAB7tA5rHx+gAP7pVdNRxQQLewaaX5jHu1g/voXjJ2DcPCWpYiBhIPth0PyrJsa2cHTQ7+uhfxpxEj/H/kgA",
+    "dominantColor": "#c8c8c8",
+    "tileCount": 201,
+    "version": "20261107100324"
+  },
+  "seal-of-solomon": {
+    "dziKey": "tiles/art_seal_of_solomon/v20261107100329/image.dzi",
+    "previewKey": "tiles/art_seal_of_solomon/v20261107100329/preview.webp",
+    "originalKey": "",
+    "width": 4000,
+    "height": 3200,
+    "lqip": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAACwAwCdASoYABMAPu1kqU2ppaQiMAgBMB2JQBjmBDrUM3rZbj5e0AD+7n7jsceZ1nvhyz0CJbhrRvifu7YBuzsmF9umLhVpbHknMLecsGDUAotrCO4UzTYmMAAAAA==",
+    "dominantColor": "#181818",
+    "tileCount": 294,
+    "version": "20261107100329"
+  },
+  "kusanagi": {
+    "dziKey": "tiles/art_kusanagi/v20261107110740/image.dzi",
+    "previewKey": "tiles/art_kusanagi/v20261107110740/preview.webp",
+    "originalKey": "",
+    "width": 3453,
+    "height": 2554,
+    "lqip": "data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAACwBACdASoYABIAPu1srVCppaQiqAqpMB2JZwC4MA9q6t2FrWEH5mJNOW1BLEAAAP7tcjxoWe60Eat2L93Q9Hv9QlLUIm/fGIFlSULG/gq8cNx6a/boIWO3n3mMzd75yAG64XhTzfNfJale2g79FT1VqhfG1qXgLoeKSskd20rRulzm/7u+lfsguKWEVlE/tccldUFxreYBzvy6qo4xqyLvbkAAAA==",
+    "dominantColor": "#f8f8f8",
+    "tileCount": 222,
+    "version": "20261107110740"
+  },
+  "yata-no-kagami": {
+    "dziKey": "tiles/art_yata_no_kagami/v20261107110743/image.dzi",
+    "previewKey": "tiles/art_yata_no_kagami/v20261107110743/preview.webp",
+    "originalKey": "",
+    "width": 4000,
+    "height": 2667,
+    "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAADwAwCdASoYABAAPu1kqk4ppaQiMAgBMB2JYwAAWq3HKKJD8ASHVFAAAP7TbTiAZWYr0bCCr0cjOXXbZS/xPG/V1s6wYSLIXNtrK3bn+kcAxIAA",
+    "dominantColor": "#c8c8c8",
+    "tileCount": 250,
+    "version": "20261107110743"
+  },
+  "manpasikjeok": {
+    "dziKey": "tiles/art_manpasikjeok/v20261107110746/image.dzi",
+    "previewKey": "tiles/art_manpasikjeok/v20261107110746/preview.webp",
+    "originalKey": "",
+    "width": 2988,
+    "height": 4000,
+    "lqip": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADwAwCdASoSABgAPu1mqk2ppaQiMAgBMB2JZQDMWB6R7u0NAGpV6ogAAP7e6UTHhKv9Yo+KwSTL1ou2ZXn9Hq0oD7YANUZmFafYsEHF3jD5jyAY+gAAAA==",
+    "dominantColor": "#d8d8d8",
+    "tileCount": 266,
+    "version": "20261107110746"
+  },
+  "cheonbuin": {
+    "dziKey": "tiles/art_cheonbuin/v20261107110832/image.dzi",
+    "previewKey": "tiles/art_cheonbuin/v20261107110832/preview.webp",
+    "originalKey": "",
+    "width": 10199,
+    "height": 4200,
+    "lqip": "data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAAAwBACdASoYAAoAPu1iqU2ppaOiMAgBMB2JZQAD5aImSCXgHZN/u+ftiQAA4n3bz6mcbIySs0HbSaQeUWvxjwDmzyI9jwEV2Q/6x0XzMcs2vxiTcJHd2GvMX+6aX8xZa/0uiJaBeq/lhpZht8/MA91B4iyHWcDPuzQubnQBDwP1l3Q44kx3lAdFU/ZGNikLnHW6BoE6bAAAAA==",
+    "dominantColor": "#181808",
+    "tileCount": 977,
+    "version": "20261107110832"
+  }
+}

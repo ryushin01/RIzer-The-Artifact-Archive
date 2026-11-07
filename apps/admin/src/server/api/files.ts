@@ -6,7 +6,7 @@ import { contentTypeOf } from "@rizer/tiles";
 import type { LocalStorage } from "@rizer/storage";
 import type { NextRequest } from "next/server";
 
-import { getStorage } from "@/server/storage";
+import { getBaseStorage } from "@/server/storage";
 
 /**
  * 로컬 스토리지 파일을 내보낸다(개발·E2E). 운영(R2)에서는 공개 도메인이 직접 내보내므로 404.
@@ -14,7 +14,7 @@ import { getStorage } from "@/server/storage";
  */
 export async function filesHandler(_request: NextRequest, { params }: { params: Promise<{ key: string[] }> }) {
   // instanceof 대신 driver로 고른다. 개발 서버가 모듈을 다시 불러오면 globalThis에 남은 인스턴스는 옛 클래스라 instanceof가 틀린다.
-  const storage = getStorage();
+  const storage = getBaseStorage();
   if (storage.driver !== "local") return new Response("Not Found", { status: 404 });
   const local = storage as LocalStorage;
   const { key } = await params;

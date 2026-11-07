@@ -7,14 +7,14 @@
    │              ▲                                              │
    │              └──── POST /api/revalidate (저장할 때) ◀────────┤
    └── 검색(브라우저 fetch, redux-saga) ─────────────────────────▶│
-   └── 딥줌 타일(DZI) ───▶ 스토리지(R2 공개 도메인 · 개발은 admin /files)
+   └── 딥줌 타일(DZI) ───▶ 시드: 공개 사이트 /tiles 정적 파일 · 새 이미지: 스토리지(Vercel Blob · 개발은 admin /files)
                                                                   │
                                        apps/admin ──▶ PostgreSQL(Neon · 개발은 PGlite)
 ```
 
 - **관리 화면(apps/admin)이 데이터의 주인입니다.** DB와 스토리지를 쓰고, 공개 사이트가 읽는 공개 API(`/api/public/artifacts`, `/api/public/artifacts/:slug`)를 내보냅니다. 계약 타입은 `packages/domain`의 `api.ts`입니다.
 - **공개 사이트(apps/web)는 DB를 모릅니다.** 서버에서 공개 API를 `'use cache'` + `cacheTag`로 읽어 두고, 관리 화면이 저장하면 `/api/revalidate`로 태그를 비웁니다. 개발 중에 PGlite를 한 프로세스만 열게 되는 장점도 있습니다.
-- 이미지는 DB에 **스토리지 키**로 저장하고, 공개 API가 응답할 때 공개 주소로 바꿉니다. 스토리지 도메인(개발 포트, R2 도메인)이 바뀌어도 데이터를 고치지 않습니다.
+- 이미지는 DB에 **스토리지 키**로 저장하고, 공개 API가 응답할 때 공개 주소로 바꿉니다. 스토리지 도메인(개발 포트, Blob 도메인)이 바뀌어도 데이터를 고치지 않습니다. `tiles/`로 시작하는 시드 타일 키는 공개 사이트의 정적 파일 주소로 바꿉니다(Blob 작업 한도 때문, [배포](deployment.md)).
 
 ## 화면 구조: Feature-Sliced Design
 
@@ -45,7 +45,7 @@
 
 1. 원본을 `packages/tiles`(sharp)가 254px+겹침 1px WebP 타일의 DZI 피라미드로 자른다. 미리보기(긴 변 1600px), LQIP(24px data URL), 대표 색도 만든다.
 2. 키에 버전(`artifacts/<id>/v<시각>/`)을 넣어, CDN이 1년 캐시해도 새 타일이 바로 보인다. 새로 자르면 이전 버전은 지운다.
-3. 운영에서는 브라우저가 서명된 주소로 R2에 원본을 직접 올리고(서버리스 요청 크기 제한 회피), 서버가 타일을 만든다. 80MB를 넘는 원본은 `pnpm tiles` CLI로 자른다.
+3. 운영에서는 브라우저가 서명된 주소로 Vercel Blob(또는 R2)에 원본을 직접 올리고(서버리스 요청 크기 제한 회피), 서버가 타일을 만든다. 80MB를 넘는 원본은 `pnpm tiles` CLI로 자른다.
 4. 주석은 W3C Web Annotation의 부분 집합이고, 영역은 **백분율**(`xywh=percent:x,y,w,h`)로 저장한다. 다시 타일링하거나 해상도가 바뀌어도 위치가 맞는다. `toWebAnnotation()`으로 JSON-LD를 내보낼 수 있다.
 5. 공개 사이트는 OpenSeadragon 위에 주석마다 실제 `<button>`을 얹는다. 관리 화면은 Annotorious로 사각형을 그리고 고친다.
 
