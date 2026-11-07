@@ -30,7 +30,7 @@ export async function saveAnnotationsAction(id: string, list: unknown): Promise<
     return { ...a, order, region: { x, y, w: Math.min(a.region.w, 100 - x), h: Math.min(a.region.h, 100 - y) } };
   });
   await repo.replaceAnnotations(id, clamped);
-  notifyWeb([artifact.slug]);
+  await notifyWeb([artifact.slug]);
   revalidatePath(`/artifacts/${id}/annotations`);
   return { ok: true, message: `주석 ${clamped.length}개를 저장했습니다.` };
 }

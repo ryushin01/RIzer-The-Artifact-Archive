@@ -49,7 +49,7 @@ export async function processUploadAction(id: string, key: string): Promise<Acti
   if (!body) return { ok: false, message: "올린 원본을 찾지 못했습니다. 다시 올려 주세요." };
   const image = await tileAndUpload(storage, id, { key, body }, artifact.image);
   await repo.setImage(id, image);
-  notifyWeb([artifact.slug]);
+  await notifyWeb([artifact.slug]);
   revalidatePath(`/artifacts/${id}`);
   return { ok: true, message: `타일 ${image.tileCount.toLocaleString("ko-KR")}개를 만들었습니다.` };
 }

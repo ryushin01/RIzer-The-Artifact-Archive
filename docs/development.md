@@ -68,6 +68,7 @@
 | CI에서 공개 사이트 빌드가 404로 굳을 것 같음 | 빌드 때는 관리 화면이 꺼져 있음 | 연결 실패는 `"offline"`으로 구분하고 몇 초만 캐시 |
 | CI 빌드만 `Route "/": encountered uncached or runtime data during prerendering` | 관리 화면이 꺼져 있으면 목록을 몇 초만 캐시해 요청 때 데이터가 되는데, Suspense 밖에서 읽음. 로컬은 `.next/cache`에 남은 데이터 때문에 드러나지 않음 | 데이터를 읽는 부분을 Suspense 안에 둔다(`HomePage`의 `Exhibition`). 확인은 `.next`를 지우고 빌드 |
 | 운영에서만 주석 편집기가 "does not allow unsafe-eval" | Annotorious 번들 안의 PixiJS가 eval을 씀. 개발 모드 CSP는 eval을 허용해 드러나지 않음 | 관리 화면 CSP에만 `allowEval`. E2E가 주석 편집기의 페이지 오류를 확인한다 |
+| 운영에서 저장해도 공개 사이트가 그대로 | 캐시 비우기 알림을 응답 뒤(`after`)에 보내 서버리스에서 전달되지 않음 | `notifyWeb`을 저장 요청 안에서 기다린다(최대 4초, 실패는 로그만) |
 | Vercel 배포에서만 CSP에 공개 사이트 주소가 빠짐 | Vercel이 Turborepo로 빌드하면 `turbo.json`에 적지 않은 환경 변수는 빌드에 넘어가지 않음 | 빌드 때 읽는 변수(`next.config.ts`의 CSP 등)는 `turbo.json`의 `build.env`에 적는다 |
 | 스크립트(tsx)에서 top-level await 오류 | `apps/admin`은 CommonJS 패키지 | 스크립트는 `.mts`로 작성 |
 | 주석 개수가 0으로 나옴 | 서브쿼리 안의 `artifacts.id`가 따옴표 없는 `"id"`로 그려져 `annotations.id`로 읽힘 | 테이블 이름을 직접 씀(`repository.ts`) |

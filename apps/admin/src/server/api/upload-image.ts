@@ -36,7 +36,7 @@ export async function uploadImageHandler(request: NextRequest, { params }: { par
   try {
     const image = await tileAndUpload(storage, id, { key, body }, artifact.image);
     await repo.setImage(id, image);
-    notifyWeb([artifact.slug]);
+    await notifyWeb([artifact.slug]);
     revalidatePath(`/artifacts/${id}`);
     return NextResponse.json({ message: `타일 ${image.tileCount.toLocaleString("ko-KR")}개를 만들었습니다.` });
   } catch (error) {

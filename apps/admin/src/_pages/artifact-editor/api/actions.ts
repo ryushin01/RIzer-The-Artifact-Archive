@@ -33,13 +33,13 @@ export async function saveArtifactAction(_prev: FormState, formData: FormData): 
     if (!before) return formError(values, "유물을 찾을 수 없습니다. 이미 삭제됐을 수 있습니다.");
     // 합성 이미지의 구성 소장품(parts)은 폼에 없으므로 기존 값을 유지한다.
     await repo.update(id, input, { ...source, parts: before.source.parts ?? [] });
-    notifyWeb([...new Set([before.slug, input.slug])]);
+    await notifyWeb([...new Set([before.slug, input.slug])]);
     revalidatePath("/artifacts");
     return { status: "success", message: `「${input.title}」을(를) 저장했습니다.` };
   }
 
   const newId = await repo.create(input, source);
-  notifyWeb([input.slug]);
+  await notifyWeb([input.slug]);
   revalidatePath("/artifacts");
   redirect(`/artifacts/${newId}?created=1`);
 }
@@ -54,7 +54,7 @@ export async function setStatusAction(id: string, status: ArtifactStatus): Promi
     return { ok: false, message: "이미지를 올린 뒤에 공개할 수 있습니다." };
   }
   await repo.setStatus(id, status);
-  notifyWeb([current.slug]);
+  await notifyWeb([current.slug]);
   revalidatePath("/artifacts");
   revalidatePath(`/artifacts/${id}`);
   return { ok: true, message: status === "published" ? "공개했습니다." : "비공개로 바꿨습니다." };
@@ -66,7 +66,7 @@ export async function deleteArtifactAction(id: string): Promise<ActionResult> {
   const removed = await createArtifactRepository(await getDb()).remove(id);
   if (!removed) return { ok: false, message: "유물을 찾을 수 없습니다." };
   await getStorage().removePrefix(`artifacts/${id}`);
-  notifyWeb([removed.slug]);
+  await notifyWeb([removed.slug]);
   revalidatePath("/artifacts");
   redirect("/artifacts?deleted=1");
 }
