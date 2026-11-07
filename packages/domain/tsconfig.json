@@ -1,0 +1,4 @@
+{
+  "extends": "@rizer/config/tsconfig.base.json",
+  "include": ["src"]
+}

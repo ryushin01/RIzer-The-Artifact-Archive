@@ -1,0 +1,28 @@
+{
+  "name": "@rizer/storage",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc7 --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1100.0",
+    "@aws-sdk/s3-request-presigner": "^3.1100.0"
+  },
+  "devDependencies": {
+    "@rizer/config": "workspace:*",
+    "@types/node": "^24.19.2",
+    "@vitest/coverage-v8": "5.1.0",
+    "typescript": "~6.0.3",
+    "vitest": "^5.1.0",
+    "eslint": "^9",
+    "typescript-eslint": "^8.47.0"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "rizer",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@12.16.1",
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:web": "turbo run dev --filter=@rizer/web --filter=@rizer/admin",
+    "dev:admin": "turbo run dev --filter=@rizer/admin",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:coverage": "turbo run test:coverage",
+    "test:storybook": "turbo run test:storybook",
+    "storybook": "turbo run storybook --filter=@rizer/web",
+    "e2e": "turbo run e2e",
+    "seed:images": "pnpm --filter @rizer/admin seed:images",
+    "tiles": "pnpm --filter @rizer/tiles cli"
+  },
+  "devDependencies": {
+    "turbo": "^2"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

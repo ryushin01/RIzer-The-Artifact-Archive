@@ -1,0 +1,10 @@
+{
+  "extends": "@rizer/config/tsconfig.next.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts", "**/*.mts", ".storybook/*.ts", ".storybook/*.tsx"],
+  "exclude": ["node_modules", "storybook-static"]
+}

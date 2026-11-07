@@ -1,0 +1,29 @@
+{
+  "name": "@rizer/tiles",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "cli": "tsx src/cli.ts",
+    "typecheck": "tsc7 --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@rizer/config": "workspace:*",
+    "@types/node": "^24.19.2",
+    "@vitest/coverage-v8": "5.1.0",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3",
+    "vitest": "^5.1.0",
+    "eslint": "^9",
+    "typescript-eslint": "^8.47.0"
+  }
+}

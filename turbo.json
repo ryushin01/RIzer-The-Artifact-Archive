@@ -1,0 +1,52 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "stream",
+  "globalEnv": ["NODE_ENV"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "env": [
+        "SITE_URL",
+        "ARCHIVE_API_URL",
+        "NEXT_PUBLIC_ARCHIVE_API_URL",
+        "REVALIDATE_SECRET",
+        "WEB_REVALIDATE_URL",
+        "STORAGE_DRIVER",
+        "STORAGE_PUBLIC_URL",
+        "S3_ENDPOINT",
+        "S3_BUCKET",
+        "VERCEL_PROJECT_PRODUCTION_URL"
+      ],
+      "inputs": ["$TURBO_DEFAULT$", "!**/*.test.ts", "!**/*.test.tsx", "!**/*.stories.tsx", "!e2e/**"],
+      "outputs": [".next/**", "!.next/cache/**", "storybook-static/**"]
+    },
+    "typecheck": { "dependsOn": ["^typecheck"] },
+    "lint": {},
+    "test": {},
+    "test:coverage": { "outputs": ["coverage/**"] },
+    "test:storybook": { "cache": false },
+    "storybook": { "cache": false, "persistent": true },
+    "e2e": { "cache": false, "passThroughEnv": ["CI"] },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "passThroughEnv": [
+        "DATABASE_URL",
+        "PGLITE_DATA_DIR",
+        "NEXTAUTH_URL",
+        "NEXTAUTH_SECRET",
+        "SEED_DEMO",
+        "ARCHIVE_API_URL",
+        "NEXT_PUBLIC_ARCHIVE_API_URL",
+        "REVALIDATE_SECRET",
+        "WEB_REVALIDATE_URL",
+        "STORAGE_DRIVER",
+        "STORAGE_PUBLIC_URL",
+        "S3_ENDPOINT",
+        "S3_BUCKET",
+        "S3_ACCESS_KEY_ID",
+        "S3_SECRET_ACCESS_KEY"
+      ]
+    }
+  }
+}

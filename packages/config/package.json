@@ -1,0 +1,29 @@
+{
+  "name": "@rizer/config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tsconfig.base.json": "./tsconfig.base.json",
+    "./tsconfig.next.json": "./tsconfig.next.json",
+    "./eslint-next": "./eslint-next.mjs",
+    "./eslint-fsd": "./eslint-fsd.mjs",
+    "./security-headers": "./security-headers.mjs"
+  },
+  "peerDependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "16.4.5",
+    "typescript": "~6.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "16.4.5",
+    "typescript": "~6.0.3"
+  },
+  "bin": {
+    "tsc7": "./bin/tsc7.mjs"
+  },
+  "dependencies": {
+    "typescript-7": "npm:typescript@7.0.2"
+  }
+}

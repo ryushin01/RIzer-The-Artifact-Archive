@@ -1,0 +1,27 @@
+{
+  "name": "@rizer/domain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./seed": "./src/seed/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc7 --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@rizer/config": "workspace:*",
+    "@vitest/coverage-v8": "5.1.0",
+    "typescript": "~6.0.3",
+    "vitest": "^5.1.0",
+    "eslint": "^9",
+    "typescript-eslint": "^8.47.0"
+  }
+}

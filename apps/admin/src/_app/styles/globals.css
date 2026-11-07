@@ -1,0 +1,39 @@
+@import "@rizer/ui/styles.css";
+
+/* 공통 UI 패키지의 클래스도 Tailwind가 찾도록 소스 위치를 알려준다. */
+@source "../../../../../packages/ui/src";
+
+/*
+ * 어드민 브랜드 색: 공개 사이트의 붉은 강조색을 버튼·선택 표시에만 쓴다.
+ * 흰 바탕 대비 6.0:1, 흰 글자 대비 6.0:1 (KWCAG 5.4.3 기준 4.5:1 이상)
+ */
+:root {
+  /* shadcn 기본 destructive는 흐린 설명 글자(/90)에서 흰 바탕 대비가 4.5:1에 못 미쳐 더 진하게 한다. */
+  --destructive: oklch(0.48 0.2 27);
+  --primary: oklch(0.5 0.19 22);
+  --primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.6 0.17 22);
+  --sidebar-primary: oklch(0.5 0.19 22);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+}
+.dark {
+  --primary: oklch(0.68 0.17 22);
+  --primary-foreground: oklch(0.18 0 0);
+  --sidebar-primary: oklch(0.68 0.17 22);
+}
+
+/* sonner richColors의 오류·성공 글자색은 배경 대비가 4.5:1에 못 미쳐 더 진하게 한다(KWCAG 5.4.3). */
+html [data-sonner-toaster][data-theme="light"] {
+  --error-text: hsl(358, 85%, 34%);
+  --success-text: hsl(140, 100%, 22%);
+}
+html [data-sonner-toaster][data-theme="dark"] {
+  --error-text: hsl(358, 100%, 84%);
+  --success-text: hsl(150, 86%, 72%);
+}
+
+/* OpenSeadragon 캔버스가 초점을 받을 때 테두리가 보이게 한다(KWCAG 6.1.2). */
+.openseadragon-canvas:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: -3px;
+}

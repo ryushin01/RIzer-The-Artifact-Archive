@@ -1,0 +1,82 @@
+# 완료 기준(타입 검사·린트·단위 테스트·스토리 테스트·빌드·E2E)을 푸시·PR마다 실행한다.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    # E2E 포트·값(apps/web/e2e/env.ts와 같다). 공개 사이트는 NEXT_PUBLIC_ 값을 빌드 때 넣으므로 빌드 단계부터 쓴다.
+    env:
+      PGLITE_DATA_DIR: "memory://"
+      SEED_DEMO: "1"
+      CURATOR_PASSWORD: e2e-curator-pass
+      NEXTAUTH_URL: http://localhost:3100
+      NEXTAUTH_SECRET: e2e-only-secret
+      WEB_URL: http://localhost:3101
+      WEB_REVALIDATE_URL: http://localhost:3101/api/revalidate
+      REVALIDATE_SECRET: e2e-revalidate-secret
+      ARCHIVE_API_URL: http://localhost:3100
+      NEXT_PUBLIC_ARCHIVE_API_URL: http://localhost:3100
+      SITE_URL: http://localhost:3101
+    steps:
+      - uses: actions/checkout@v7
+
+      # pnpm 버전은 package.json의 packageManager를 따른다.
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # 운영 의존성의 높음 이상 취약점만 막는다. 개발 도구는 Dependabot으로 관리한다.
+      - run: pnpm audit --prod --audit-level high
+
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm test:coverage
+
+      - name: 테스트 커버리지 보관
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage
+          path: |
+            apps/*/coverage/lcov.info
+            packages/*/coverage/lcov.info
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Playwright 브라우저 설치
+        run: pnpm --filter @rizer/web exec playwright install --with-deps chromium
+
+      # 모든 스토리를 Chromium에서 그리고 접근성(axe)을 검사한다.
+      - run: pnpm test:storybook
+
+      # E2E용 딥줌 이미지: 네트워크 없이 무늬 이미지를 만들어 타일로 자른다.
+      - run: pnpm --filter @rizer/admin seed:images --synthetic
+
+      - run: pnpm build
+      - run: pnpm e2e
+
+      - name: E2E 실패 기록 보관
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-results
+          path: apps/web/test-results/
+          retention-days: 7
