@@ -22,7 +22,8 @@ export class ArchiveApiError extends Error {
 }
 
 async function getJson<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${apiBase()}${path}`, { ...init, headers: { accept: "application/json" } });
+  // 캐시는 호출하는 쪽('use cache' 함수, 사가)이 정한다. fetch 자체는 늘 원본을 읽는다.
+  const res = await fetch(`${apiBase()}${path}`, { cache: "no-store", ...init, headers: { accept: "application/json" } });
   if (!res.ok) throw new ArchiveApiError(`아카이브 응답 ${res.status}`, res.status);
   return (await res.json()) as T;
 }
