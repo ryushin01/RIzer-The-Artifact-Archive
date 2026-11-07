@@ -65,5 +65,6 @@
 | 서버 렌더링된 아카이브 목록이 비어 있음 | 스토어를 effect로 채우면 서버 렌더링보다 늦음 | `ArchiveHydrator`·`TourSync`가 처음 마운트할 때 바로 dispatch |
 | 개발 모드에서 안내 투어 버튼이 사라짐 | StrictMode가 effect를 떼었다 붙일 때 정리 함수가 주석 목록을 비움 | 붙일 때마다 다시 넣음(`TourSync`) |
 | CI에서 공개 사이트 빌드가 404로 굳을 것 같음 | 빌드 때는 관리 화면이 꺼져 있음 | 연결 실패는 `"offline"`으로 구분하고 몇 초만 캐시 |
+| CI 빌드만 `Route "/": encountered uncached or runtime data during prerendering` | 관리 화면이 꺼져 있으면 목록을 몇 초만 캐시해 요청 때 데이터가 되는데, Suspense 밖에서 읽음. 로컬은 `.next/cache`에 남은 데이터 때문에 드러나지 않음 | 데이터를 읽는 부분을 Suspense 안에 둔다(`HomePage`의 `Exhibition`). 확인은 `.next`를 지우고 빌드 |
 | 스크립트(tsx)에서 top-level await 오류 | `apps/admin`은 CommonJS 패키지 | 스크립트는 `.mts`로 작성 |
 | 주석 개수가 0으로 나옴 | 서브쿼리 안의 `artifacts.id`가 따옴표 없는 `"id"`로 그려져 `annotations.id`로 읽힘 | 테이블 이름을 직접 씀(`repository.ts`) |
