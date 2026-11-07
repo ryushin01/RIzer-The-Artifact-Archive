@@ -7,6 +7,20 @@ updates:
     groups:
       dev-tools:
         dependency-type: development
+    ignore:
+      # typescript-eslint가 TypeScript 7을 지원하지 않는다. 도구는 6, 타입 검사는 별칭 패키지 typescript-7(tsc7)로 한다.
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
+      # eslint-config-next(Next.js 16.4)가 ESLint 9를 기준으로 한다.
+      - dependency-name: eslint
+        update-types: ["version-update:semver-major"]
+      # 실행 환경이 Node.js 24(.node-version)라 타입도 24에 맞춘다.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # postgres.js 4는 매개변수 타입·트랜잭션 동작이 바뀌었고 Drizzle 지원이 확인되지 않았다.
+      # CI는 PGlite로 돌아 운영 드라이버를 검증하지 못하므로, 올릴 때는 Neon에 붙여 직접 확인한다.
+      - dependency-name: postgres
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
