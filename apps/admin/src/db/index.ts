@@ -32,7 +32,8 @@ export async function openPglite(dataDir = "memory://"): Promise<Database> {
 /** 실제 PostgreSQL(Neon 등). DATABASE_URL로 연결한다. */
 export async function openPostgres(url: string): Promise<Database> {
   // 서버리스에서는 함수 인스턴스가 많아지므로 연결 수를 작게 둔다.
-  const db = drizzlePostgres({ client: postgres(url, { max: 3, prepare: false }), schema });
+  // onnotice: 마이그레이션의 "already exists, skipping" 같은 NOTICE가 요청마다 로그에 쌓이지 않게 한다.
+  const db = drizzlePostgres({ client: postgres(url, { max: 3, prepare: false, onnotice: () => {} }), schema });
   await migratePostgres(db, { migrationsFolder: MIGRATIONS });
   return db as unknown as Database;
 }
