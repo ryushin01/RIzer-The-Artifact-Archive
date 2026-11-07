@@ -11,14 +11,14 @@
     "./security-headers": "./security-headers.mjs"
   },
   "peerDependencies": {
-    "eslint": "^9",
+    "eslint": "^10",
     "eslint-config-next": "16.4.5",
-    "typescript": "~6.0.3"
+    "typescript": "~7.0.2"
   },
   "devDependencies": {
-    "eslint": "^9",
+    "eslint": "^10",
     "eslint-config-next": "16.4.5",
-    "typescript": "~6.0.3"
+    "typescript": "~7.0.2"
   },
   "bin": {
     "tsc7": "./bin/tsc7.mjs"

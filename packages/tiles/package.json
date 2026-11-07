@@ -18,12 +18,12 @@
   },
   "devDependencies": {
     "@rizer/config": "workspace:*",
-    "@types/node": "^24.19.2",
+    "@types/node": "^26.6.6",
     "@vitest/coverage-v8": "5.1.0",
     "tsx": "^4.23.15",
-    "typescript": "~6.0.3",
+    "typescript": "~7.0.2",
     "vitest": "^5.1.0",
-    "eslint": "^9",
+    "eslint": "^10",
     "typescript-eslint": "^8.47.0"
   }
 }
