@@ -52,16 +52,27 @@ async function open() {
   const manifest = await readManifest();
   if (await isEmpty(db)) {
     const curatorPassword = production ? process.env.CURATOR_PASSWORD : DEV_CURATOR_PASSWORD;
-    await insertSeedData(
-      db,
-      {
-        guest: await hash(GUEST_PASSWORD, 10),
-        curator: curatorPassword ? await hash(curatorPassword, 10) : undefined,
-      },
-      manifest,
-    );
+    try {
+      await insertSeedData(
+        db,
+        {
+          guest: await hash(GUEST_PASSWORD, 10),
+          curator: curatorPassword ? await hash(curatorPassword, 10) : undefined,
+        },
+        manifest,
+      );
+    } catch (error) {
+      // 서버리스에서 함수 여러 개가 빈 DB에 동시에 시드를 넣으면 늦은 쪽은 고유 키 위반(23505)이 난다.
+      // 다른 인스턴스가 이미 넣은 것이므로 그대로 쓴다.
+      if (!isUniqueViolation(error)) throw error;
+    }
   } else {
     await syncSeedImages(db, manifest);
   }
   return db;
+}
+
+function isUniqueViolation(error: unknown): boolean {
+  const codeOf = (e: unknown) => (e && typeof e === "object" && "code" in e ? (e as { code?: unknown }).code : undefined);
+  return codeOf(error) === "23505" || codeOf((error as { cause?: unknown } | undefined)?.cause) === "23505";
 }
