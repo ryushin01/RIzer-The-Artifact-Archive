@@ -6,7 +6,7 @@
 |---|---|---|
 | 관리 화면 + 공개 API | Vercel 프로젝트 `rizer-admin` (Root Directory `apps/admin`) | https://rizer-admin.vercel.app |
 | 공개 사이트 | Vercel 프로젝트 `rizer-web` (Root Directory `apps/web`) | https://rizer-web.vercel.app |
-| DB | Neon PostgreSQL (Vercel Marketplace) | 연결하면 `DATABASE_URL`이 들어온다. 없으면 메모리 DB(`PGLITE_DATA_DIR=memory://`)로 돌고, 편집 내용은 함수가 다시 뜨면 사라진다 |
+| DB | Neon PostgreSQL `rizer-db` (Vercel Marketplace, iad1) | `DATABASE_URL`(pooled)을 쓴다. 관리 화면 함수도 같은 리전(`apps/admin/vercel.json`의 `regions: ["iad1"]`)에서 돌게 해 쿼리마다 태평양을 건너지 않게 한다 |
 | 시드 유물 16점의 타일 | 공개 사이트의 정적 파일 `apps/web/public/tiles` (저장소에 포함) | Vercel CDN이 1년 캐시 |
 | 큐레이터가 올리는 이미지 | Vercel Blob 스토어 `rizer-archive` (공개) | 원본은 브라우저가 서명된 주소로 바로 올린다 |
 
@@ -26,7 +26,6 @@ Vercel Blob Hobby는 업로드·목록 같은 **고급 작업이 월 2,000회**�
 | 변수 | 값 |
 |---|---|
 | `DATABASE_URL` | Neon 연결 시 자동 |
-| `PGLITE_DATA_DIR` | `memory://` (DB를 연결하기 전 임시. `DATABASE_URL`이 있으면 쓰지 않는다) |
 | `NEXTAUTH_URL`, `NEXTAUTH_SECRET` | `https://rizer-admin.vercel.app`, 임의 문자열 |
 | `SEED_DEMO`, `CURATOR_PASSWORD` | `1`, 큐레이터 비밀번호 |
 | `STORAGE_DRIVER`, `BLOB_READ_WRITE_TOKEN` | `blob`, Blob 스토어 연결 시 자동 |
