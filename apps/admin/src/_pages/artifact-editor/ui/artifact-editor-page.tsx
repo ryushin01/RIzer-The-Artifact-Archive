@@ -10,10 +10,12 @@ import { Skeleton } from "@rizer/ui/components/skeleton";
 
 import { StatusBadge } from "@/entities/artifact";
 import { canEdit } from "@/entities/user";
-import { ArtifactForm, DeleteArtifactButton, PublishToggle } from "@/features/manage-artifact";
+import { ArtifactForm } from "./artifact-form";
+import { DeleteArtifactButton } from "./delete-artifact-button";
+import { PublishToggle } from "./publish-toggle";
 import { getCurrentUser } from "@/server/auth/current-user";
 import { getForAdmin } from "@/server/artifacts/queries";
-import { webUrl } from "@/shared/config/env";
+import { webUrl } from "@/shared/config";
 import { PageHeading, ReadOnlyBanner } from "@/widgets/app-shell";
 
 import { ImageCard } from "./image-card";

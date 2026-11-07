@@ -1,6 +1,6 @@
 /** E2E 포트와 환경 변수. 개발 서버(3000·3001)와 겹치지 않게 한다. CI의 빌드 단계도 같은 값을 쓴다. */
-export const ADMIN_PORT = 3100;
-export const WEB_PORT = 3101;
+export const ADMIN_PORT = 3180;
+export const WEB_PORT = 3181;
 export const ADMIN_URL = `http://localhost:${ADMIN_PORT}`;
 export const CURATOR = { email: "curator@rizer.dev", password: "e2e-curator-pass" };
 

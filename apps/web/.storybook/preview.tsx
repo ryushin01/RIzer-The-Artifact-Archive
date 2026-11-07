@@ -6,8 +6,8 @@ import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 
 import { makeStore } from "@/_app";
-import { theme } from "@/shared/config/theme";
-import { GlobalStyle } from "@/shared/styles/global-style";
+import { theme } from "@/shared/config";
+import { GlobalStyle } from "@/shared/styles";
 
 /** 앱과 같은 테마·전역 스타일·스토어로 그린다. 스토리마다 새 스토어를 만들어 상태가 섞이지 않게 한다. */
 function StoryProviders({ preloaded, children }: { preloaded?: Parameters<typeof makeStore>[0]; children: ReactNode }) {

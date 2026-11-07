@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { ArchiveFilters, ArchiveHydrator } from "@/features/filter-archive";
 import { getArtifacts } from "@/shared/api/index.server";
 import { Container } from "@/shared/ui";
-import { ArchiveGrid } from "@/widgets/archive-grid";
+import { ArchiveGrid } from "./archive-grid";
 
 import { ArchiveHeader } from "./archive-header";
 import { ArchiveLayout } from "./archive-layout";

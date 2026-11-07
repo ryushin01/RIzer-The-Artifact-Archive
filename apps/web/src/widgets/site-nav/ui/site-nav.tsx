@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { MotionToggle } from "@/features/motion-preference";
-import { media } from "@/shared/config/theme";
+import { media } from "@/shared/config";
 
 const SECTIONS = [
   { id: "collection", label: "컬렉션" },

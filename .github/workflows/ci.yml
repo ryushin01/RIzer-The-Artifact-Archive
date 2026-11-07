@@ -22,14 +22,14 @@ jobs:
       PGLITE_DATA_DIR: "memory://"
       SEED_DEMO: "1"
       CURATOR_PASSWORD: e2e-curator-pass
-      NEXTAUTH_URL: http://localhost:3100
+      NEXTAUTH_URL: http://localhost:3180
       NEXTAUTH_SECRET: e2e-only-secret
-      WEB_URL: http://localhost:3101
-      WEB_REVALIDATE_URL: http://localhost:3101/api/revalidate
+      WEB_URL: http://localhost:3181
+      WEB_REVALIDATE_URL: http://localhost:3181/api/revalidate
       REVALIDATE_SECRET: e2e-revalidate-secret
-      ARCHIVE_API_URL: http://localhost:3100
-      NEXT_PUBLIC_ARCHIVE_API_URL: http://localhost:3100
-      SITE_URL: http://localhost:3101
+      ARCHIVE_API_URL: http://localhost:3180
+      NEXT_PUBLIC_ARCHIVE_API_URL: http://localhost:3180
+      SITE_URL: http://localhost:3181
     steps:
       - uses: actions/checkout@v7
 

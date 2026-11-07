@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { selectReducedMotion } from "@/features/motion-preference";
-import { theme } from "@/shared/config/theme";
+import { theme } from "@/shared/config";
 
 /**
  * 마우스를 따라오는 붉은 점. 시스템 커서는 그대로 두고 장식으로만 더한다.

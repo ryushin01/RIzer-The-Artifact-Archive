@@ -18,14 +18,16 @@
 
 ## 화면 구조: Feature-Sliced Design
 
-두 앱 모두 `src` 아래 FSD 계층을 씁니다. Next.js 앱이라 계층 이름은 `_app`, `_pages`이고, `src/app`의 라우트 파일은 `_pages`·`_app`을 다시 내보내기만 합니다. 경계는 `packages/config/eslint-fsd.mjs`가 `pnpm lint`에서 강제합니다.
+두 앱 모두 `src` 아래 FSD 계층을 씁니다. Next.js 앱이라 계층 이름은 `_app`, `_pages`이고, `src/app`의 라우트 파일은 `_pages`·`_app`을 다시 내보내기만 합니다. `pnpm lint`가 두 가지로 검사합니다. ESLint(`packages/config/eslint-fsd.mjs`)는 계층 간 import 경계를, Steiger(`steiger.config.mjs`, `fsd/typo-in-layer-name`만 끔)는 공개 API·세그먼트 이름·한 곳에서만 쓰는 슬라이스를 봅니다.
+
+한 페이지에서만 쓰는 코드는 그 페이지 슬라이스에 두고, 두 곳 이상에서 쓰게 되면 `features`·`widgets`로 올립니다.
 
 | 계층 | 공개 사이트 예 | 관리 화면 예 |
 |---|---|---|
-| `_app` | 루트 레이아웃, 스토어 조립, styled-components 등록부, `/api/revalidate` | 루트·콘솔 레이아웃, 전역 CSS |
-| `_pages` | 첫 화면, 아카이브, 유물 화면 | 대시보드, 유물 목록·편집, 주석 편집 |
-| `widgets` | 히어로, 고정 문장, 컬렉션, 딥줌 뷰어, 해설 패널 | 사이드바, 유물 표 |
-| `features` | 아카이브 검색, 안내 투어, 움직임 설정 (슬라이스 + 사가 + UI) | 유물 관리, 이미지 업로드, 주석 편집 (서버 액션 + UI) |
+| `_app` | 루트 레이아웃, 스토어 조립(`model`), styled-components 등록부(`styles`), `/api/revalidate` | 루트·콘솔 레이아웃, 전역 CSS |
+| `_pages` | 첫 화면(히어로·고정 문장·컬렉션·전시실·연표·질문), 아카이브(결과 격자), 유물 화면(딥줌 뷰어·해설 패널) | 대시보드(요약 칸), 유물 목록, 유물 편집(폼·업로드·공개·삭제, 서버 액션 `api/`), 주석 편집기, 로그인 |
+| `widgets` | 메뉴·진행선, 입장 화면, 커서, 바닥글 | 사이드바·머리글, 유물 표·검색 |
+| `features` | 아카이브 검색, 안내 투어, 움직임 설정 (슬라이스 + 사가 + UI) | — |
 | `entities` | 유물 카드 | 유물 상태 배지, 사용자 역할 |
 | `shared` | 디자인 토큰, API 클라이언트, 기본 UI | 폼 도우미, 오류 화면 |
 

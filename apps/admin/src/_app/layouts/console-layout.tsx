@@ -5,7 +5,7 @@ import { SidebarInset, SidebarProvider } from "@rizer/ui/components/sidebar";
 import { TooltipProvider } from "@rizer/ui/components/tooltip";
 
 import { getCurrentUser } from "@/server/auth/current-user";
-import { webUrl } from "@/shared/config/env";
+import { webUrl } from "@/shared/config";
 import { AppSidebar, PageHeader, UserMenu } from "@/widgets/app-shell";
 
 async function UserFooter() {

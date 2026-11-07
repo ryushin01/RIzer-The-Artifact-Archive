@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 
-import { media } from "@/shared/config/theme";
+import { media } from "@/shared/config";
 
 /** 넓은 화면: 왼쪽에 뷰어를 고정하고 오른쪽 해설을 스크롤한다. 좁은 화면: 뷰어 아래에 해설. */
 export const ArtifactLayout = styled.div`

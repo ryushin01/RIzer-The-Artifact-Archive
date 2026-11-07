@@ -11,7 +11,7 @@ import { getCurrentUser } from "@/server/auth/current-user";
 import { getStats } from "@/server/artifacts/queries";
 import { PageHeading } from "@/widgets/app-shell";
 import { ArtifactTable } from "@/widgets/artifact-table";
-import { StatTiles } from "@/widgets/dashboard";
+import { StatTiles } from "./stat-tiles";
 
 export const metadata: Metadata = { title: "대시보드" };
 

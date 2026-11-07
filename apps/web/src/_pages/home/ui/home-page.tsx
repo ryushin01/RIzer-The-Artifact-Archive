@@ -1,13 +1,13 @@
 import { Suspense } from "react";
 
 import { getArtifacts } from "@/shared/api/index.server";
-import { Collection } from "@/widgets/collection";
-import { Faq } from "@/widgets/faq";
-import { FinalCta } from "@/widgets/final-cta";
-import { Hero } from "@/widgets/hero";
-import { Realms } from "@/widgets/realms";
-import { Statement } from "@/widgets/statement";
-import { Timeline } from "@/widgets/timeline";
+import { Collection } from "./collection";
+import { Faq } from "./faq";
+import { FinalCta } from "./final-cta";
+import { Hero } from "./hero";
+import { Realms } from "./realms";
+import { Statement } from "./statement";
+import { Timeline } from "./timeline";
 
 /**
  * 유물 목록이 필요한 부분. 평소에는 오래 캐시해 정적 화면에 들어가고,

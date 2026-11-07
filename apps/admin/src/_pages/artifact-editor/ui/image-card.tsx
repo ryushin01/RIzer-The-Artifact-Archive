@@ -6,7 +6,7 @@ import Link from "next/link";
 import { buttonVariants } from "@rizer/ui/components/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@rizer/ui/components/card";
 
-import { ImageUploader } from "@/features/upload-image";
+import { ImageUploader } from "./image-uploader";
 
 export function ImageCard({ artifact, readOnly }: { artifact: Artifact; readOnly: boolean }) {
   const { image } = artifact;

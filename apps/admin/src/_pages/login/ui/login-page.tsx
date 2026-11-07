@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@rizer/ui/components/card";
 
 import { GUEST_PASSWORD, SEED_USERS } from "@/db/seed";
-import { LoginForm } from "@/features/auth";
+import { LoginForm } from "./login-form";
 
 export const metadata: Metadata = { title: "로그인" };
 

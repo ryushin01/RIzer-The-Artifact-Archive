@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 
-import { media } from "@/shared/config/theme";
+import { media } from "@/shared/config";
 import { Container, MonoLabel } from "@/shared/ui";
 
 /** 바닥글: 이미지 출처와 프로젝트 정보 */

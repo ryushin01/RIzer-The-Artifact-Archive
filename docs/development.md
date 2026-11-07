@@ -16,11 +16,11 @@
 | `pnpm dev` | 관리 화면(3000)과 공개 사이트(3001) |
 | `pnpm dev:admin` | 관리 화면만 |
 | `pnpm typecheck` | TypeScript 7(`tsc7`)로 타입 검사. 도구용 TypeScript는 6입니다(typescript-eslint 호환) |
-| `pnpm lint` | ESLint. 앱에는 FSD 경계 규칙(`packages/config/eslint-fsd.mjs`)이 걸려 있습니다 |
+| `pnpm lint` | ESLint(FSD 경계 규칙 `packages/config/eslint-fsd.mjs`)와 Steiger(FSD 구조 검사) |
 | `pnpm test` / `test:coverage` | 단위 테스트(Vitest) |
 | `pnpm test:storybook` | 공개 사이트의 모든 스토리를 Chromium에서 그리고 axe 접근성 검사 |
 | `pnpm storybook` | Storybook 개발 서버(6006) |
-| `pnpm e2e` | 두 앱을 프로덕션 빌드로 띄워 E2E(관리 3100, 공개 3101, 메모리 DB) |
+| `pnpm e2e` | 두 앱을 프로덕션 빌드로 띄워 E2E(관리 3180, 공개 3181, 메모리 DB) |
 | `pnpm build` | 프로덕션 빌드 |
 | `pnpm tiles <원본> <출력 폴더> [이름]` | 큰 원본을 로컬에서 타일로 자른다 |
 | `pnpm --filter @rizer/admin db:generate` | `src/db/schema.ts`를 바꾼 뒤 마이그레이션 SQL 생성(커밋한다) |

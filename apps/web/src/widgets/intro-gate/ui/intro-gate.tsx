@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import styled, { css, keyframes } from "styled-components";
 
-import { media } from "@/shared/config/theme";
+import { media } from "@/shared/config";
 import { sessionFlag } from "@/shared/lib/safe-storage";
 import { MonoLabel } from "@/shared/ui";
 

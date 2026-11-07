@@ -4,8 +4,8 @@ import { Suspense } from "react";
 
 import { TourSync } from "@/features/annotation-tour";
 import { getArtifact, getArtifacts } from "@/shared/api/index.server";
-import { ArtifactDossier } from "@/widgets/artifact-dossier";
-import { DeepZoomViewer } from "@/widgets/deep-zoom-viewer";
+import { ArtifactDossier } from "./artifact-dossier";
+import { DeepZoomViewer } from "./deep-zoom-viewer";
 
 import { ArtifactLayout, Offline, ViewerColumn } from "./artifact-layout";
 

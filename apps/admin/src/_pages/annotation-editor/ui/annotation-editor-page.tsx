@@ -8,7 +8,7 @@ import { buttonVariants } from "@rizer/ui/components/button";
 import { Skeleton } from "@rizer/ui/components/skeleton";
 
 import { canEdit } from "@/entities/user";
-import { AnnotationEditor } from "@/features/edit-annotations";
+import { AnnotationEditor } from "./annotation-editor";
 import { getCurrentUser } from "@/server/auth/current-user";
 import { getForAdmin } from "@/server/artifacts/queries";
 import { PageHeading, ReadOnlyBanner } from "@/widgets/app-shell";

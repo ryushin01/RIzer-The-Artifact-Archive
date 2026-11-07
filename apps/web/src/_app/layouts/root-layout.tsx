@@ -2,14 +2,14 @@ import type { Metadata, Viewport } from "next";
 import { Space_Mono, Unbounded } from "next/font/google";
 import { type ReactNode, Suspense } from "react";
 
-import { siteUrl } from "@/shared/config/env";
+import { siteUrl } from "@/shared/config";
 
 // 한글 본문 글꼴. 유니코드 범위별로 나뉜 파일이라 화면에 쓰인 글자의 파일만 내려받는다(자체 호스팅).
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import { SiteFooter } from "@/widgets/site-footer";
 
-import { StoreProvider } from "../providers/store-provider";
-import { StyledRegistry } from "../providers/style-registry";
+import { StoreProvider } from "../model/store-provider";
+import { StyledRegistry } from "../styles/style-registry";
 import { ClientChrome } from "./client-chrome";
 import { SkipLink } from "./skip-link";
 

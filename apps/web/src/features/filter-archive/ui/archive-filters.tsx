@@ -5,7 +5,7 @@ import { useId } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { media } from "@/shared/config/theme";
+import { media } from "@/shared/config";
 import { IconSearch, MonoLabel } from "@/shared/ui";
 
 import { cleared, hasActiveFilters, queryChanged, selectArchive } from "../model/slice";

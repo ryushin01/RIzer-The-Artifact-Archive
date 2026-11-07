@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { type FormEvent, useActionState, useRef } from "react";
 import { toast } from "sonner";
 
 import type { FormState } from "./form";
@@ -17,9 +17,13 @@ export function usePageForm(
   action: (prev: FormState, formData: FormData) => Promise<FormState>,
   defaults: FormValues,
 ) {
+  // pending은 다음 렌더에야 true가 되어 빠른 연속 클릭을 못 막으므로 ref로 잠근다.
+  // 성공해서 화면을 떠나는 경우(redirect)에는 잠금을 풀지 않는다(액션이 던지므로 아래에 닿지 않는다).
+  const locked = useRef(false);
   const [state, formAction, pending] = useActionState(
     async (prev: PageFormState, formData: FormData): Promise<PageFormState> => {
       const result = await action(prev, formData);
+      locked.current = false;
       const attempt = prev.attempt + 1;
       if (result.status === "success") {
         toast.success(result.message);
@@ -33,8 +37,15 @@ export function usePageForm(
   const errors = state.status === "error" ? state.fieldErrors : {};
   const values = state.status === "error" ? state.values : defaults;
 
+  /** form의 onSubmit. 처리 중이면 제출을 막는다. */
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    if (locked.current) event.preventDefault();
+    else locked.current = true;
+  };
+
   return {
     formAction,
+    onSubmit,
     pending,
     formKey: state.attempt,
     formError: state.status === "error" ? state.formError : undefined,
