@@ -16,7 +16,8 @@ const uploadOrigins = [
   ...(process.env.STORAGE_DRIVER === "blob" ? ["https://vercel.com"] : []),
 ];
 
-const headers = securityHeaders({ imgSrc: tileOrigins, connectSrc: uploadOrigins });
+// 주석 편집기의 PixiJS(Annotorious 번들 안)가 eval을 쓴다. 관리 화면에만 허용한다(security-headers.mjs 참고).
+const headers = securityHeaders({ imgSrc: tileOrigins, connectSrc: uploadOrigins, allowEval: true });
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,

@@ -78,7 +78,13 @@ test.describe("어드민: 큐레이터", () => {
   test("주석을 고치면 공개 사이트에 바로 반영된다", async ({ page }) => {
     const title = `자루 끝 ${Date.now()}`;
     await loginAsCurator(page);
+    // 주석 편집기(Annotorious·PixiJS)가 운영 CSP(unsafe-eval 없음)에서도 오류 없이 떠야 한다.
+    const pageErrors: string[] = [];
+    page.on("pageerror", (e) => pageErrors.push(e.message));
     await page.goto(`${ADMIN_URL}/artifacts/art_durandal/annotations`);
+    await expect(page.locator(".openseadragon-canvas")).toBeVisible();
+    await page.waitForTimeout(1_000);
+    expect(pageErrors).toEqual([]);
     await page.getByRole("button", { name: /1\.\s*자루 끝/ }).click();
     // 펼친 주석의 입력칸만 보인다(나머지는 hidden).
     await page.getByRole("textbox", { name: "제목" }).fill(title);

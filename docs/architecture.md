@@ -60,5 +60,6 @@
 ## 보안
 
 - 두 앱 모두 `packages/config/security-headers.mjs`의 CSP를 쓴다. 이미지·연결은 공개 API와 타일 도메인만 허용한다.
+- 관리 화면만 `'unsafe-eval'`을 허용한다. 주석 편집기(Annotorious)가 자기 번들에 넣은 PixiJS가 eval로 셰이더 코드를 만들어, 외부 패치(`@pixi/unsafe-eval`)를 쓸 수 없기 때문이다. 외부 스크립트는 여전히 막혀 있다.
 - 공개 API는 공개 상태의 유물만 내보내고 CORS는 읽기(`GET`)만 연다. `/api/revalidate`는 Bearer 비밀값을 시간 차 없는 비교로 확인한다.
 - 스토리지 키는 `safeKey`로 경로 조작(`../`)을 막는다. 업로드는 형식(JPG·PNG·WebP·TIFF)과 크기(80MB)를 서버에서 다시 확인한다.

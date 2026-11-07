@@ -5,14 +5,16 @@
 // 프레임 삽입, base·form 변조를 막는 데까지만 적용한다.
 
 /**
- * @param {{ imgSrc?: string[]; connectSrc?: string[]; mediaSrc?: string[] }} [options]
+ * @param {{ imgSrc?: string[]; connectSrc?: string[]; mediaSrc?: string[]; allowEval?: boolean }} [options]
  *   imgSrc: 'self' 외에 이미지를 불러올 곳(딥줌 타일 CDN 등), connectSrc: fetch로 부를 곳(공개 API), mediaSrc: 영상·소리
+ *   allowEval: 운영에서도 'unsafe-eval'을 허용한다. 관리 화면의 주석 편집기(Annotorious)가 자기 번들에 넣은
+ *   PixiJS가 eval로 셰이더 코드를 만들기 때문이다(외부 패치 @pixi/unsafe-eval이 닿지 않는다). 공개 사이트는 쓰지 않는다.
  */
-export function securityHeaders({ imgSrc = [], connectSrc = [], mediaSrc = [] } = {}) {
+export function securityHeaders({ imgSrc = [], connectSrc = [], mediaSrc = [], allowEval = false } = {}) {
   const dev = process.env.NODE_ENV === "development";
   const csp = [
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""}`,
+    `script-src 'self' 'unsafe-inline'${dev || allowEval ? " 'unsafe-eval'" : ""}`,
     "style-src 'self' 'unsafe-inline'",
     `img-src ${["'self'", "data:", "blob:", ...imgSrc].join(" ")}`,
     "font-src 'self' data:",
