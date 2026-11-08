@@ -65,12 +65,14 @@
 | 하늘을 나는 양탄자 | 이집트·중동 전설 | [The Seley Carpet](https://www.metmuseum.org/art/collection/search/452921) — Iran, late 16th century (1978.550) |
 | 알라딘의 반지 | 이집트·중동 전설 | [Ring](https://www.metmuseum.org/art/collection/search/450957) — Iraq, 12th–13th century (48.154.10) |
 | 사자의 서 | 이집트·중동 전설 | [Book of the Dead Papyrus with Chapters 100 and 129](https://www.metmuseum.org/art/collection/search/553673) — Late Period–Ptolemaic Period, 664–30 BCE (24.2.18) |
+| 에메랄드 타블렛 | 이집트·중동 전설 | [Cippus (magical stela)](https://www.metmuseum.org/art/collection/search/550737) — Ptolemaic Period, ca. 300 BCE (29.2.15) |
 | 라의 태양선 | 이집트·중동 전설 | [Model boat](https://www.metmuseum.org/art/collection/search/544260) — Middle Kingdom, ca. 1981–1802 B.C. (12.183.4) |
 | 락시 | 이집트·중동 전설 | ["Rustam Lassos Rakhsh", Folio from a Shahnama (Book of Kings)](https://www.metmuseum.org/art/collection/search/452419) — India, ca. 1450 (1972.285.2) |
 | 부케팔로스 | 이집트·중동 전설 | [Tetradrachm of Alexander the Great](https://www.metmuseum.org/art/collection/search/326395) — Seleucid, ca. 325–319 BCE (1978.93.21) |
 | 누아다의 빛의 검 | 켈트 신화 | [Sword and Scabbard](https://www.metmuseum.org/art/collection/search/470298) — Celtic, ca. 60 BCE (1999.94a-d) |
 | 루의 창 | 켈트 신화 | [Spear Head](https://www.metmuseum.org/art/collection/search/25613) — Etruscan, ca. 750–90 BCE (08.99.21) |
 | 게 볼그 | 켈트 신화 | [Spear](https://www.metmuseum.org/art/collection/search/30657) — Indonesian, 18th–19th century (36.25.2044) |
+| 프라가라흐 | 켈트 신화 | [Iron, silver, and bronze sword](https://www.metmuseum.org/art/collection/search/244549) — Cypriot, 6th century BCE (74.51.5670) |
 | 칼라드볼그 | 켈트 신화 | [Iron sword with bronze hilt](https://www.metmuseum.org/art/collection/search/248742) — Roman, Gaul, ca. 2nd century BCE–1st century CE (13.134) |
 | 다그다의 솥 | 켈트 신화 | [Bronze cauldron](https://www.metmuseum.org/art/collection/search/251084) — Etruscan, ca. 550 BCE (21.88.58) |
 | 바즈라 | 인도 신화 | [Vajra](https://www.metmuseum.org/art/collection/search/37428) — Vietnam, 12th century (1992.150.1) |

@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { recordYearLabel } from "@/shared/lib/format";
 import { Container, MonoLabel, RedDot, SectionHeader } from "@/shared/ui";
 
-/** 연표를 나누는 시대. 고른 시대의 유물만 보여 줘 92점을 한 줄로 넘기지 않아도 되게 한다. */
+/** 연표를 나누는 시대. 고른 시대의 유물만 보여 줘 90여 점을 한 줄로 넘기지 않아도 되게 한다. */
 export const ERAS = [
   { id: "all", label: "전체", test: () => true },
   { id: "ancient", label: "기원전", test: (y: number) => y < 0 },

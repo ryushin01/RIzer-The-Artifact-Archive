@@ -648,6 +648,17 @@
     "tileCount": 28,
     "version": "20261107170826"
   },
+  "emerald-tablet": {
+    "dziKey": "tiles/art_emerald_tablet/v20261108025740/image.dzi",
+    "previewKey": "tiles/art_emerald_tablet/v20261108025740/preview.webp",
+    "originalKey": "",
+    "width": 1333,
+    "height": 2000,
+    "lqip": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAAAQBACdASoQABgAPu1iqk2ppaQiMAgBMB2JYwDG9B6yRtnJZjq4wlG72AD+4KZY1fV8ft0qHeAWxWXEhtjjjhfNtSuf5YukVUJmk1FXIAKLrzmJAZj0XniVFyf9yXnj7JbBjtOsdAM8HBnWf+Pjo476gfYzpUzpj6opRAAA",
+    "dominantColor": "#d8d8d8",
+    "tileCount": 27,
+    "version": "20261108025740"
+  },
   "solar-barque": {
     "dziKey": "tiles/art_solar_barque/v20261107170829/image.dzi",
     "previewKey": "tiles/art_solar_barque/v20261107170829/preview.webp",
@@ -713,6 +724,17 @@
     "dominantColor": "#c8b8b8",
     "tileCount": 43,
     "version": "20261107170846"
+  },
+  "fragarach": {
+    "dziKey": "tiles/art_fragarach/v20261108025748/image.dzi",
+    "previewKey": "tiles/art_fragarach/v20261108025748/preview.webp",
+    "originalKey": "",
+    "width": 1175,
+    "height": 3000,
+    "lqip": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAABQAwCdASoJABgAPu1mqk2ppaQiMAgBMB2JZwAASn100yZF8AD+YApCwrKKFTnDHaXDCuttdzqXnouFjfMw1otm67nyRwJOFRryMwgAAAA=",
+    "dominantColor": "#b8b8b8",
+    "tileCount": 37,
+    "version": "20261108025748"
   },
   "caladbolg": {
     "dziKey": "tiles/art_caladbolg/v20261107170848/image.dzi",

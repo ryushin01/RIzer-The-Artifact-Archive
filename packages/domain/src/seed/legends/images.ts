@@ -255,6 +255,18 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
       "Gift of Alan Rutherfurd Stuyvesant, 1949",
     ),
   },
+  "emerald-tablet": {
+    imageAlt: "기원전 300년 무렵 프톨레마이오스 왕조 이집트의 동석 마법 비석(호루스의 키푸스). 짙은 돌판 위쪽에 악어를 밟고 선 소년 호루스가 돋을새김되고, 아래쪽에 주문이 빽빽이 새겨져 있다.",
+    source: met(
+      550737,
+      "Cippus (magical stela)",
+      "Ptolemaic Period",
+      "ca. 300 BCE",
+      "https://images.metmuseum.org/CRDImages/eg/original/29.2.15_03.jpg",
+      "29.2.15",
+      "Rogers Fund, 1928",
+    ),
+  },
   "eros-arrows": {
     imageAlt: "1~2세기 로마의 청동 소상. 날개 달린 소년 에로스가 왼손에 활로 보이는 긴 물건을 들고 오른팔을 높이 뻗은 채 걸어 나간다.",
     source: met(
@@ -277,6 +289,18 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
       "https://images.metmuseum.org/CRDImages/is/original/DP216190.jpg",
       "1978.550",
       "Presented in memory of Richard Ettinghausen, Gift of Louis E., Theresa S., Hervey, and Elliot Jay Seley, and Purchase, Harris Brisbane Dick and Fletcher Funds, 1978",
+    ),
+  },
+  "fragarach": {
+    imageAlt: "기원전 6세기 키프로스의 쇠칼. 녹이 두껍게 앉은 곧은 칼날 위에 자루 쪽이 남았고, 은 못 하나가 반짝인다.",
+    source: met(
+      244549,
+      "Iron, silver, and bronze sword",
+      "Cypriot",
+      "6th century BCE",
+      "https://images.metmuseum.org/CRDImages/gr/original/DP-42819-001.jpg",
+      "74.51.5670",
+      "The Cesnola Collection, Purchased by subscription, 1874–76",
     ),
   },
   "futsunomitama": {
