@@ -19,6 +19,14 @@ Vercel Blob Hobby는 업로드·목록 같은 **고급 작업이 월 2,000회**�
 - 관리 화면은 `tiles/`로 시작하는 키를 `STATIC_TILES_URL`(기본 `WEB_URL`)로, 나머지 키를 스토리지 공개 주소로 바꾼다(`apps/admin/src/server/storage.ts`).
 - 전송 요금이 없는 저장소가 필요해지면 Cloudflare R2(`STORAGE_DRIVER=s3`)로 바꿀 수 있다. 드라이버는 이미 있다.
 
+### 타일을 저장소 밖으로 옮길 때
+
+2026-11-08 기준 시드 타일은 92점, 8,475개, 86MB이고 git 압축 크기는 66MB다. GitHub 권장 한도(1GB)에 한참 못 미치므로 저장소에 둔다. 유물을 크게 늘려 타일이 수백 MB가 되면 옮긴다.
+
+- Git LFS는 쓰지 않는다. 무료 대역폭이 월 1GB라 Vercel이 빌드할 때마다 받으면 금방 넘는다.
+- Cloudflare R2(무료 10GB, 쓰기 월 100만 회, 전송 무료)에 `tiles/` 폴더를 그대로 올리고 공개 주소를 연 뒤, 관리 화면의 `STATIC_TILES_URL`만 그 주소로 바꾸면 된다. 키(`tiles/…`)는 그대로라 DB와 코드는 고치지 않는다.
+- 공개 사이트에도 같은 `STATIC_TILES_URL`을 넣으면 CSP의 이미지·연결 허용 목록에 들어간다. 그다음 `apps/web/public/tiles`를 지운다.
+
 ## 환경 변수
 
 ### rizer-admin
