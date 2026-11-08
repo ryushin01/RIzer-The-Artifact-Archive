@@ -59,6 +59,9 @@ async function download(url: string, file: string) {
   throw new Error(`원본을 받지 못했습니다: ${url}`);
 }
 
+const escapeXml = (s: string) =>
+  s.replace(/[<>&"']/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;", "'": "&apos;" })[c]!);
+
 /** 네트워크 없이 쓰는 무늬 이미지(4000×3000). 확대해도 무늬가 보이도록 동심원과 격자를 그린다. */
 async function syntheticImage(index: number, title: string) {
   const hue = (index * 47) % 360;
@@ -67,7 +70,7 @@ async function syntheticImage(index: number, title: string) {
     <pattern id="p" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M100 0H0V100" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="2"/></pattern></defs>
     <rect width="4000" height="3000" fill="url(#g)"/><rect width="4000" height="3000" fill="url(#p)"/>
     ${Array.from({ length: 12 }, (_, i) => `<circle cx="2000" cy="1500" r="${120 * (i + 1)}" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="6"/>`).join("")}
-    <text x="2000" y="1530" font-size="120" text-anchor="middle" fill="#fff" font-family="sans-serif">${title}</text></svg>`;
+    <text x="2000" y="1530" font-size="120" text-anchor="middle" fill="#fff" font-family="sans-serif">${escapeXml(title)}</text></svg>`;
   return sharp(Buffer.from(svg)).jpeg({ quality: 85 }).toBuffer();
 }
 
