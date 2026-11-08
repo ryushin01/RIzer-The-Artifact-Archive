@@ -35,14 +35,14 @@ export function galleryOf(id: GalleryId) {
 
 /** 유물 종류 */
 export const KINDS = [
-  { id: "weapon", label: "무기" },
-  { id: "armor", label: "방어구" },
-  { id: "vessel", label: "그릇" },
-  { id: "jewel", label: "장신구" },
-  { id: "treasure", label: "보물" },
-  { id: "mount", label: "탈것" },
-  { id: "elixir", label: "영약" },
-  { id: "book", label: "책과 문서" },
+  { id: "weapon", label: "무기", labelEn: "Weapon" },
+  { id: "armor", label: "방어구", labelEn: "Armor" },
+  { id: "vessel", label: "그릇", labelEn: "Vessel" },
+  { id: "jewel", label: "장신구", labelEn: "Jewel" },
+  { id: "treasure", label: "보물", labelEn: "Treasure" },
+  { id: "mount", label: "탈것", labelEn: "Mount" },
+  { id: "elixir", label: "영약", labelEn: "Elixir" },
+  { id: "book", label: "책과 문서", labelEn: "Book" },
 ] as const;
 export type KindId = (typeof KINDS)[number]["id"];
 export const kindIdSchema = z.enum(KINDS.map((k) => k.id) as [KindId, ...KindId[]]);
@@ -50,6 +50,21 @@ export const kindIdSchema = z.enum(KINDS.map((k) => k.id) as [KindId, ...KindId[
 export function kindLabel(id: KindId) {
   return KINDS.find((k) => k.id === id)?.label ?? id;
 }
+
+/** 공개 사이트의 언어. 한국어가 기본이고 영어판은 /en 아래에 있다. */
+export const LOCALES = ["ko", "en"] as const;
+export const localeSchema = z.enum(LOCALES);
+export type Locale = z.infer<typeof localeSchema>;
+
+export const galleryName = (id: GalleryId, locale: Locale) => {
+  const gallery = galleryOf(id);
+  return locale === "en" ? gallery.labelEn : gallery.label;
+};
+
+export const kindName = (id: KindId, locale: Locale) => {
+  const kind = KINDS.find((k) => k.id === id);
+  return (locale === "en" ? kind?.labelEn : kind?.label) ?? id;
+};
 
 /**
  * 이미지 출처. 전설 속 유물은 실물이 없으므로, 모습이 닮은 실제 박물관 소장품의
@@ -138,6 +153,8 @@ export const artifactSchema = artifactInputSchema.extend({
   image: deepZoomImageSchema.nullable(),
   annotationCount: z.number().int().nonnegative(),
   updatedAt: z.iso.datetime(),
+  /** 내용의 실제 언어. 영어판에서 번역이 없으면(새로 만든 유물 등) "ko"다. */
+  contentLang: localeSchema.optional(),
 });
 export type Artifact = z.infer<typeof artifactSchema>;
 

@@ -7,13 +7,9 @@ import styled from "styled-components";
 
 import { MotionToggle } from "@/features/motion-preference";
 import { media } from "@/shared/config";
+import { otherLocalePath, stripLocale, useLocale, useLocalePath, useMessages } from "@/shared/i18n";
 
-const SECTIONS = [
-  { id: "collection", label: "컬렉션" },
-  { id: "realms", label: "전시실" },
-  { id: "timeline", label: "연표" },
-  { id: "faq", label: "질문" },
-];
+const SECTIONS = ["collection", "realms", "timeline", "faq"] as const;
 
 /**
  * 화면 아래에 떠 있는 알약 모양 메뉴와 맨 위의 스크롤 진행선.
@@ -21,7 +17,10 @@ const SECTIONS = [
  */
 export function SiteNav() {
   const pathname = usePathname();
-  const home = pathname === "/";
+  const locale = useLocale();
+  const t = useMessages().nav;
+  const path = useLocalePath();
+  const home = stripLocale(pathname) === "/";
   const [active, setActive] = useState<string | null>(null);
   const barRef = useRef<HTMLDivElement>(null);
 
@@ -56,7 +55,7 @@ export function SiteNav() {
       { rootMargin: "-45% 0px -50% 0px" },
     );
     for (const s of SECTIONS) {
-      const el = document.getElementById(s.id);
+      const el = document.getElementById(s);
       if (el) observer.observe(el);
     }
     return () => observer.disconnect();
@@ -67,22 +66,28 @@ export function SiteNav() {
       <Progress aria-hidden>
         <div ref={barRef} />
       </Progress>
-      <Nav aria-label="주 메뉴">
-        <Logo href="/" aria-label="RIzer 첫 화면">
+      <Nav aria-label={t.label}>
+        <Logo href={path("/")} aria-label={t.home}>
           <span aria-hidden>R</span>
         </Logo>
         <Links>
-          {SECTIONS.map((s) => (
-            <li key={s.id}>
-              <a href={home ? `#${s.id}` : `/#${s.id}`} aria-current={home && active === s.id ? "true" : undefined}>
-                {s.label}
+          {SECTIONS.map((id) => (
+            <li key={id}>
+              <a href={home ? `#${id}` : path(`/#${id}`)} aria-current={home && active === id ? "true" : undefined}>
+                {t[id]}
               </a>
             </li>
           ))}
           <li>
-            <Link href="/artifacts" aria-current={pathname.startsWith("/artifacts") ? "page" : undefined} className="archive">
-              아카이브
+            <Link href={path("/artifacts")} aria-current={stripLocale(pathname).startsWith("/artifacts") ? "page" : undefined} className="archive">
+              {t.archive}
             </Link>
+          </li>
+          <li>
+            {/* 언어판은 루트 레이아웃이 달라 전체 페이지로 옮겨 간다. */}
+            <a href={otherLocalePath(locale, pathname)} lang={locale === "en" ? "ko" : "en"} className="lang">
+              {t.switchTo}
+            </a>
           </li>
         </Links>
         <MotionToggle />

@@ -1,8 +1,10 @@
+import type { Locale } from "@rizer/domain";
 import type { Metadata, Viewport } from "next";
 import { Space_Mono, Unbounded } from "next/font/google";
 import { type ReactNode, Suspense } from "react";
 
 import { siteUrl } from "@/shared/config";
+import { LocaleProvider, MESSAGES } from "@/shared/i18n";
 
 // 한글 본문 글꼴. 유니코드 범위별로 나뉜 파일이라 화면에 쓰인 글자의 파일만 내려받는다(자체 호스팅).
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
@@ -16,12 +18,19 @@ import { SkipLink } from "./skip-link";
 const display = Unbounded({ subsets: ["latin"], variable: "--font-display", weight: ["500", "700", "800"] });
 const mono = Space_Mono({ subsets: ["latin"], variable: "--font-mono", weight: ["400", "700"] });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl()),
-  title: { default: "RIzer — 전설 유물 아카이브", template: "%s · RIzer Archive" },
-  description: "엑스칼리버, 성배, 묠니르. 전설 속 유물을 초고해상도 딥줌으로 확대해 보고 부분마다 달린 해설을 읽는 온라인 전시실.",
-  openGraph: { siteName: "RIzer Archive", locale: "ko_KR", type: "website" },
-};
+function metadataOf(locale: Locale): Metadata {
+  const t = MESSAGES[locale].meta;
+  return {
+    metadataBase: new URL(siteUrl()),
+    title: { default: t.title, template: "%s · RIzer Archive" },
+    description: t.description,
+    openGraph: { siteName: "RIzer Archive", locale: t.ogLocale, type: "website" },
+    alternates: { languages: { ko: "/", en: "/en" } },
+  };
+}
+
+export const metadata = metadataOf("ko");
+export const metadataEn = metadataOf("en");
 
 export const viewport: Viewport = { themeColor: "#050505", colorScheme: "dark" };
 
@@ -31,9 +40,9 @@ export const viewport: Viewport = { themeColor: "#050505", colorScheme: "dark" }
  */
 const PRE_PAINT = `try{var d=document.documentElement;if(sessionStorage.getItem("rizer:gate")==="1")d.dataset.gate="seen";var m=localStorage.getItem("rizer:motion");var r=m==="reduce"||(m!=="full"&&matchMedia("(prefers-reduced-motion: reduce)").matches);d.dataset.motion=r?"reduce":"full"}catch(e){}`;
 
-export function RootLayout({ children }: { children: ReactNode }) {
+export function RootLayout({ children, locale = "ko" }: { children: ReactNode; locale?: Locale }) {
   return (
-    <html lang="ko" className={`${display.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang={locale} className={`${display.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: PRE_PAINT }} />
         <noscript>
@@ -42,6 +51,7 @@ export function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         <StyledRegistry>
+          <LocaleProvider locale={locale}>
           <StoreProvider>
             <SkipLink />
             <div id="page">
@@ -52,8 +62,11 @@ export function RootLayout({ children }: { children: ReactNode }) {
               <ClientChrome />
             </Suspense>
           </StoreProvider>
+          </LocaleProvider>
         </StyledRegistry>
       </body>
     </html>
   );
 }
+
+export const RootLayoutEn = ({ children }: { children: ReactNode }) => <RootLayout locale="en">{children}</RootLayout>;

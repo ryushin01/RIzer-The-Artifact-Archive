@@ -2,9 +2,11 @@
 
 import styled from "styled-components";
 
+import { useMessages } from "@/shared/i18n";
 import { Display, GlowBackdrop, MonoLabel } from "@/shared/ui";
 
 export function ArchiveHeader() {
+  const lead = useMessages().archive.lead;
   return (
     <Header>
       <GlowBackdrop $intensity={0.45} />
@@ -13,7 +15,7 @@ export function ArchiveHeader() {
         <Display as="h1" $size="lg">
           Archive
         </Display>
-        <p>세계 곳곳의 전설 속 유물을 이름, 전시실, 종류로 찾아봅니다. 카드를 고르면 딥줌 뷰어가 열립니다.</p>
+        <p>{lead}</p>
       </div>
     </Header>
   );

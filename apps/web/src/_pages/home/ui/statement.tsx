@@ -3,20 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
+import { useMessages } from "@/shared/i18n";
 import { pad2 } from "@/shared/lib/format";
 import { GlowBackdrop, MonoLabel, RedDot } from "@/shared/ui";
 
-const WORDS = [
-  { en: "A BLADE", ko: "한 자루의 검" },
-  { en: "A VESSEL", ko: "하나의 잔" },
-  { en: "A RELIC", ko: "하나의 성물" },
-];
+const WORDS = ["A BLADE", "A VESSEL", "A RELIC"];
 
 /**
  * 화면에 고정된 채 스크롤에 따라 단어가 바뀌는 문장.
  * 화면 낭독기에는 문장 전체를 한 번에 읽히고, 바뀌는 단어는 숨긴다.
  */
 export function Statement() {
+  const t = useMessages().statement;
   const ref = useRef<HTMLElement>(null);
   const [index, setIndex] = useState(0);
 
@@ -47,18 +45,18 @@ export function Statement() {
       <Sticky>
         <GlowBackdrop $intensity={0.55} />
         <h2 id="statement-title" className="sr-only">
-          전설이 남긴 것이 한 자루의 검, 하나의 잔, 하나의 성물이라면 — 그 모습을 가까이 들여다볼 수 있다면
+          {t.title}
         </h2>
         <Inner aria-hidden>
           <MonoLabel>WHAT IF A LEGEND LEFT BEHIND…</MonoLabel>
           <Word key={index}>
-            {WORDS[index]!.en}
+            {WORDS[index]}
             <Dot />
           </Word>
-          <Ko>{WORDS[index]!.ko}</Ko>
+          <Ko>{t.words[index]}</Ko>
           <Pager>
             {WORDS.map((w, i) => (
-              <span key={w.en} data-active={i === index} />
+              <span key={w} data-active={i === index} />
             ))}
           </Pager>
           <MonoLabel>

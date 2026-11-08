@@ -1,20 +1,21 @@
 "use client";
 
-import { GALLERIES, KINDS, type ArtifactQuery, type GalleryId, type KindId } from "@rizer/domain";
+import { GALLERIES, galleryName, KINDS, kindName, type ArtifactQuery, type GalleryId, type KindId } from "@rizer/domain";
 import { useId } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
+import { useLocale, useMessages } from "@/shared/i18n";
 import { media } from "@/shared/config";
 import { IconSearch, MonoLabel } from "@/shared/ui";
 
 import { cleared, hasActiveFilters, queryChanged, selectArchive } from "../model/slice";
 
-const SORTS: { value: ArtifactQuery["sort"]; label: string }[] = [
-  { value: "featured", label: "대표 유물 먼저" },
-  { value: "oldest", label: "오래된 기록순" },
-  { value: "newest", label: "최근 기록순" },
-  { value: "title", label: "이름순" },
+const SORTS: { value: ArtifactQuery["sort"]; label: "sortFeatured" | "sortOldest" | "sortNewest" | "sortTitle" }[] = [
+  { value: "featured", label: "sortFeatured" },
+  { value: "oldest", label: "sortOldest" },
+  { value: "newest", label: "sortNewest" },
+  { value: "title", label: "sortTitle" },
 ];
 
 /**
@@ -23,22 +24,24 @@ const SORTS: { value: ArtifactQuery["sort"]; label: string }[] = [
  */
 export function ArchiveFilters() {
   const dispatch = useDispatch();
+  const locale = useLocale();
+  const t = useMessages().archive;
   const { query, total, status } = useSelector(selectArchive);
   const id = useId();
 
   return (
-    <Wrap role="search" aria-label="유물 검색" onSubmit={(e) => e.preventDefault()}>
+    <Wrap role="search" aria-label={t.searchLabel} onSubmit={(e) => e.preventDefault()}>
       <Row>
         <Search>
           <label htmlFor={`${id}-q`}>
-            <MonoLabel>검색</MonoLabel>
+            <MonoLabel>{t.search}</MonoLabel>
           </label>
           <SearchBox>
             <IconSearch />
             <input
               id={`${id}-q`}
               type="search"
-              placeholder="이름, 해설, 주석까지 — 예: 무지개"
+              placeholder={t.placeholder}
               defaultValue={query.q ?? ""}
               onChange={(e) => dispatch(queryChanged({ q: e.target.value.trim() || undefined }))}
               autoComplete="off"
@@ -47,24 +50,24 @@ export function ArchiveFilters() {
         </Search>
         <SelectField>
           <label htmlFor={`${id}-kind`}>
-            <MonoLabel>종류</MonoLabel>
+            <MonoLabel>{t.kind}</MonoLabel>
           </label>
           <select
             id={`${id}-kind`}
             value={query.kind ?? ""}
             onChange={(e) => dispatch(queryChanged({ kind: (e.target.value || undefined) as KindId | undefined }))}
           >
-            <option value="">모든 종류</option>
+            <option value="">{t.allKinds}</option>
             {KINDS.map((k) => (
               <option key={k.id} value={k.id}>
-                {k.label}
+                {kindName(k.id, locale)}
               </option>
             ))}
           </select>
         </SelectField>
         <SelectField>
           <label htmlFor={`${id}-sort`}>
-            <MonoLabel>정렬</MonoLabel>
+            <MonoLabel>{t.sort}</MonoLabel>
           </label>
           <select
             id={`${id}-sort`}
@@ -73,7 +76,7 @@ export function ArchiveFilters() {
           >
             {SORTS.map((s) => (
               <option key={s.value} value={s.value}>
-                {s.label}
+                {t[s.label]}
               </option>
             ))}
           </select>
@@ -82,10 +85,10 @@ export function ArchiveFilters() {
 
       <Chips>
         <legend>
-          <MonoLabel>전시실</MonoLabel>
+          <MonoLabel>{t.gallery}</MonoLabel>
         </legend>
         <ChipList>
-          {[{ id: "", label: "전체" }, ...GALLERIES].map((g) => (
+          {[{ id: "" as const }, ...GALLERIES].map((g) => (
             <Chip key={g.id || "all"}>
               <input
                 type="radio"
@@ -94,7 +97,7 @@ export function ArchiveFilters() {
                 checked={(query.gallery ?? "") === g.id}
                 onChange={() => dispatch(queryChanged({ gallery: (g.id || undefined) as GalleryId | undefined }))}
               />
-              <span>{g.label}</span>
+              <span>{g.id ? galleryName(g.id, locale) : t.allGalleries}</span>
             </Chip>
           ))}
         </ChipList>
@@ -102,11 +105,11 @@ export function ArchiveFilters() {
 
       <Summary>
         <p role="status" aria-live="polite">
-          {status === "loading" ? "찾는 중…" : `유물 ${total}점`}
+          {status === "loading" ? t.searching : t.total(total)}
         </p>
         {hasActiveFilters(query) && (
           <ResetButton type="button" onClick={() => dispatch(cleared())}>
-            조건 지우기
+            {t.clear}
           </ResetButton>
         )}
       </Summary>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useMessages } from "@/shared/i18n";
 import styled, { css, keyframes } from "styled-components";
 
 import { media } from "@/shared/config";
@@ -20,6 +21,7 @@ const useSeenOnLoad = () =>
   useSyncExternalStore(subscribeNothing, () => document.documentElement.dataset.gate === "seen", () => false);
 
 export function IntroGate() {
+  const t = useMessages().gate;
   const seen = useSeenOnLoad();
   const [phase, setPhase] = useState<"open" | "leaving" | "gone">("open");
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -60,14 +62,14 @@ export function IntroGate() {
     >
       <Rings aria-hidden />
       <h1 id="gate-title" className="sr-gate-title">
-        RIzer — 전설 유물 아카이브
+        {t.title}
       </h1>
       <Row>
         <Word aria-hidden>RIZER</Word>
         <EnterButton ref={buttonRef} type="button" onClick={enter}>
           <span>ENTER</span>
           <span>ARCHIVE</span>
-          <span className="ko">아카이브 입장</span>
+          <span className="ko">{t.enter}</span>
         </EnterButton>
         <Word aria-hidden>ARCHIVE</Word>
       </Row>

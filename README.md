@@ -1,7 +1,7 @@
 # RIzer — The Artifact Archive
 
 [![CI](https://github.com/ryushin01/RIzer-The-Artifact-Archive/actions/workflows/ci.yml/badge.svg)](https://github.com/ryushin01/RIzer-The-Artifact-Archive/actions/workflows/ci.yml)
-![version](https://img.shields.io/badge/version-0.4.0-e2283c)
+![version](https://img.shields.io/badge/version-0.5.0-e2283c)
 ![Storybook](https://img.shields.io/badge/Storybook-10-FF4785?logo=storybook&logoColor=white)
 
 엑스칼리버, 성배, 묠니르, 여의봉 같은 세계 곳곳의 전설 속 유물 100점을 고해상도 딥줌으로 확대해 보고, 사진의 부분마다 달린 해설을 읽는 온라인 전시실입니다. 큐레이터는 관리 화면에서 유물·해설·이미지 주석을 편집합니다.
@@ -38,11 +38,11 @@
 
 | 영역 | 내용 |
 |---|---|
-| 공개 사이트 | 입장 화면, 스크롤 연출(고정 문장·컬렉션·열 개 전시실·시대별 첫 기록 연표·질문), 아카이브 검색(검색어·전시실·종류·정렬, 주소 동기화, 24점씩 "더 보기") |
+| 공개 사이트 | 입장 화면, 스크롤 연출(고정 문장·컬렉션·열 개 전시실·전승 지도·시대별 첫 기록 연표·질문), 아카이브 검색(이름·해설·주석 본문까지, 전시실·종류·정렬, 주소 동기화, 24점씩 "더 보기"), 영어판(`/en`, 유물 100점 해설·주석 번역) |
 | 딥줌 뷰어 | DZI 타일, 키보드 확대·이동, 주석 번호 버튼, 안내 투어(자동 재생·멈춤), 주석 바로가기 링크(`?note=N`), 미니맵, 전체 화면, 유물별 공유 이미지 |
-| 관리 화면 | 유물 목록(검색·전시실·상태, 30점씩 쪽 나누기), 유물 작성·수정·공개·삭제, 원본 업로드와 타일 생성, 주석 편집기(끌어서 그리기 + 키보드용 '보이는 영역으로 추가'·숫자 입력), 게스트(읽기 전용) 계정 |
+| 관리 화면 | 유물 목록(검색·전시실·상태, 30점씩 쪽 나누기), 유물 작성·수정·공개·삭제, 원본 업로드와 타일 생성, 주석 편집기(끌어서 그리기 + 키보드용 '보이는 영역으로 추가'·숫자 입력, W3C Web Annotation JSON 내보내기·가져오기), 게스트(읽기 전용) 계정 |
 | 연동 | 관리 화면에서 저장하면 공개 사이트 캐시를 바로 비운다(캐시 태그) |
-| 접근성 | 본문 바로가기, 움직임 끄기(KWCAG 6.2.2), 색 대비 4.5:1, 스토리·E2E axe 검사 |
+| 접근성 | 본문 바로가기, 움직임 끄기(KWCAG 6.2.2), 색 대비 4.5:1, 스토리·E2E axe 검사, [KWCAG 2.2 점검 기록](docs/accessibility.md) |
 
 ## 기술 스택
 
@@ -96,5 +96,6 @@ packages/
 | [개발 가이드](docs/development.md) | 명령, 환경 변수, 시드 이미지, 테스트 |
 | [아키텍처](docs/architecture.md) | 앱 구성, 데이터 흐름, 딥줌·주석, 상태 관리, 접근성 |
 | [배포](docs/deployment.md) | Vercel 프로젝트 둘, Neon, Vercel Blob, 시드 타일 정적 제공 |
+| [접근성 점검](docs/accessibility.md) | KWCAG 2.2 33개 항목별 점검 기록과 한계 |
 | [이미지 출처](docs/credits.md) | 유물별 사진 출처와 라이선스 |
 | [변경 기록](CHANGELOG.md) | 버전별 변경 사항 |

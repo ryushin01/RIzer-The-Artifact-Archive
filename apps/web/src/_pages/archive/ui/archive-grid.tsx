@@ -6,6 +6,7 @@ import styled from "styled-components";
 
 import { ArtifactCard } from "@/entities/artifact";
 import { hasMore, moreRequested, retried, selectArchive } from "@/features/filter-archive";
+import { useMessages } from "@/shared/i18n";
 import { Button, VisuallyHidden } from "@/shared/ui";
 
 /**
@@ -15,6 +16,7 @@ import { Button, VisuallyHidden } from "@/shared/ui";
  */
 export function ArchiveGrid() {
   const dispatch = useDispatch();
+  const t = useMessages().archive;
   const { items, total, status, error, more } = useSelector(selectArchive);
   const canLoadMore = useSelector(hasMore);
   const listRef = useRef<HTMLUListElement>(null);
@@ -26,9 +28,9 @@ export function ArchiveGrid() {
     const from = focusFrom.current;
     if (from === null || items.length <= from) return;
     focusFrom.current = null;
-    setAnnouncement(`${items.length - from}점을 더 불러왔습니다. ${total}점 중 ${items.length}점을 보고 있습니다.`);
+    setAnnouncement(t.moreDone(items.length - from, total, items.length));
     listRef.current?.children[from]?.querySelector<HTMLAnchorElement>("a")?.focus();
-  }, [items.length, total]);
+  }, [items.length, total, t]);
 
   const loadMore = () => {
     if (more === "loading") return;
@@ -41,7 +43,7 @@ export function ArchiveGrid() {
       <Notice role="alert">
         <p>{error}</p>
         <Button type="button" $variant="ghost" onClick={() => dispatch(retried())}>
-          다시 시도
+          {t.retry}
         </Button>
       </Notice>
     );
@@ -49,13 +51,13 @@ export function ArchiveGrid() {
   if (items.length === 0 && status === "idle") {
     return (
       <Notice>
-        <p>조건에 맞는 유물이 없습니다. 검색어를 줄이거나 다른 전시실을 골라 보세요.</p>
+        <p>{t.empty}</p>
       </Notice>
     );
   }
   return (
     <>
-      <Grid ref={listRef} aria-busy={status === "loading"} aria-label="검색 결과" $loading={status === "loading"}>
+      <Grid ref={listRef} aria-busy={status === "loading"} aria-label={t.results} $loading={status === "loading"}>
         {items.map((a, i) => (
           <li key={a.id}>
             <ArtifactCard artifact={a} priority={i < 4} />
@@ -64,15 +66,15 @@ export function ArchiveGrid() {
       </Grid>
       <Footer>
         <p>
-          {total}점 중 {items.length}점
+          {t.shown(total, items.length)}
         </p>
         {canLoadMore && status !== "loading" && (
           // 불러오는 동안에도 버튼을 끄지 않는다(초점을 잃지 않게). 중복 요청은 위와 사가(takeLeading)가 막는다.
           <Button type="button" $variant="ghost" onClick={loadMore} aria-busy={more === "loading"}>
-            {more === "loading" ? "불러오는 중…" : "유물 더 보기"}
+            {more === "loading" ? t.moreLoading : t.more}
           </Button>
         )}
-        {more === "error" && <p role="alert">더 불러오지 못했습니다. 버튼을 다시 눌러 주세요.</p>}
+        {more === "error" && <p role="alert">{t.moreError}</p>}
       </Footer>
       <VisuallyHidden aria-live="polite">
         {announcement}

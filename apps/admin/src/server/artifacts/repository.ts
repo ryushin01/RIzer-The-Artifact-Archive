@@ -21,6 +21,10 @@ export type ArtifactWithCount = ArtifactRow & { annotationCount: number };
 export type AdminArtifactQuery = Omit<Partial<ArtifactQuery>, "sort"> & {
   status?: ArtifactStatus;
   sort?: ArtifactQuery["sort"] | "updated";
+  /** 검색어와 별개로 결과에 넣을 주소(영어판 검색) */
+  alsoSlugs?: string[];
+  /** 검색 결과 맨 앞에 둘 주소(영어판에서 이름이 맞은 유물) */
+  rankSlugs?: string[];
 };
 
 /** LIKE 패턴의 특수 문자를 그대로 찾도록 이스케이프한다. */
@@ -60,6 +64,7 @@ export function createArtifactRepository(db: Database) {
           ilike(artifacts.story, pattern),
           // 서브쿼리 안에서는 열 이름이 겹치므로 테이블 이름까지 직접 쓴다.
           sql`exists (select 1 from "annotations" where "annotations"."artifact_id" = "artifacts"."id" and ("annotations"."title" ilike ${pattern} or "annotations"."body" ilike ${pattern}))`,
+          ...(query.alsoSlugs?.length ? [inArray(artifacts.slug, query.alsoSlugs)] : []),
         )!,
       );
     }
@@ -80,7 +85,12 @@ export function createArtifactRepository(db: Database) {
       .select(columns)
       .from(artifacts)
       .where(whereOf(query))
-      .orderBy(...(query.q ? [relevance(query.q)] : []), ...order, asc(artifacts.id))
+      .orderBy(
+        ...(query.rankSlugs?.length ? [sql`case when ${inArray(artifacts.slug, query.rankSlugs)} then 0 else 1 end`] : []),
+        ...(query.q ? [relevance(query.q)] : []),
+        ...order,
+        asc(artifacts.id),
+      )
       .$dynamic();
     if (query.limit !== undefined) rows.limit(query.limit);
     if (query.offset) rows.offset(query.offset);

@@ -37,3 +37,14 @@ html [data-sonner-toaster][data-theme="dark"] {
   outline: 3px solid var(--ring);
   outline-offset: -3px;
 }
+
+/* 아래쪽 고정 저장 막대에 초점이 가리지 않게 한다(KWCAG 6.1.2). */
+html {
+  scroll-padding-bottom: 5rem;
+}
+
+/* Annotorious가 초점을 주는 SVG에는 표시가 없어 직접 그린다(KWCAG 6.1.2). */
+.openseadragon-container svg:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}

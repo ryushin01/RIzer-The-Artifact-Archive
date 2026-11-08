@@ -2,6 +2,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
 
+import { useMessages } from "@/shared/i18n";
 import { IconButton, IconMotion, IconMotionOff } from "@/shared/ui";
 
 import { selectReducedMotion, toggled } from "../model/slice";
@@ -12,13 +13,14 @@ import { selectReducedMotion, toggled } from "../model/slice";
  */
 export function MotionToggle() {
   const dispatch = useDispatch();
+  const t = useMessages().motion;
   const reduced = useSelector(selectReducedMotion);
   return (
     <IconButton
       type="button"
-      aria-label="움직임 효과"
+      aria-label={t.label}
       aria-pressed={!reduced}
-      title={reduced ? "움직임 효과 켜기" : "움직임 효과 끄기"}
+      title={reduced ? t.on : t.off}
       $active={!reduced}
       onClick={() => dispatch(toggled())}
     >

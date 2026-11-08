@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+
 import { expect, test } from "@playwright/test";
 
 import { ADMIN_URL } from "./env";
@@ -80,6 +82,25 @@ test.describe("어드민: 큐레이터", () => {
       await web.goto(`/artifacts/${slug}`);
       await expectNotFound(web);
     }).toPass({ timeout: 15_000 });
+  });
+
+  test("주석을 W3C JSON으로 내보내고, 고친 파일을 가져와 편집기에 올린다", async ({ page }) => {
+    await loginAsCurator(page);
+    await page.goto(`${ADMIN_URL}/artifacts/art_excalibur/annotations`);
+    await expect(page.locator(".openseadragon-canvas")).toBeVisible();
+
+    const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "JSON 내보내기" }).click()]);
+    const exported = JSON.parse(await readFile(await download.path(), "utf8")) as { type: string; items: { body: unknown }[] };
+    expect(exported.type).toBe("AnnotationPage");
+    expect(exported.items.length).toBeGreaterThan(1);
+
+    const one = { ...exported, items: exported.items.slice(0, 1) };
+    await page.locator('input[type="file"]').setInputFiles({ name: "notes.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(one)) });
+    await expect(page.getByText(/주석 1개를 가져왔습니다/)).toBeVisible();
+
+    await page.locator('input[type="file"]').setInputFiles({ name: "broken.json", mimeType: "application/json", buffer: Buffer.from("{ not json") });
+    await expect(page.getByText("JSON 파일을 읽지 못했습니다.")).toBeVisible();
+    // 저장하지 않고 떠나므로 시드 주석은 그대로다.
   });
 
   test("주석을 고치면 공개 사이트에 바로 반영된다", async ({ page }) => {

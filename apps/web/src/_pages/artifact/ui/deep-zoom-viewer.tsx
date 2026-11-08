@@ -8,6 +8,7 @@ import styled from "styled-components";
 
 import { selected, selectTour, TourControls } from "@/features/annotation-tour";
 import { selectReducedMotion } from "@/features/motion-preference";
+import { useMessages } from "@/shared/i18n";
 import { IconButton, IconExpand, IconHome, IconMinus, IconPlus, MonoLabel } from "@/shared/ui";
 
 import { padRect, regionToImageRect } from "../model/geometry";
@@ -21,6 +22,7 @@ type Props = { title: string; image: DeepZoomImage; imageAlt: string; annotation
  * - 키보드: 사진에 초점을 두고 화살표로 움직이고, +/-로 확대·축소, 0으로 전체 보기.
  */
 export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
+  const t = useMessages().viewer;
   const dispatch = useDispatch();
   const { activeId, markersVisible } = useSelector(selectTour);
   const reduced = useSelector(selectReducedMotion);
@@ -71,7 +73,7 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
           button.type = "button";
           button.className = "rz-marker";
           button.textContent = String(i + 1);
-          button.setAttribute("aria-label", `주석 ${i + 1}: ${a.title}`);
+          button.setAttribute("aria-label", t.marker(i + 1, a.title));
           // OpenSeadragon이 끌기로 가로채지 않도록 포인터 누름이 뷰어로 올라가지 않게 한다.
           button.addEventListener("pointerdown", (e) => e.stopPropagation());
           button.addEventListener("click", () => dispatch(selected(a.id)));
@@ -123,33 +125,33 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
   };
 
   return (
-    <Wrap aria-label={`${title} 딥줌 뷰어`} $markers={markersVisible}>
+    <Wrap aria-label={t.label(title)} $markers={markersVisible}>
       {/* 뷰어 안에 초점을 받는 캔버스와 주석 버튼이 있어 role="img"를 쓰지 않고, 사진 설명은 글로 둔다. */}
-      <p className="sr-only">사진: {imageAlt}</p>
+      <p className="sr-only">{t.photo}: {imageAlt}</p>
       <Stage
         ref={hostRef}
         aria-describedby={helpId}
         style={{ backgroundColor: image.dominantColor, backgroundImage: ready ? undefined : `url(${image.lqip})` }}
       />
       <p id={helpId} className="sr-only">
-        사진에 초점을 두고 화살표 키로 움직이고, 더하기·빼기 키로 확대하고 축소합니다. 사진 위 번호 버튼을 누르면 그 부분의 해설로 확대합니다.
+        {t.hint}
       </p>
       <Toolbar>
         <TourControls />
-        <Zoom role="group" aria-label="확대·축소">
-          <IconButton type="button" aria-label="확대" onClick={() => zoomBy(1.6)} disabled={!ready}>
+        <Zoom role="group" aria-label={t.zoomGroup}>
+          <IconButton type="button" aria-label={t.zoomIn} onClick={() => zoomBy(1.6)} disabled={!ready}>
             <IconPlus />
           </IconButton>
           <ZoomLabel aria-live="off">{zoomPercent}%</ZoomLabel>
-          <IconButton type="button" aria-label="축소" onClick={() => zoomBy(1 / 1.6)} disabled={!ready}>
+          <IconButton type="button" aria-label={t.zoomOut} onClick={() => zoomBy(1 / 1.6)} disabled={!ready}>
             <IconMinus />
           </IconButton>
-          <IconButton type="button" aria-label="전체 보기" onClick={home} disabled={!ready}>
+          <IconButton type="button" aria-label={t.home} onClick={home} disabled={!ready}>
             <IconHome />
           </IconButton>
           <IconButton
             type="button"
-            aria-label="전체 화면"
+            aria-label={t.fullscreen}
             onClick={() => viewerRef.current?.setFullScreen(!viewerRef.current.isFullPage())}
             disabled={!ready}
           >

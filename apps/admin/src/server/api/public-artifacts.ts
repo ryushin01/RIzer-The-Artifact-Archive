@@ -2,7 +2,7 @@ import "server-only";
 
 import { NextResponse, type NextRequest } from "next/server";
 
-import { getPublished, listPublished, parsePublicQuery } from "@/server/artifacts/queries";
+import { getPublished, listPublished, parseLocale, parsePublicQuery } from "@/server/artifacts/queries";
 
 /**
  * 공개 API. 공개 사이트가 서버(캐시 태그로 보관)와 브라우저(검색·필터)에서 함께 부른다.
@@ -16,9 +16,9 @@ export async function listHandler(request: NextRequest) {
   return NextResponse.json(body, { headers: { "cache-control": CACHE } });
 }
 
-export async function detailHandler(_request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+export async function detailHandler(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const body = await getPublished(slug);
+  const body = await getPublished(slug, parseLocale(request.nextUrl.searchParams.get("locale")));
   if (!body) return NextResponse.json({ message: "유물을 찾을 수 없습니다." }, { status: 404 });
   return NextResponse.json(body, { headers: { "cache-control": CACHE } });
 }

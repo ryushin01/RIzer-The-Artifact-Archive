@@ -1,6 +1,6 @@
 import "server-only";
 
-import { CACHE_TAGS, type ArtifactDetailResponse, type ArtifactListResponse, type ArtifactQuery } from "@rizer/domain";
+import { CACHE_TAGS, type ArtifactDetailResponse, type ArtifactListResponse, type ArtifactQuery, type Locale } from "@rizer/domain";
 import { cacheLife, cacheTag } from "next/cache";
 
 import { fetchArtifact, fetchArtifacts } from "./archive";
@@ -24,11 +24,11 @@ export async function getArtifacts(query: Partial<ArtifactQuery> = {}): Promise<
 }
 
 /** 유물 하나. 없으면 null, 어드민에 닿지 못하면 "offline"(404로 굳지 않게 짧게만 캐시한다). */
-export async function getArtifact(slug: string): Promise<ArtifactDetailResponse | null | "offline"> {
+export async function getArtifact(slug: string, locale: Locale = "ko"): Promise<ArtifactDetailResponse | null | "offline"> {
   "use cache";
   cacheTag(CACHE_TAGS.artifacts, CACHE_TAGS.artifact(slug));
   try {
-    const result = await fetchArtifact(slug);
+    const result = await fetchArtifact(slug, undefined, locale);
     cacheLife("days");
     return result;
   } catch (error) {

@@ -1,10 +1,11 @@
 "use client";
 
-import { GALLERIES, type GalleryId } from "@rizer/domain";
+import { GALLERIES, galleryName, type GalleryId } from "@rizer/domain";
 import Link from "next/link";
 import styled from "styled-components";
 
 import { media } from "@/shared/config";
+import { useLocale, useLocalePath, useMessages } from "@/shared/i18n";
 import { pad2 } from "@/shared/lib/format";
 import { Container, SectionHeader } from "@/shared/ui";
 
@@ -36,6 +37,9 @@ const PLACES: Record<GalleryId, { lat: number; lon: number; side: Side }> = {
  * 링크는 전시실 순서의 목록 하나뿐이라 키보드와 화면 낭독기로도 그대로 읽힌다. 지도 그림 자체는 장식이다.
  */
 export function LegendMap({ artifacts }: { artifacts: RealmItem[] }) {
+  const locale = useLocale();
+  const { map: t, count: countLabel } = useMessages();
+  const path = useLocalePath();
   return (
     <Section id="map" aria-labelledby="map-title">
       <Container>
@@ -43,8 +47,8 @@ export function LegendMap({ artifacts }: { artifacts: RealmItem[] }) {
           index="03"
           label="Where They Were Told"
           titleId="map-title"
-          title="전설이 전해진 곳"
-          description="대서양 끝의 섬에서 동해까지, 유물 이야기가 전해진 땅입니다. 이름을 고르면 그 전시실로 들어갑니다."
+          title={t.title}
+          description={t.description}
         />
         <MapArea>
           {/* eslint-disable-next-line @next/next/no-img-element -- 크기가 정해진 장식용 정적 SVG */}
@@ -65,10 +69,10 @@ export function LegendMap({ artifacts }: { artifacts: RealmItem[] }) {
               const count = artifacts.filter((a) => a.gallery === g.id).length;
               return (
                 <Place key={g.id} style={{ left: `${toX(place.lon)}%`, top: `${toY(place.lat)}%` }} data-side={place.side}>
-                  <Link href={`/artifacts?gallery=${g.id}`}>
+                  <Link href={path(`/artifacts?gallery=${g.id}`)}>
                     <span className="n">{pad2(i + 1)}</span>
-                    <span className="name">{g.label}</span>
-                    <span className="count">{count}점</span>
+                    <span className="name">{galleryName(g.id, locale)}</span>
+                    <span className="count">{countLabel(count)}</span>
                   </Link>
                 </Place>
               );

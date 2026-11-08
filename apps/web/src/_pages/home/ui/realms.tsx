@@ -1,10 +1,11 @@
 "use client";
 
-import { GALLERIES } from "@rizer/domain";
+import { GALLERIES, galleryName } from "@rizer/domain";
 import Link from "next/link";
 import styled, { keyframes } from "styled-components";
 
 import { media } from "@/shared/config";
+import { useLocale, useLocalePath, useMessages, type Messages } from "@/shared/i18n";
 import { Container, MonoLabel, SectionHeader } from "@/shared/ui";
 import { pad2 } from "@/shared/lib/format";
 
@@ -12,6 +13,9 @@ import type { RealmItem } from "../model";
 
 /** 전시실 목록. 궤도 선화가 천천히 돈다(움직임을 끄면 멈춘다). */
 export function Realms({ artifacts }: { artifacts: RealmItem[] }) {
+  const locale = useLocale();
+  const { realms: t, count } = useMessages();
+  const path = useLocalePath();
   return (
     <Section id="realms" aria-labelledby="realms-title">
       <Orbit aria-hidden viewBox="0 0 600 600">
@@ -27,20 +31,20 @@ export function Realms({ artifacts }: { artifacts: RealmItem[] }) {
           index="02"
           label="Ten Realms"
           titleId="realms-title"
-          title="열 갈래의 신화, 열 개의 전시실"
-          description="유물은 처음 등장한 신화와 전설에 따라 전시실로 나뉩니다. 전시실을 고르면 그 전설의 유물만 모아 봅니다."
+          title={t.title}
+          description={t.description}
         />
         <List>
           {GALLERIES.map((g, i) => {
             const items = artifacts.filter((a) => a.gallery === g.id);
             return (
               <li key={g.id}>
-                <RealmLink href={`/artifacts?gallery=${g.id}`}>
+                <RealmLink href={path(`/artifacts?gallery=${g.id}`)}>
                   <MonoLabel $tone="accent">{pad2(i + 1)}</MonoLabel>
-                  <strong>{g.label}</strong>
+                  <strong>{galleryName(g.id, locale)}</strong>
                   <MonoLabel>{g.labelEn}</MonoLabel>
-                  <span className="names">{namesOf(items)}</span>
-                  <span className="count">{items.length}점</span>
+                  <span className="names">{namesOf(items, t)}</span>
+                  <span className="count">{count(items.length)}</span>
                 </RealmLink>
               </li>
             );
@@ -52,10 +56,10 @@ export function Realms({ artifacts }: { artifacts: RealmItem[] }) {
 }
 
 /** 전시실마다 앞의 몇 점만 이름을 보이고 나머지는 개수로 줄인다. */
-function namesOf(items: RealmItem[], shown = 4) {
-  if (!items.length) return "준비 중";
+function namesOf(items: RealmItem[], t: Messages["realms"], shown = 4) {
+  if (!items.length) return t.soon;
   const names = items.slice(0, shown).map((a) => a.title).join(" · ");
-  return items.length > shown ? `${names} 외 ${items.length - shown}점` : names;
+  return items.length > shown ? t.more(names, items.length - shown) : names;
 }
 
 const spin = keyframes`

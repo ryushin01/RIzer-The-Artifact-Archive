@@ -1,10 +1,10 @@
 "use client";
 
-import { galleryOf, kindLabel, type ArtifactSummary } from "@rizer/domain";
+import { galleryOf, kindName, type ArtifactSummary } from "@rizer/domain";
 import Link from "next/link";
 import styled from "styled-components";
 
-import { recordYearLabel } from "@/shared/lib/format";
+import { useLocale, useLocalePath, useMessages, yearLabel } from "@/shared/i18n";
 import { MonoLabel } from "@/shared/ui";
 
 /**
@@ -13,8 +13,11 @@ import { MonoLabel } from "@/shared/ui";
  */
 export function ArtifactCard({ artifact, priority = false }: { artifact: ArtifactSummary; priority?: boolean }) {
   const { image } = artifact;
+  const locale = useLocale();
+  const t = useMessages().card;
+  const path = useLocalePath();
   return (
-    <Card>
+    <Card lang={locale === "en" && artifact.contentLang === "ko" ? "ko" : undefined}>
       <Media style={{ backgroundColor: image?.dominantColor, backgroundImage: image ? `url(${image.lqip})` : undefined }}>
         {image && (
           // eslint-disable-next-line @next/next/no-img-element -- 타일 서버의 미리보기라 next/image 최적화를 거치지 않는다
@@ -33,13 +36,13 @@ export function ArtifactCard({ artifact, priority = false }: { artifact: Artifac
       </Media>
       <Body>
         <Title>
-          <Link href={`/artifacts/${artifact.slug}`}>{artifact.title}</Link>
+          <Link href={path(`/artifacts/${artifact.slug}`)}>{artifact.title}</Link>
         </Title>
         <Original>{artifact.titleOriginal}</Original>
         <Power>{artifact.power}</Power>
         <Meta>
-          <MonoLabel>{kindLabel(artifact.kind)}</MonoLabel>
-          <MonoLabel>{recordYearLabel(artifact.recordYear)} 첫 기록</MonoLabel>
+          <MonoLabel>{kindName(artifact.kind, locale)}</MonoLabel>
+          <MonoLabel>{t.firstRecord(yearLabel(artifact.recordYear, locale))}</MonoLabel>
         </Meta>
       </Body>
     </Card>
