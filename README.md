@@ -4,7 +4,7 @@
 ![version](https://img.shields.io/badge/version-0.5.0-e2283c)
 ![Storybook](https://img.shields.io/badge/Storybook-10-FF4785?logo=storybook&logoColor=white)
 
-엑스칼리버, 성배, 묠니르, 여의봉 같은 세계 곳곳의 전설 속 판타지 유물 100점을 고해상도 딥줌으로 확대해 보고, 사진의 부분마다 달린 해설을 읽는 온라인 전시실입니다. 큐레이터는 관리 화면에서 유물·해설·이미지 주석을 편집합니다.
+엑스칼리버, 성배, 묠니르, 여의봉 같은 세계 곳곳의 전설이나 판타지 속에 등장하는 유물 100점을 고해상도 딥줌으로 확대해 보고, 사진의 부분마다 달린 해설을 읽는 온라인 전시실입니다. 큐레이터는 관리 화면에서 유물·해설·이미지 주석을 편집합니다.
 
 **[전시실 보기](https://rizer-web.vercel.app/)** · **[관리 화면 보기](https://rizer-admin.vercel.app/login)**: 로그인 화면에서 **게스트로 둘러보기**를 누르면 읽기 전용으로 들어갑니다.
 
