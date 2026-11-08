@@ -1,1 +1,1 @@
-export { alt, ArtifactOgImage, contentType, size } from "./ui/opengraph-image";
+export { alt, altEn, ArtifactOgImage, ArtifactOgImageEn, contentType, size } from "./ui/opengraph-image";

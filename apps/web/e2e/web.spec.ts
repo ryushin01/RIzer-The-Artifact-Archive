@@ -142,3 +142,75 @@ test.describe("유물 화면", () => {
     await expectNotFound(page);
   });
 });
+
+test.describe("영어판", () => {
+  test.beforeEach(async ({ page }) => skipGate(page));
+
+  test("첫 화면이 영어로 나오고 언어 표시가 맞으며 접근성 위반이 없다", async ({ page }) => {
+    await page.goto("/en");
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    await expect(page.getByRole("navigation", { name: "Main menu" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Skip to main content" })).toBeAttached();
+    await expectNoA11yViolations(page);
+  });
+
+  test("입장 화면도 영어로 나온다", async ({ browser }) => {
+    const page = await browser.newPage();
+    await page.goto("/en");
+    await expect(page.getByRole("button", { name: /Enter the archive/ }).first()).toBeFocused();
+    await page.close();
+  });
+
+  test("유물 해설과 주석이 영어로 나오고, 한국어판과 오갈 수 있다", async ({ page }) => {
+    await page.goto("/en/artifacts/excalibur");
+    await expect(page.getByRole("heading", { level: 1, name: "Excalibur" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Story" })).toBeVisible();
+    await expect(page.locator('link[rel="alternate"][hreflang="ko"]')).toHaveAttribute("href", /\/artifacts\/excalibur$/);
+    await expectNoA11yViolations(page);
+
+    await page.getByRole("navigation", { name: "Main menu" }).getByRole("link", { name: "한국어" }).click();
+    await expect(page).toHaveURL(/\/artifacts\/excalibur$/);
+    await expect(page.locator("html")).toHaveAttribute("lang", "ko");
+    await expect(page.getByRole("heading", { level: 1, name: "엑스칼리버" })).toBeVisible();
+
+    await page.getByRole("navigation", { name: "주 메뉴" }).getByRole("link", { name: "English" }).click();
+    await expect(page).toHaveURL(/\/en\/artifacts\/excalibur$/);
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  });
+
+  test("영어로 검색하고, 더 보기로 이어 붙인 카드도 영어다", async ({ page }) => {
+    await page.goto("/en/artifacts");
+    const cards = page.getByRole("list", { name: "Search results" }).getByRole("listitem");
+    await expect(cards).toHaveCount(24);
+    await page.getByRole("button", { name: "Show more artifacts" }).click();
+    await expect(cards).toHaveCount(48);
+    await expect(cards.nth(30)).not.toHaveText(/[가-힣]/);
+
+    await page.getByRole("searchbox", { name: /Search/ }).fill("thor");
+    await expect(page.getByRole("link", { name: /Mjölnir/ }).first()).toBeVisible();
+    await expect(page).toHaveURL(/\/en\/artifacts\?.*q=thor/);
+  });
+
+  test("카드를 눌러도 영어판에 머문다", async ({ page }) => {
+    await page.goto("/en/artifacts");
+    await page.getByRole("list", { name: "Search results" }).getByRole("link").first().click();
+    await expect(page).toHaveURL(/\/en\/artifacts\/[a-z-]+/);
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  });
+
+  test("없는 주소는 영어 404 화면이다", async ({ page }) => {
+    await page.goto("/en/artifacts/no-such-relic");
+    await expectNotFound(page);
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    await page.goto("/en/no/such/page");
+    await expectNotFound(page);
+    await expect(page).toHaveTitle(/Page not found/);
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  });
+
+  test("유물별 공유 이미지가 만들어진다", async ({ request }) => {
+    const response = await request.get("/en/artifacts/excalibur/opengraph-image");
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain("image/png");
+  });
+});

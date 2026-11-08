@@ -12,7 +12,7 @@ import {
   toPixels,
   toWebAnnotation,
 } from "./index";
-import { SEED_ANNOTATIONS, SEED_ARTIFACTS } from "./seed";
+import { SEED_ANNOTATIONS, SEED_ARTIFACTS, SEED_EN } from "./seed";
 
 describe("주석 영역", () => {
   it("백분율 영역을 Media Fragments로 바꾸고 되돌린다", () => {
@@ -114,6 +114,18 @@ describe("유물", () => {
     );
     expect(new Set(ids).size).toBe(ids.length);
     expect(SEED_ARTIFACTS.every((a) => a.source.license === "CC0-1.0")).toBe(true);
+  });
+
+  it("모든 시드 유물에 영어 번역이 있고, 주석 수가 같으며, 스키마 길이를 지킨다", () => {
+    expect(Object.keys(SEED_EN).sort()).toEqual(SEED_ARTIFACTS.map((a) => a.slug).sort());
+    for (const seed of SEED_ARTIFACTS) {
+      const en = SEED_EN[seed.slug]!;
+      expect(en.annotations.length, seed.slug).toBe(SEED_ANNOTATIONS[seed.slug]?.length);
+      const { title, owner, maker, power, firstRecord, summary, story, imageAlt } = en;
+      expect(artifactInputSchema.safeParse({ ...seed, title, owner, maker, power, firstRecord, summary, story, imageAlt }).success, seed.slug).toBe(true);
+      en.annotations.forEach((a) => expect(annotationInputSchema.shape.title.safeParse(a.title).success, a.title).toBe(true));
+      expect(/[가-힣]/.test(`${title}${power}${summary}${story}${imageAlt}`), seed.slug).toBe(false);
+    }
   });
 
   it("시드 주석은 있는 유물을 가리키고 영역이 이미지 안에 있다", () => {

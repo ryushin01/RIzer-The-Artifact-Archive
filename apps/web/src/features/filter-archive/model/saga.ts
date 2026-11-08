@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { call, delay, put, select, takeLatest, takeLeading } from "redux-saga/effects";
 
 import { fetchArtifacts, toSearchParams } from "@/shared/api";
+import { MESSAGES } from "@/shared/i18n";
 
 import {
   ARCHIVE_PAGE_SIZE,
@@ -38,7 +39,7 @@ export function* loadArchive(action: PayloadAction<Partial<ArtifactQuery> | unde
     yield put(fetchSucceeded(result));
     yield call(syncUrl, query);
   } catch {
-    yield put(fetchFailed("유물 목록을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요."));
+    yield put(fetchFailed(MESSAGES[query.locale ?? "ko"].archive.loadError));
   }
 }
 

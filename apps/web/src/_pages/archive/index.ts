@@ -1,1 +1,1 @@
-export { ArchivePage, metadata } from "./ui/archive-page";
+export { ArchivePage, ArchivePageEn, metadata, metadataEn } from "./ui/archive-page";

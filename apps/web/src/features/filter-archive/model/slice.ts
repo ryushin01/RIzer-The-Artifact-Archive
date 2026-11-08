@@ -57,7 +57,7 @@ export const archiveSlice = createSlice({
       state.error = action.payload;
     },
     cleared(state) {
-      state.query = { sort: "featured" };
+      state.query = { sort: "featured", ...(state.query.locale && { locale: state.query.locale }) };
       state.status = "loading";
       state.more = "idle";
     },

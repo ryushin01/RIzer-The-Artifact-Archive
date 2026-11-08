@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
+import { stripLocale } from "@/shared/i18n";
 import { CursorDot } from "@/widgets/cursor-dot";
 import { IntroGate } from "@/widgets/intro-gate";
 import { SiteNav } from "@/widgets/site-nav";
@@ -13,7 +14,7 @@ export function ClientChrome() {
     <>
       <SiteNav />
       <CursorDot />
-      {pathname === "/" && <IntroGate />}
+      {stripLocale(pathname) === "/" && <IntroGate />}
     </>
   );
 }

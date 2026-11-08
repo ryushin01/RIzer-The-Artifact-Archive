@@ -17,7 +17,8 @@ export async function expectNoA11yViolations(page: Page) {
 /** 없는 유물 화면. 스트리밍 중에 notFound가 나오면 상태 코드는 200이지만 404 화면과 noindex가 나온다. */
 export async function expectNotFound(page: Page) {
   await expect(page.getByRole("heading", { name: /Lost Relic/ })).toBeVisible();
-  await expect(page.locator('head meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+  // 라우트 그룹의 not-found는 프레임워크가 같은 meta를 두 번 넣을 수 있다. 값은 같으므로 첫 번째만 본다.
+  await expect(page.locator('head meta[name="robots"]').first()).toHaveAttribute("content", /noindex/);
 }
 
 export async function loginAsCurator(page: Page) {

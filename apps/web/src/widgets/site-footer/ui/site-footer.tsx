@@ -1,12 +1,17 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import styled from "styled-components";
 
 import { media } from "@/shared/config";
+import { otherLocalePath, useLocale, useMessages } from "@/shared/i18n";
 import { Container, MonoLabel } from "@/shared/ui";
 
 /** 바닥글: 이미지 출처와 프로젝트 정보 */
 export function SiteFooter({ adminUrl }: { adminUrl?: string }) {
+  const locale = useLocale();
+  const { footer: t, newWindow } = useMessages();
+  const pathname = usePathname();
   return (
     <Footer>
       <Container>
@@ -16,29 +21,34 @@ export function SiteFooter({ adminUrl }: { adminUrl?: string }) {
             <MonoLabel>THE ARTIFACT ARCHIVE</MonoLabel>
           </div>
           <p>
-            전설 속 유물은 실물이 없습니다. 이 아카이브의 사진은 모습이 닮은 실제 소장품을 빌려 썼으며, 모두{" "}
+            {t.before}
             <a href="https://www.metmuseum.org/hubs/open-access" target="_blank" rel="noreferrer">
-              메트로폴리탄 미술관
-              <span className="sr-only"> (새 창)</span>
+              {t.met}
+              <span className="sr-only">{newWindow}</span>
             </a>
-            과{" "}
+            {t.and}
             <a href="https://www.clevelandart.org/open-access" target="_blank" rel="noreferrer">
-              클리블랜드 미술관
-              <span className="sr-only"> (새 창)</span>
+              {t.cleveland}
+              <span className="sr-only">{newWindow}</span>
             </a>
-            의 Open Access(CC0) 자료입니다. 해설과 주석은 이 프로젝트에서 새로 썼습니다.
+            {t.after}
           </p>
           <Links>
             {adminUrl && (
               <li>
                 <a href={adminUrl} target="_blank" rel="noreferrer">
-                  관리 화면 데모<span className="sr-only"> (새 창)</span>
+                  {t.admin}<span className="sr-only">{newWindow}</span>
                 </a>
               </li>
             )}
             <li>
               <a href="https://github.com/ryushin01/RIzer-The-Artifact-Archive" target="_blank" rel="noreferrer">
-                GitHub<span className="sr-only"> (새 창)</span>
+                GitHub<span className="sr-only">{newWindow}</span>
+              </a>
+            </li>
+            <li>
+              <a href={otherLocalePath(locale, pathname)} lang={locale === "ko" ? "en" : "ko"}>
+                {t.language}
               </a>
             </li>
           </Links>

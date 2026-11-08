@@ -1,15 +1,18 @@
+import type { Locale } from "@rizer/domain";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { TourSync } from "@/features/annotation-tour";
 import { getArtifact, getArtifacts } from "@/shared/api/index.server";
+import { localePath, MESSAGES } from "@/shared/i18n";
 import { ArtifactDossier } from "./artifact-dossier";
 import { DeepZoomViewer } from "./deep-zoom-viewer";
 
 import { ArtifactLayout, Offline, ViewerColumn } from "./artifact-layout";
 
-type Props = PageProps<"/artifacts/[slug]">;
+type Props = { params: Promise<{ slug: string }> };
+type LocaleProps = Props & { locale?: Locale };
 
 /** 공개 유물을 모두 미리 그린다. 새로 공개한 유물은 요청 때 그리고 캐시한다. */
 export async function generateStaticParams() {
@@ -17,10 +20,10 @@ export async function generateStaticParams() {
   return items.length ? items.map((a) => ({ slug: a.slug })) : [{ slug: "excalibur" }];
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+async function metadataFor({ params }: Props, locale: Locale): Promise<Metadata> {
   const { slug } = await params;
-  const detail = await getArtifact(slug);
-  if (!detail || detail === "offline") return { title: "유물" };
+  const detail = await getArtifact(slug, locale);
+  if (!detail || detail === "offline") return { title: MESSAGES[locale].meta.artifactFallback };
   const { artifact } = detail;
   return {
     title: artifact.title,
@@ -29,12 +32,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${artifact.title} · RIzer Archive`,
       description: artifact.summary,
     },
+    alternates: {
+      canonical: localePath(locale, `/artifacts/${slug}`),
+      languages: { ko: `/artifacts/${slug}`, en: `/en/artifacts/${slug}` },
+    },
   };
 }
 
-async function Content({ params }: Props) {
+export const generateMetadata = (props: Props) => metadataFor(props, "ko");
+export const generateMetadataEn = (props: Props) => metadataFor(props, "en");
+
+async function Content({ params, locale = "ko" }: LocaleProps) {
   const { slug } = await params;
-  const detail = await getArtifact(slug);
+  const detail = await getArtifact(slug, locale);
   if (detail === "offline") return <Offline />;
   if (!detail) notFound();
   const { artifact, annotations, related } = detail;
@@ -51,7 +61,7 @@ async function Content({ params }: Props) {
             annotations={annotations}
           />
         ) : (
-          <p>이미지를 준비하고 있습니다.</p>
+          <p>{MESSAGES[locale].artifact.preparing}</p>
         )}
       </ViewerColumn>
       <ArtifactDossier artifact={artifact} annotations={annotations} related={related} />
@@ -59,12 +69,14 @@ async function Content({ params }: Props) {
   );
 }
 
-export function ArtifactPage(props: Props) {
+export function ArtifactPage({ locale = "ko", ...props }: LocaleProps) {
   return (
     <main id="main" tabIndex={-1}>
-      <Suspense fallback={<p style={{ padding: 40 }}>유물을 불러오는 중…</p>}>
-        <Content {...props} />
+      <Suspense fallback={<p style={{ padding: 40 }}>{MESSAGES[locale].artifact.loading}</p>}>
+        <Content {...props} locale={locale} />
       </Suspense>
     </main>
   );
 }
+
+export const ArtifactPageEn = (props: Props) => <ArtifactPage {...props} locale="en" />;

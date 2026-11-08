@@ -4,7 +4,8 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; color-scheme: dark; }
+  /* 아래쪽 고정 메뉴에 초점이 가리지 않게 스크롤 여백을 둔다(KWCAG 6.1.2). */
+  html { -webkit-text-size-adjust: 100%; color-scheme: dark; scroll-padding-bottom: 96px; }
   html, body { margin: 0; padding: 0; }
   body {
     background: ${({ theme }) => theme.color.bg};

@@ -1,13 +1,13 @@
 "use client";
 
-import { galleryOf, kindLabel, storyParagraphs, type Annotation, type Artifact, type ArtifactSummary } from "@rizer/domain";
+import { galleryName, galleryOf, kindName, storyParagraphs, type Annotation, type Artifact, type ArtifactSummary } from "@rizer/domain";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { ArtifactCard } from "@/entities/artifact";
 import { CopyNoteLink, selected, selectTour } from "@/features/annotation-tour";
-import { recordYearLabel } from "@/shared/lib/format";
+import { useLocale, useLocalePath, useMessages, yearLabel } from "@/shared/i18n";
 import { IconArrowLeft, IconExternal, MonoLabel, RedDot } from "@/shared/ui";
 
 /**
@@ -28,46 +28,52 @@ export function ArtifactDossier({
   const active = annotations.find((a) => a.id === activeId);
   const gallery = galleryOf(artifact.gallery);
   const { source } = artifact;
+  const locale = useLocale();
+  const { artifact: t, newWindow } = useMessages();
+  const path = useLocalePath();
+  const galleryLabel = galleryName(artifact.gallery, locale);
+  const untranslated = locale === "en" && artifact.contentLang === "ko";
 
   return (
     <Wrap>
-      <Back href="/artifacts">
+      <Back href={path("/artifacts")}>
         <IconArrowLeft width={16} />
-        아카이브
+        {t.back}
       </Back>
       <header>
         <MonoLabel $tone="accent">
-          {gallery.labelEn} · {kindLabel(artifact.kind)}
+          {gallery.labelEn} · {kindName(artifact.kind, locale)}
         </MonoLabel>
-        <Title>{artifact.title}</Title>
+        <Title lang={untranslated ? "ko" : undefined}>{artifact.title}</Title>
         <Original lang="">{artifact.titleOriginal}</Original>
       </header>
+      {untranslated && <p>{t.untranslated}</p>}
 
       <Power>
         <RedDot />
-        <p>{artifact.power}</p>
+        <p lang={untranslated ? "ko" : undefined}>{artifact.power}</p>
       </Power>
 
       <Meta>
         <div>
-          <dt>소유자</dt>
+          <dt>{t.owner}</dt>
           <dd>{artifact.owner || "—"}</dd>
         </div>
         <div>
-          <dt>만든 이</dt>
+          <dt>{t.maker}</dt>
           <dd>{artifact.maker || "—"}</dd>
         </div>
         <div>
-          <dt>첫 기록</dt>
+          <dt>{t.firstRecord}</dt>
           <dd>
             {artifact.firstRecord}
-            <small>{recordYearLabel(artifact.recordYear)}</small>
+            <small>{yearLabel(artifact.recordYear, locale)}</small>
           </dd>
         </div>
         <div>
-          <dt>전시실</dt>
+          <dt>{t.gallery}</dt>
           <dd>
-            <Link href={`/artifacts?gallery=${gallery.id}`}>{gallery.label}</Link>
+            <Link href={path(`/artifacts?gallery=${gallery.id}`)}>{galleryLabel}</Link>
           </dd>
         </div>
       </Meta>
@@ -75,7 +81,7 @@ export function ArtifactDossier({
       {annotations.length > 0 && (
         <Section aria-labelledby="notes-title">
           <h2 id="notes-title">
-            사진 속 주석 <MonoLabel>{annotations.length}</MonoLabel>
+            {t.notes} <MonoLabel>{annotations.length}</MonoLabel>
           </h2>
           <Notes>
             {annotations.map((a, i) => (
@@ -100,8 +106,8 @@ export function ArtifactDossier({
       )}
 
       <Section aria-labelledby="story-title">
-        <h2 id="story-title">해설</h2>
-        <Story>
+        <h2 id="story-title">{t.story}</h2>
+        <Story lang={untranslated ? "ko" : undefined}>
           {storyParagraphs(artifact.story).map((p, i) => (
             <p key={i}>{p}</p>
           ))}
@@ -109,17 +115,17 @@ export function ArtifactDossier({
       </Section>
 
       <Credit aria-labelledby="credit-title">
-        <h2 id="credit-title">이미지 출처</h2>
+        <h2 id="credit-title">{t.credit}</h2>
         {source.parts.length > 0 ? (
           <>
-            <p>아래 소장품 사진 {source.parts.length}장을 이어 붙여 이 아카이브가 만든 합성 이미지입니다.</p>
+            <p>{t.composite(source.parts.length)}</p>
             <ul>
               {source.parts.map((part) => (
                 <li key={part.objectId}>
                   <a href={part.url} target="_blank" rel="noreferrer">
                     {part.objectTitle}
                     <IconExternal width={14} />
-                    <span className="sr-only"> (새 창)</span>
+                    <span className="sr-only">{newWindow}</span>
                   </a>
                   <span>
                     {[part.objectCulture, part.objectDate].filter(Boolean).join(", ")} · {part.accessionNumber}
@@ -130,13 +136,13 @@ export function ArtifactDossier({
           </>
         ) : (
           <p>
-            사진은{" "}
+            {t.photoBefore}
             <a href={source.url} target="_blank" rel="noreferrer">
               {source.objectTitle}
               <IconExternal width={14} />
-              <span className="sr-only"> (새 창)</span>
+              <span className="sr-only">{newWindow}</span>
             </a>
-            ({[source.objectCulture, source.objectDate].filter(Boolean).join(", ")})입니다. 전설 속 유물의 모습을 떠올리게 하는 실제 소장품입니다.
+            ({[source.objectCulture, source.objectDate].filter(Boolean).join(", ")}){t.photoAfter}
           </p>
         )}
         <MonoLabel>
@@ -146,7 +152,7 @@ export function ArtifactDossier({
 
       {related.length > 0 && (
         <Section aria-labelledby="related-title">
-          <h2 id="related-title">{gallery.label}의 다른 유물</h2>
+          <h2 id="related-title">{t.related(galleryLabel)}</h2>
           <Related>
             {related.map((r) => (
               <li key={r.id}>

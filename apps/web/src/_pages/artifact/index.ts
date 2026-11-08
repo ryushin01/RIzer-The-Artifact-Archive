@@ -1,1 +1,1 @@
-export { ArtifactPage, generateMetadata, generateStaticParams } from "./ui/artifact-page";
+export { ArtifactPage, ArtifactPageEn, generateMetadata, generateMetadataEn, generateStaticParams } from "./ui/artifact-page";

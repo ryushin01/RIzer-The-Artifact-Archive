@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { annotationSchema } from "./annotation";
-import { artifactSchema, artifactSummarySchema, galleryIdSchema, kindIdSchema } from "./artifact";
+import { artifactSchema, artifactSummarySchema, galleryIdSchema, kindIdSchema, localeSchema } from "./artifact";
 
 /**
  * 공개 API 계약. 어드민(apps/admin)이 내보내고 공개 사이트(apps/web)가 읽는다.
@@ -22,6 +22,8 @@ export const artifactQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).optional(),
   /** 건너뛸 개수("더 보기") */
   offset: z.coerce.number().int().min(0).max(10_000).optional(),
+  /** 내용의 언어. 없으면 한국어. */
+  locale: localeSchema.optional(),
 });
 export type ArtifactQuery = z.infer<typeof artifactQuerySchema>;
 

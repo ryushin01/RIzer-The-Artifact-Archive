@@ -1,4 +1,4 @@
-import { PUBLIC_API, type ArtifactDetailResponse, type ArtifactListResponse, type ArtifactQuery } from "@rizer/domain";
+import { PUBLIC_API, type ArtifactDetailResponse, type ArtifactListResponse, type ArtifactQuery, type Locale } from "@rizer/domain";
 
 import { apiBase } from "../config/env";
 
@@ -34,14 +34,15 @@ export function fetchArtifacts(query: Partial<ArtifactQuery> = {}, init?: Reques
   const params = toSearchParams(query);
   if (query.limit) params.set("limit", String(query.limit));
   if (query.offset) params.set("offset", String(query.offset));
+  if (query.locale && query.locale !== "ko") params.set("locale", query.locale);
   const qs = params.toString();
   return getJson<ArtifactListResponse>(`${PUBLIC_API.artifacts}${qs ? `?${qs}` : ""}`, init);
 }
 
 /** 공개 유물 하나. 없으면 null */
-export async function fetchArtifact(slug: string, init?: RequestInit): Promise<ArtifactDetailResponse | null> {
+export async function fetchArtifact(slug: string, init?: RequestInit, locale: Locale = "ko"): Promise<ArtifactDetailResponse | null> {
   try {
-    return await getJson<ArtifactDetailResponse>(PUBLIC_API.artifact(slug), init);
+    return await getJson<ArtifactDetailResponse>(`${PUBLIC_API.artifact(slug)}${locale === "ko" ? "" : `?locale=${locale}`}`, init);
   } catch (error) {
     if (error instanceof ArchiveApiError && error.status === 404) return null;
     throw error;

@@ -4,10 +4,13 @@ import { GALLERIES } from "@rizer/domain";
 import styled from "styled-components";
 
 import { media } from "@/shared/config";
+import { useLocalePath, useMessages } from "@/shared/i18n";
 import { Container, Display, GlowBackdrop, IconArrowRight, LinkButton, MonoLabel } from "@/shared/ui";
 
 /** 마지막 행동 유도: 아카이브로 */
 export function FinalCta({ count }: { count: number }) {
+  const t = useMessages().cta;
+  const path = useLocalePath();
   return (
     <Section aria-labelledby="cta-title">
       <GlowBackdrop $intensity={0.7} />
@@ -19,11 +22,11 @@ export function FinalCta({ count }: { count: number }) {
             <br />
             Archive
           </Display>
-          <Bar href="/artifacts" $variant="primary">
-            아카이브 둘러보기
+          <Bar href={path("/artifacts")} $variant="primary">
+            {t.button}
             <IconArrowRight width={18} />
           </Bar>
-          <p>검, 잔, 반지, 피리. 전설이 남긴 것들을 가까이에서 들여다보세요.</p>
+          <p>{t.caption}</p>
         </Inner>
       </Container>
     </Section>

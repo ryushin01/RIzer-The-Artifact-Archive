@@ -6,6 +6,7 @@ import styled from "styled-components";
 
 import { ArtifactCard } from "@/entities/artifact";
 import { media } from "@/shared/config";
+import { useLocalePath, useMessages } from "@/shared/i18n";
 import { Container, IconArrowLeft, IconArrowRight, IconButton, LinkButton, SectionHeader } from "@/shared/ui";
 
 /**
@@ -13,6 +14,8 @@ import { Container, IconArrowLeft, IconArrowRight, IconButton, LinkButton, Secti
  * 카드가 링크라 Tab으로도 차례로 지나가며, 초점을 받은 카드는 보이는 위치로 스크롤된다.
  */
 export function Collection({ artifacts, total }: { artifacts: ArtifactSummary[]; total: number }) {
+  const t = useMessages().collection;
+  const path = useLocalePath();
   const trackRef = useRef<HTMLUListElement>(null);
   const [edge, setEdge] = useState({ start: true, end: false });
 
@@ -36,29 +39,29 @@ export function Collection({ artifacts, total }: { artifacts: ArtifactSummary[];
             index="01"
             label="The Collection"
             titleId="collection-title"
-            title="먼저 만나는 대표 유물"
-            description="아서왕의 검부터 신라의 피리까지, 전설을 대표하는 유물부터 소개합니다. 카드를 골라 딥줌 뷰어로 들어가면 사진의 아주 작은 부분까지 확대해 볼 수 있습니다."
+            title={t.title}
+            description={t.description}
           />
           <Arrows>
-            <IconButton type="button" aria-label="이전 유물들" onClick={() => scroll(-1)} disabled={edge.start}>
+            <IconButton type="button" aria-label={t.prev} onClick={() => scroll(-1)} disabled={edge.start}>
               <IconArrowLeft />
             </IconButton>
-            <IconButton type="button" aria-label="다음 유물들" onClick={() => scroll(1)} disabled={edge.end}>
+            <IconButton type="button" aria-label={t.next} onClick={() => scroll(1)} disabled={edge.end}>
               <IconArrowRight />
             </IconButton>
           </Arrows>
         </Head>
       </Container>
-      <Track ref={trackRef} aria-label="유물 목록">
-        {artifacts.map((a, i) => (
+      <Track ref={trackRef} aria-label={t.list}>
+        {artifacts.map((a) => (
           <li key={a.id}>
-            <ArtifactCard artifact={a} priority={i < 3} />
+            <ArtifactCard artifact={a} />
           </li>
         ))}
       </Track>
       <Container>
-        <LinkButton href="/artifacts" $variant="ghost">
-          전체 {total}점 아카이브에서 찾기
+        <LinkButton href={path("/artifacts")} $variant="ghost">
+          {t.findAll(total)}
           <IconArrowRight width={18} />
         </LinkButton>
       </Container>

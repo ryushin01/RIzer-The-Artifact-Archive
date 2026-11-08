@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
 
 import { selectReducedMotion } from "@/features/motion-preference";
+import { useLocalePath, useMessages } from "@/shared/i18n";
 import { media } from "@/shared/config";
 import { Display, IconArrowRight, LinkButton, MonoLabel } from "@/shared/ui";
 
@@ -16,14 +17,27 @@ const ROTATE_MS = 6500;
  * 사진은 장식이라 대체 텍스트를 비우고, 지금 보이는 유물 이름은 아래 링크로 알린다.
  */
 export function Hero({ featured }: { featured: ArtifactSummary[] }) {
+  const t = useMessages().hero;
+  const path = useLocalePath();
   const reduced = useSelector(selectReducedMotion);
   const slides = featured.filter((a) => a.image);
-  const [index, setIndex] = useState(0);
+  // 슬라이드는 겹쳐 있어 lazy가 듣지 않는다. 첫 장만 먼저 받고, 나머지는 바뀌기 직전에 하나씩 받는다.
+  const [{ index, mounted }, setRotation] = useState({ index: 0, mounted: 1 });
 
   useEffect(() => {
     if (reduced || slides.length < 2) return;
-    const id = window.setInterval(() => setIndex((i) => (i + 1) % slides.length), ROTATE_MS);
-    return () => window.clearInterval(id);
+    const total = slides.length;
+    const warm = window.setTimeout(() => setRotation((s) => ({ ...s, mounted: Math.max(s.mounted, 2) })), ROTATE_MS / 2);
+    const id = window.setInterval(() => {
+      setRotation((s) => {
+        const next = (s.index + 1) % total;
+        return { index: next, mounted: Math.min(total, Math.max(s.mounted, next + 2)) };
+      });
+    }, ROTATE_MS);
+    return () => {
+      window.clearTimeout(warm);
+      window.clearInterval(id);
+    };
   }, [reduced, slides.length]);
 
   const current = slides[index];
@@ -33,8 +47,10 @@ export function Hero({ featured }: { featured: ArtifactSummary[] }) {
       <Frame>
         {slides.map((a, i) => (
           <Slide key={a.id} $active={i === index} $reduced={reduced} style={{ backgroundColor: a.image!.dominantColor }}>
-            {/* eslint-disable-next-line @next/next/no-img-element -- 타일 서버의 미리보기 */}
-            <img src={a.image!.previewUrl} alt="" loading={i === 0 ? "eager" : "lazy"} />
+            {i < mounted && (
+              // eslint-disable-next-line @next/next/no-img-element -- 타일 서버의 미리보기
+              <img src={a.image!.previewUrl} alt="" fetchPriority={i === 0 ? "high" : "low"} />
+            )}
           </Slide>
         ))}
         <Shade aria-hidden />
@@ -46,16 +62,16 @@ export function Hero({ featured }: { featured: ArtifactSummary[] }) {
             Archived
           </Display>
           <Lead>
-            엑스칼리버, 성배, 묠니르. 이야기로만 전하던 세계 곳곳의 전설 속 유물을 초고해상도로 확대해 보고, 부분마다 달린 해설을 읽는 온라인 전시실입니다.
+            {t.lead}
           </Lead>
           <Actions>
-            <LinkButton href="/artifacts" $variant="light">
-              아카이브 입장
+            <LinkButton href={path("/artifacts")} $variant="light">
+              {t.enter}
               <IconArrowRight width={18} />
             </LinkButton>
             {current && (
-              <LinkButton href={`/artifacts/${current.slug}`} $variant="ghost">
-                지금 보는 유물: {current.title}
+              <LinkButton href={path(`/artifacts/${current.slug}`)} $variant="ghost">
+                {t.nowViewing(current.title)}
               </LinkButton>
             )}
           </Actions>

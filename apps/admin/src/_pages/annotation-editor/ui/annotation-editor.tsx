@@ -347,7 +347,7 @@ export function AnnotationEditor({
                   <Button
                     type="button"
                     variant="ghost"
-                    className="h-auto flex-1 justify-start px-1 text-left font-medium whitespace-normal"
+                    className="h-auto min-h-6 flex-1 justify-start px-1 text-left font-medium whitespace-normal"
                     onClick={() => focusItem(item.id)}
                     aria-expanded={open}
                     aria-controls={`${item.id}-panel`}
