@@ -15,7 +15,8 @@ export const alt = "RIzer Archive 유물 공유 이미지";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const FONT = join(process.cwd(), "node_modules/pretendard/dist/public/static/Pretendard-Bold.otf");
+// pnpm의 node_modules 링크는 서버리스 함수에 남지 않으므로 글꼴을 앱 안(assets/fonts, OFL)에 두고 읽는다.
+const FONT = join(process.cwd(), "assets/fonts/Pretendard-Bold.otf");
 /** 이름이 길수록 글자를 줄여 두 줄 안에 넣는다. */
 const titleSize = (title: string) => (title.length > 10 ? 60 : title.length > 7 ? 76 : 96);
 const latinOrHangul = /^[\u0000-ɏḀ-ỿ가-힣\s·'’]+$/;
