@@ -174,6 +174,11 @@ const Wrap = styled.section<{ $markers: boolean }>`
   border-radius: ${({ theme }) => theme.radius.lg};
   background: ${({ theme }) => theme.color.surface};
 
+  /* OpenSeadragon이 오버레이마다 감싸는 div. 영역이 겹치면(한 영역이 다른 영역 안) 바깥 영역의 감싸개가
+     안쪽 번호 버튼의 클릭을 가로채므로, 감싸개와 영역은 포인터를 통과시키고 번호 버튼만 받는다. */
+  .openseadragon-overlay-wrapper {
+    pointer-events: none;
+  }
   .rz-region {
     display: ${({ $markers }) => ($markers ? "block" : "none")};
     border: 1px dashed rgba(244, 242, 238, 0.35);

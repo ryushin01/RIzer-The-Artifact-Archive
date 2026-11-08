@@ -98,6 +98,15 @@ test.describe("유물 화면", () => {
     await expectNoA11yViolations(page);
   });
 
+  test("다른 영역 안에 든 주석 번호도 마우스로 누를 수 있다", async ({ page }) => {
+    // 카바차와 쿤달라: 1번 영역이 2번 영역 안에 있다. 바깥 영역이 클릭을 가로채면 안 된다.
+    await page.goto("/artifacts/kavacha-kundala");
+    const first = page.getByRole("button", { name: /^주석 1: / });
+    await expect(first).toBeVisible({ timeout: 20_000 });
+    await first.click({ timeout: 5_000 });
+    await expect(page.getByRole("button", { name: /가루다를 탄 비슈누/, pressed: true })).toBeVisible();
+  });
+
   test("합성 이미지는 구성 소장품을 모두 밝힌다", async ({ page }) => {
     await page.goto("/artifacts/cheonbuin");
     await expect(page.getByText(/합성 이미지입니다/)).toBeVisible();
