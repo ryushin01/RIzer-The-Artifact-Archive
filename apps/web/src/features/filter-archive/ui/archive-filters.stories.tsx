@@ -7,7 +7,7 @@ const meta = {
   title: "Features/ArchiveFilters",
   component: ArchiveFilters,
   parameters: {
-    store: { archive: { query: { sort: "featured" }, items: [], total: 16, status: "idle", error: null } },
+    store: { archive: { query: { sort: "featured" }, items: [], total: 16, status: "idle", error: null, more: "idle" } },
   },
 } satisfies Meta<typeof ArchiveFilters>;
 export default meta;

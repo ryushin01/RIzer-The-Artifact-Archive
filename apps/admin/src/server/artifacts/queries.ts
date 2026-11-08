@@ -21,10 +21,11 @@ const repo = async () => {
   return createArtifactRepository(await getDb());
 };
 
-/** 어드민 목록(비공개 포함) */
+/** 어드민 목록(비공개 포함). limit을 주면 그 쪽만 읽고 전체 개수를 함께 준다. */
 export async function listForAdmin(query: AdminArtifactQuery) {
   const storage = getStorage();
-  return (await (await repo()).list(query)).map((r) => toArtifactSummary(r, storage));
+  const { rows, total } = await (await repo()).page(query);
+  return { items: rows.map((r) => toArtifactSummary(r, storage)), total };
 }
 
 /** 어드민 상세(비공개 포함) */
@@ -48,7 +49,7 @@ export async function getStats() {
 /** 주소 쿼리를 공개 API 조건으로. 잘못된 값은 무시한다. */
 export function parsePublicQuery(params: URLSearchParams): ArtifactQuery {
   const raw = Object.fromEntries(
-    ["q", "gallery", "kind", "sort"].flatMap((k) => (params.get(k) ? [[k, params.get(k)]] : [])),
+    ["q", "gallery", "kind", "sort", "limit", "offset"].flatMap((k) => (params.get(k) ? [[k, params.get(k)]] : [])),
   );
   const parsed = artifactQuerySchema.safeParse(raw);
   return parsed.success ? parsed.data : artifactQuerySchema.parse({});
@@ -56,8 +57,9 @@ export function parsePublicQuery(params: URLSearchParams): ArtifactQuery {
 
 /** 공개 API: 공개 유물 목록 */
 export async function listPublished(query: ArtifactQuery): Promise<ArtifactListResponse> {
-  const items = await listForAdmin({ ...query, status: "published" });
-  return { items, total: items.length };
+  const storage = getStorage();
+  const { rows, total } = await (await repo()).page({ ...query, status: "published" });
+  return { items: rows.map((r) => toArtifactSummary(r, storage)), total };
 }
 
 /** 공개 API: 공개 유물 상세 */

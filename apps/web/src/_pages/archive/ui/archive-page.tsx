@@ -2,7 +2,7 @@ import { artifactQuerySchema, type ArtifactQuery } from "@rizer/domain";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
-import { ArchiveFilters, ArchiveHydrator } from "@/features/filter-archive";
+import { ARCHIVE_PAGE_SIZE, ArchiveFilters, ArchiveHydrator } from "@/features/filter-archive";
 import { getArtifacts } from "@/shared/api/index.server";
 import { Container } from "@/shared/ui";
 import { ArchiveGrid } from "./archive-grid";
@@ -26,7 +26,7 @@ function parseQuery(params: Record<string, string | string[] | undefined>): Arti
 
 async function Results({ searchParams }: { searchParams: PageProps<"/artifacts">["searchParams"] }) {
   const query = parseQuery(await searchParams);
-  const { items, total } = await getArtifacts(query);
+  const { items, total } = await getArtifacts({ ...query, limit: ARCHIVE_PAGE_SIZE });
   return (
     <>
       <ArchiveHydrator key={JSON.stringify(query)} query={query} items={items} total={total} />

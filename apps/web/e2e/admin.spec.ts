@@ -18,6 +18,13 @@ test.describe("어드민: 게스트", () => {
 
     await page.getByRole("link", { name: "유물", exact: true }).click();
     await expect(page.getByText("게스트로 둘러보는 중입니다")).toBeVisible();
+    // 목록은 30점씩 쪽을 나눈다.
+    const pages = page.getByRole("navigation", { name: "유물 목록 쪽" });
+    await expect(pages.getByRole("link", { name: "1쪽" })).toHaveAttribute("aria-current", "page");
+    await pages.getByRole("link", { name: "2쪽" }).click();
+    await expect(page).toHaveURL(/page=2/);
+    await expect(pages.getByRole("link", { name: "2쪽" })).toHaveAttribute("aria-current", "page");
+    await pages.getByRole("link", { name: "1쪽" }).click();
     await page.getByRole("link", { name: "엑스칼리버" }).click();
     await page.getByRole("button", { name: "저장" }).click();
     const toast = page.locator("[data-sonner-toast]").filter({ hasText: /게스트 계정은 둘러보기만/ });

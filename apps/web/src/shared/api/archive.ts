@@ -30,7 +30,11 @@ async function getJson<T>(path: string, init?: RequestInit): Promise<T> {
 
 /** 공개 유물 목록 */
 export function fetchArtifacts(query: Partial<ArtifactQuery> = {}, init?: RequestInit) {
-  const qs = toSearchParams(query).toString();
+  // 페이지 나누기(limit·offset)는 API에만 보내고, 화면 주소(toSearchParams)에는 남기지 않는다.
+  const params = toSearchParams(query);
+  if (query.limit) params.set("limit", String(query.limit));
+  if (query.offset) params.set("offset", String(query.offset));
+  const qs = params.toString();
   return getJson<ArtifactListResponse>(`${PUBLIC_API.artifacts}${qs ? `?${qs}` : ""}`, init);
 }
 

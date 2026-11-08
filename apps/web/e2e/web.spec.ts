@@ -53,6 +53,20 @@ test.describe("아카이브", () => {
     await expectNoA11yViolations(page);
   });
 
+  test("한 묶음씩 보여 주고, 더 보기로 이어 붙이면 새 카드로 초점이 간다", async ({ page }) => {
+    await page.goto("/artifacts");
+    const cards = page.getByRole("list", { name: "검색 결과" }).getByRole("listitem");
+    await expect(cards).toHaveCount(24);
+    await expect(page.getByText(/^\d+점 중 24점$/)).toBeVisible();
+    await page.getByRole("button", { name: "유물 더 보기" }).click();
+    await expect(cards).toHaveCount(48);
+    await expect(cards.nth(24).getByRole("link")).toBeFocused();
+    await expect(page.getByText(/^\d+점 중 48점$/)).toBeVisible();
+    // 페이지 나누기는 화면 주소에 남기지 않는다.
+    await expect(page).toHaveURL(/\/artifacts$/);
+    await expectNoA11yViolations(page);
+  });
+
   test("주소의 조건으로 서버에서 바로 거른다", async ({ page }) => {
     await page.goto("/artifacts?gallery=norse");
     await expect(page.getByRole("status")).toHaveText("유물 18점");

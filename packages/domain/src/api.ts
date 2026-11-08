@@ -18,11 +18,16 @@ export const artifactQuerySchema = z.object({
   gallery: galleryIdSchema.optional(),
   kind: kindIdSchema.optional(),
   sort: z.enum(["featured", "oldest", "newest", "title"]).default("featured"),
+  /** 한 번에 받을 개수. 없으면 전부. */
+  limit: z.coerce.number().int().min(1).max(100).optional(),
+  /** 건너뛸 개수("더 보기") */
+  offset: z.coerce.number().int().min(0).max(10_000).optional(),
 });
 export type ArtifactQuery = z.infer<typeof artifactQuerySchema>;
 
 export const artifactListResponseSchema = z.object({
   items: z.array(artifactSummarySchema),
+  /** 조건에 맞는 전체 개수(limit과 상관없이) */
   total: z.number().int().nonnegative(),
 });
 export type ArtifactListResponse = z.infer<typeof artifactListResponseSchema>;

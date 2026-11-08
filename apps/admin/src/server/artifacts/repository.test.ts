@@ -42,6 +42,18 @@ describe("artifact repository", () => {
     expect(await repo.list({ q: "%" })).toHaveLength(0);
   });
 
+  it("페이지를 나눠 읽고, 나눠 읽어도 순서가 이어진다", async () => {
+    const repo = createArtifactRepository(await createTestDb());
+    const all = (await repo.list({ sort: "title" })).map((r) => r.slug);
+    const first = await repo.page({ sort: "title", limit: 10 });
+    const second = await repo.page({ sort: "title", limit: 10, offset: 10 });
+    expect(first.total).toBe(SEED_ARTIFACTS.length);
+    expect([...first.rows, ...second.rows].map((r) => r.slug)).toEqual(all.slice(0, 20));
+    expect((await repo.page({ gallery: "korean", limit: 1 })).total).toBe(
+      SEED_ARTIFACTS.filter((a) => a.gallery === "korean").length,
+    );
+  });
+
   it("첫 기록 연도순으로 정렬한다", async () => {
     const repo = createArtifactRepository(await createTestDb());
     const years = (await repo.list({ sort: "oldest" })).map((r) => r.recordYear);
@@ -112,5 +124,6 @@ describe("공개 API 변환", () => {
     });
     expect(artifact.updatedAt).toMatch(/Z$/);
     expect("story" in toArtifactSummary(row, storage)).toBe(false);
+    expect("source" in toArtifactSummary(row, storage)).toBe(false);
   });
 });

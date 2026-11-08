@@ -35,7 +35,7 @@ const columns = {
 };
 
 export function createArtifactRepository(db: Database) {
-  async function list(query: AdminArtifactQuery = {}): Promise<ArtifactWithCount[]> {
+  function whereOf(query: AdminArtifactQuery): SQL | undefined {
     const where: SQL[] = [];
     if (query.status) where.push(eq(artifacts.status, query.status));
     if (query.gallery) where.push(eq(artifacts.gallery, query.gallery));
@@ -51,6 +51,11 @@ export function createArtifactRepository(db: Database) {
         )!,
       );
     }
+    return where.length ? and(...where) : undefined;
+  }
+
+  /** 조건에 맞는 유물. limit·offset을 주면 그만큼만 읽는다. 페이지를 나눠도 순서가 흔들리지 않도록 마지막에 id로 정렬한다. */
+  async function list(query: AdminArtifactQuery = {}): Promise<ArtifactWithCount[]> {
     const order = {
       featured: [desc(artifacts.featured), asc(artifacts.createdAt)],
       oldest: [asc(artifacts.recordYear), asc(artifacts.title)],
@@ -59,15 +64,29 @@ export function createArtifactRepository(db: Database) {
       updated: [desc(artifacts.updatedAt)],
     }[query.sort ?? "featured"];
 
-    return db
+    const rows = db
       .select(columns)
       .from(artifacts)
-      .where(where.length ? and(...where) : undefined)
-      .orderBy(...order);
+      .where(whereOf(query))
+      .orderBy(...order, asc(artifacts.id))
+      .$dynamic();
+    if (query.limit !== undefined) rows.limit(query.limit);
+    if (query.offset) rows.offset(query.offset);
+    return rows;
+  }
+
+  /** 한 페이지와 조건에 맞는 전체 개수 */
+  async function page(query: AdminArtifactQuery): Promise<{ rows: ArtifactWithCount[]; total: number }> {
+    const [rows, [counted]] = await Promise.all([
+      list(query),
+      db.select({ n: count() }).from(artifacts).where(whereOf(query)),
+    ]);
+    return { rows, total: counted?.n ?? 0 };
   }
 
   return {
     list,
+    page,
 
     /** 최근 수정한 순서 */
     recent: (limit: number) => list({ sort: "updated" }).then((rows) => rows.slice(0, limit)),

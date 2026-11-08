@@ -6,8 +6,18 @@ import { describe, expect, it } from "vitest";
 
 import { fetchArtifacts } from "@/shared/api";
 
-import { loadArchive, syncUrl } from "./saga";
-import { archiveSlice, fetchFailed, fetchSucceeded, hasActiveFilters, queryChanged, retried } from "./slice";
+import { loadArchive, loadMore, syncUrl } from "./saga";
+import {
+  ARCHIVE_PAGE_SIZE,
+  archiveSlice,
+  fetchFailed,
+  fetchSucceeded,
+  hasActiveFilters,
+  moreFailed,
+  moreSucceeded,
+  queryChanged,
+  retried,
+} from "./slice";
 
 const item = { id: "a", slug: "excalibur", title: "엑스칼리버" } as ArtifactSummary;
 
@@ -59,3 +69,34 @@ describe("loadArchive", () => {
     );
   });
 });
+
+describe("더 보기", () => {
+  const other = { id: "b", slug: "gram", title: "그람" } as ArtifactSummary;
+  const query = { sort: "featured" as const };
+  const state = { archive: { ...archiveSlice.getInitialState(), query, items: [item], total: 2 } };
+
+  it("보이는 개수 뒤의 다음 묶음을 읽어 붙인다", async () => {
+    const result = await expectSaga(loadMore)
+      .withState(state)
+      .provide([[matchers.call.fn(fetchArtifacts), { items: [other], total: 2 }]])
+      .put(moreSucceeded({ query, items: [other], total: 2 }))
+      .run();
+    expect(result.effects.call?.[0]?.payload.args[0]).toEqual({ ...query, limit: ARCHIVE_PAGE_SIZE, offset: 1 });
+  });
+
+  it("실패하면 상태만 바꾸고 보이는 목록은 그대로 둔다", () =>
+    expectSaga(loadMore)
+      .withState(state)
+      .provide([[matchers.call.fn(fetchArtifacts), throwError(new Error("down"))]])
+      .put(moreFailed())
+      .run());
+
+  it("그사이 조건이 바뀌었으면 옛 결과를 버리고, 겹치는 카드는 한 번만 붙인다", () => {
+    let s = archiveSlice.reducer(state.archive, moreSucceeded({ query: { sort: "title" }, items: [other], total: 2 }));
+    expect(s.items).toEqual([item]);
+    s = archiveSlice.reducer(s, moreSucceeded({ query, items: [item, other], total: 2 }));
+    expect(s.items.map((a) => a.id)).toEqual(["a", "b"]);
+    expect(s.more).toBe("idle");
+  });
+});
+

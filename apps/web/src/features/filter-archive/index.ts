@@ -1,6 +1,9 @@
 export { archiveSaga } from "./model/saga";
 export {
+  ARCHIVE_PAGE_SIZE,
   archiveSlice,
+  hasMore,
+  moreRequested,
   hydrated,
   initialArchiveState,
   retried,

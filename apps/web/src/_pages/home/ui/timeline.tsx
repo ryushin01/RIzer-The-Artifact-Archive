@@ -2,17 +2,32 @@
 
 import { galleryOf, type ArtifactSummary } from "@rizer/domain";
 import Link from "next/link";
+import { useState } from "react";
 import styled from "styled-components";
 
 import { recordYearLabel } from "@/shared/lib/format";
 import { Container, MonoLabel, RedDot, SectionHeader } from "@/shared/ui";
 
+/** 연표를 나누는 시대. 고른 시대의 유물만 보여 줘 92점을 한 줄로 넘기지 않아도 되게 한다. */
+export const ERAS = [
+  { id: "all", label: "전체", test: () => true },
+  { id: "ancient", label: "기원전", test: (y: number) => y < 0 },
+  { id: "classical", label: "1~1000년", test: (y: number) => y >= 0 && y <= 1000 },
+  { id: "medieval", label: "1001~1500년", test: (y: number) => y > 1000 && y <= 1500 },
+  { id: "modern", label: "1501년 이후", test: (y: number) => y > 1500 },
+] as const;
+type EraId = (typeof ERAS)[number]["id"];
+
 /**
- * 첫 기록 연표. 기원전 8세기의 『일리아스』부터 13세기의 『삼국유사』까지, 유물이 처음 글로 남은 순서다.
- * 순서 있는 목록이라 화면 낭독기도 연대순으로 읽는다. 가로로 넘겨 본다.
+ * 첫 기록 연표. 『리그베다』부터 근대 소설까지, 유물이 처음 글로 남은 순서다.
+ * 순서 있는 목록이라 화면 낭독기도 연대순으로 읽는다. 가로로 넘겨 보고, 시대 버튼으로 거른다.
+ * 시대 버튼은 눌림 상태(aria-pressed)를 가진 네이티브 버튼이다.
  */
 export function Timeline({ artifacts }: { artifacts: ArtifactSummary[] }) {
+  const [era, setEra] = useState<EraId>("all");
   const sorted = [...artifacts].sort((a, b) => a.recordYear - b.recordYear || a.title.localeCompare(b.title));
+  const test = ERAS.find((e) => e.id === era)!.test;
+  const shown = sorted.filter((a) => test(a.recordYear));
   return (
     <Section id="timeline" aria-labelledby="timeline-title">
       <Container>
@@ -23,10 +38,17 @@ export function Timeline({ artifacts }: { artifacts: ArtifactSummary[] }) {
           title="처음 글로 남은 순간"
           description="전설은 입에서 입으로 먼저 전해졌습니다. 이 연표는 각 유물이 문헌에 처음 기록된 때를 따라갑니다."
         />
+        <Eras role="group" aria-label="시대">
+          {ERAS.map((e) => (
+            <EraButton key={e.id} type="button" aria-pressed={era === e.id} onClick={() => setEra(e.id)}>
+              {e.label} <span>{sorted.filter((a) => e.test(a.recordYear)).length}</span>
+            </EraButton>
+          ))}
+        </Eras>
       </Container>
       <Scroller tabIndex={0} aria-labelledby="timeline-title">
-        <List>
-          {sorted.map((a) => (
+        <List key={era}>
+          {shown.map((a) => (
             <Item key={a.id}>
               <Year>{recordYearLabel(a.recordYear)}</Year>
               <Marker aria-hidden>
@@ -99,4 +121,36 @@ const Marker = styled.span`
 const Record = styled.span`
   font-size: 14px;
   color: ${({ theme }) => theme.color.muted};
+`;
+const Eras = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 32px;
+`;
+const EraButton = styled.button`
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid ${({ theme }) => theme.color.lineStrong};
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  span {
+    margin-left: 4px;
+    font-family: ${({ theme }) => theme.font.mono};
+    font-size: 12px;
+    opacity: 0.8;
+  }
+  &[aria-pressed="true"] {
+    background: ${({ theme }) => theme.color.text};
+    border-color: ${({ theme }) => theme.color.text};
+    color: ${({ theme }) => theme.color.bg};
+  }
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.color.accent};
+    outline-offset: 3px;
+  }
 `;

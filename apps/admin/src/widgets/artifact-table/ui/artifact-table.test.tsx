@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 import { ArtifactTable } from "./artifact-table";
 
 const item = (i: number): ArtifactSummary => {
-  const { story: _story, ...seed } = SEED_ARTIFACTS[i]!;
+  const { story: _story, source: _source, ...seed } = SEED_ARTIFACTS[i]!;
   return { ...seed, id: `art_${i}`, image: null, annotationCount: i, updatedAt: "2026-11-07T00:00:00.000Z" };
 };
 

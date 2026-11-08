@@ -142,7 +142,8 @@ export const artifactSchema = artifactInputSchema.extend({
 export type Artifact = z.infer<typeof artifactSchema>;
 
 /** 목록용 요약 (해설 본문 제외) */
-export const artifactSummarySchema = artifactSchema.omit({ story: true });
+/** 목록용 요약. 해설 본문과 사진 출처는 상세에서만 쓰므로 뺀다(목록 응답을 가볍게). */
+export const artifactSummarySchema = artifactSchema.omit({ story: true, source: true });
 export type ArtifactSummary = z.infer<typeof artifactSummarySchema>;
 
 /** 해설 본문을 문단으로 나눈다. */

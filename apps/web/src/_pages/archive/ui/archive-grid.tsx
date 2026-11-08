@@ -1,16 +1,40 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { ArtifactCard } from "@/entities/artifact";
-import { retried, selectArchive } from "@/features/filter-archive";
-import { Button } from "@/shared/ui";
+import { hasMore, moreRequested, retried, selectArchive } from "@/features/filter-archive";
+import { Button, VisuallyHidden } from "@/shared/ui";
 
-/** 검색 결과 격자. 불러오는 동안에는 이전 결과를 흐리게 두고 aria-busy로 알린다. */
+/**
+ * 검색 결과 격자. 불러오는 동안에는 이전 결과를 흐리게 두고 aria-busy로 알린다.
+ * 결과가 많으면 한 묶음씩 보여 주고 "더 보기"로 이어 붙인다. 이어 붙이면 새로 붙은 첫 카드로 초점을 옮기고
+ * 몇 점을 더 불러왔는지 화면 낭독기에 알린다(KWCAG 6.1.2, 7.2.1).
+ */
 export function ArchiveGrid() {
   const dispatch = useDispatch();
-  const { items, status, error } = useSelector(selectArchive);
+  const { items, total, status, error, more } = useSelector(selectArchive);
+  const canLoadMore = useSelector(hasMore);
+  const listRef = useRef<HTMLUListElement>(null);
+  /** "더 보기"를 누른 때의 개수. 결과가 붙으면 그 자리의 카드로 초점을 옮긴다. */
+  const focusFrom = useRef<number | null>(null);
+  const [announcement, setAnnouncement] = useState("");
+
+  useEffect(() => {
+    const from = focusFrom.current;
+    if (from === null || items.length <= from) return;
+    focusFrom.current = null;
+    setAnnouncement(`${items.length - from}점을 더 불러왔습니다. ${total}점 중 ${items.length}점을 보고 있습니다.`);
+    listRef.current?.children[from]?.querySelector<HTMLAnchorElement>("a")?.focus();
+  }, [items.length, total]);
+
+  const loadMore = () => {
+    if (more === "loading") return;
+    focusFrom.current = items.length;
+    dispatch(moreRequested());
+  };
 
   if (status === "error") {
     return (
@@ -30,13 +54,30 @@ export function ArchiveGrid() {
     );
   }
   return (
-    <Grid aria-busy={status === "loading"} aria-label="검색 결과" $loading={status === "loading"}>
-      {items.map((a, i) => (
-        <li key={a.id}>
-          <ArtifactCard artifact={a} priority={i < 4} />
-        </li>
-      ))}
-    </Grid>
+    <>
+      <Grid ref={listRef} aria-busy={status === "loading"} aria-label="검색 결과" $loading={status === "loading"}>
+        {items.map((a, i) => (
+          <li key={a.id}>
+            <ArtifactCard artifact={a} priority={i < 4} />
+          </li>
+        ))}
+      </Grid>
+      <Footer>
+        <p>
+          {total}점 중 {items.length}점
+        </p>
+        {canLoadMore && status !== "loading" && (
+          // 불러오는 동안에도 버튼을 끄지 않는다(초점을 잃지 않게). 중복 요청은 위와 사가(takeLeading)가 막는다.
+          <Button type="button" $variant="ghost" onClick={loadMore} aria-busy={more === "loading"}>
+            {more === "loading" ? "불러오는 중…" : "유물 더 보기"}
+          </Button>
+        )}
+        {more === "error" && <p role="alert">더 불러오지 못했습니다. 버튼을 다시 눌러 주세요.</p>}
+      </Footer>
+      <VisuallyHidden aria-live="polite">
+        {announcement}
+      </VisuallyHidden>
+    </>
   );
 }
 
@@ -47,6 +88,14 @@ const Grid = styled.ul<{ $loading: boolean }>`
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
   opacity: ${({ $loading }) => ($loading ? 0.5 : 1)};
   transition: opacity 0.3s;
+`;
+const Footer = styled.div`
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding: 48px 0 24px;
+  color: ${({ theme }) => theme.color.muted};
+  font-size: 14px;
 `;
 const Notice = styled.div`
   display: grid;

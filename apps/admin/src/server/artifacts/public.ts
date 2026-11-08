@@ -44,7 +44,7 @@ export function toArtifact(row: ArtifactWithCount, storage: Pick<Storage, "publi
 }
 
 export function toArtifactSummary(row: ArtifactWithCount, storage: Pick<Storage, "publicUrl">): ArtifactSummary {
-  const { story: _story, ...rest } = toArtifact(row, storage);
+  const { story: _story, source: _source, ...rest } = toArtifact(row, storage);
   return rest;
 }
 
