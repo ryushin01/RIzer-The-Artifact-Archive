@@ -2,18 +2,20 @@
 
 import "@annotorious/openseadragon/annotorious-openseadragon.css";
 
-import type { Annotation, DeepZoomImage, Region } from "@rizer/domain";
+import { fromWebAnnotations, toAnnotationPage, type Annotation, type DeepZoomImage, type Region } from "@rizer/domain";
 import type { OpenSeadragonAnnotator } from "@annotorious/openseadragon";
 import {
   ArrowDown,
   ArrowUp,
   Crosshair,
+  Download,
   Home,
   Loader2,
   PenSquare,
   Plus,
   Save,
   Trash2,
+  Upload,
   ZoomIn,
   ZoomOut,
 } from "lucide-react";
@@ -184,6 +186,38 @@ export function AnnotationEditor({
     setDirty(true);
   };
 
+  /** W3C Web Annotation JSON 파일로 내려받는다. 읽기 전용 계정도 쓸 수 있다. */
+  const exportJson = () => {
+    const page = toAnnotationPage(
+      items.map((i, order) => ({ ...i, order, artifactId })),
+      image.dziUrl,
+    );
+    const url = URL.createObjectURL(new Blob([JSON.stringify(page, null, 2)], { type: "application/ld+json" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${artifactId}-annotations.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const fileRef = useRef<HTMLInputElement>(null);
+  /** 파일의 주석으로 목록을 바꾼다. 저장을 눌러야 반영되므로, 잘못 가져와도 새로 고치면 되돌아간다. */
+  const importJson = async (file: File | undefined) => {
+    if (!file) return;
+    try {
+      const imported = fromWebAnnotations(JSON.parse(await file.text()), size).map((a) => ({ id: tempId(), ...a }));
+      annoRef.current?.setAnnotations(imported.map((a) => toAnnotoriousShape(a.id, a.region, size)) as never, true);
+      setItems(imported);
+      setSelected(null);
+      setDirty(true);
+      toast.success(`주석 ${imported.length}개를 가져왔습니다. 저장을 눌러야 반영됩니다.`);
+    } catch (error) {
+      toast.error(error instanceof SyntaxError ? "JSON 파일을 읽지 못했습니다." : error instanceof Error ? error.message : "가져오지 못했습니다.");
+    } finally {
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
+
   const saveLock = useRef(false);
   const save = () => {
     if (saveLock.current) return;
@@ -282,6 +316,21 @@ export function AnnotationEditor({
               {saving ? <Loader2 className="animate-spin" aria-hidden /> : <Save aria-hidden />}
               {dirty ? "저장" : "저장됨"}
             </Button>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Button type="button" variant="outline" size="sm" onClick={exportJson} disabled={items.length === 0}>
+            <Download aria-hidden />
+            JSON 내보내기
+          </Button>
+          {!readOnly && (
+            <>
+              <Button type="button" variant="outline" size="sm" onClick={() => fileRef.current?.click()}>
+                <Upload aria-hidden />
+                JSON 가져오기
+              </Button>
+              <input ref={fileRef} type="file" accept=".json,.jsonld,application/json,application/ld+json" hidden onChange={(e) => importJson(e.target.files?.[0])} />
+            </>
           )}
         </div>
         {items.length === 0 && (

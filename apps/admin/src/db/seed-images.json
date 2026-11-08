@@ -440,15 +440,15 @@
     "version": "20261107170717"
   },
   "poseidon-trident": {
-    "dziKey": "tiles/art_poseidon_trident/v20261107170720/image.dzi",
-    "previewKey": "tiles/art_poseidon_trident/v20261107170720/preview.webp",
+    "dziKey": "tiles/art_poseidon_trident/v20261108080615/image.dzi",
+    "previewKey": "tiles/art_poseidon_trident/v20261108080615/preview.webp",
     "originalKey": "",
-    "width": 2143,
-    "height": 3000,
-    "lqip": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAABQBACdASoRABgAPu1oqk+ppiOiMBgIATAdiWkAyJgQ8KZUtRteCd7UW5fAAP6u8qWKuiixJJ35yf82sBD+21+dNGxZpMH96MiXhXaQcZsWCvqvQc5l66q3RT/wd+tVwAA=",
-    "dominantColor": "#c8c8b8",
-    "tileCount": 54,
-    "version": "20261107170720"
+    "width": 3000,
+    "height": 2900,
+    "lqip": "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAAAwBQCdASoYABcAPu1ur1KppiQiqAgBMB2JZwAAKrJzsnIeZf3jkm95KyhvQOQrAvPUwAD+3uzDTfu3HLM/HTClG7XG6lz5wpodnLTAwOoKBk8AzFTa52wTOLQsNCf5SNnpgIv6Q8lHHK+54/Lmzzh0csBExJECqK/CD1z6QqtunrBaJQE5I4AA",
+    "dominantColor": "#585858",
+    "tileCount": 60,
+    "version": "20261108080615"
   },
   "zeus-thunderbolt": {
     "dziKey": "tiles/art_zeus_thunderbolt/v20261107170723/image.dzi",
@@ -847,15 +847,15 @@
     "version": "20261107170919"
   },
   "ruyi-jingu-bang": {
-    "dziKey": "tiles/art_ruyi_jingu_bang/v20261107170921/image.dzi",
-    "previewKey": "tiles/art_ruyi_jingu_bang/v20261107170921/preview.webp",
+    "dziKey": "tiles/art_ruyi_jingu_bang/v20261108080619/image.dzi",
+    "previewKey": "tiles/art_ruyi_jingu_bang/v20261108080619/preview.webp",
     "originalKey": "",
-    "width": 3000,
-    "height": 1839,
-    "lqip": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAACQAwCdASoYAA8APu1iqU2ppaOiMAgBMB2JZwC7ABsn1E76r5yIAPxTHJDOejmwyvYUeksoTmSJPhxr2a4jg6bf77Abt0jxMMKJYNqgBRVeAA==",
-    "dominantColor": "#989888",
-    "tileCount": 43,
-    "version": "20261107170921"
+    "width": 2681,
+    "height": 3000,
+    "lqip": "data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAABQBQCdASoVABgAPu1mrU+ppSQiMBgIATAdiUAX/YIeCvvNqq46tQt1SMXwwverU/tEPAAA/n1VEQeNa8FNQZxihLKqGSbVcui0CRSRNsNpECYN3i/Mugenxjl4naYcavApuxU/lB7xlArvEPjXkuhNohaDx579Nw5xqMkUMtt2AL79xR3LPWGHghFuBbjupvhHmrA6qGkvHOFwHGmAvxa3euoAAA==",
+    "dominantColor": "#484848",
+    "tileCount": 60,
+    "version": "20261108080619"
   },
   "green-dragon-crescent-blade": {
     "dziKey": "tiles/art_green_dragon_crescent_blade/v20261107170924/image.dzi",

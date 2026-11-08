@@ -336,7 +336,7 @@ export const MEDITERRANEAN: LegendEntry[] = [
     maker: "알려지지 않음",
     power: "문지르면 반지의 진(정령)이 나타나 소원을 들어준다.",
     firstRecord: "갈랑 『천일야화』 프랑스어판",
-    recordYear: 1710,
+    recordYear: 1712,
     summary: "요술 램프보다 먼저 알라딘을 구한 반지의 정령.",
     story: `『알라딘과 요술 램프』에서 악한 마법사는 알라딘을 동굴로 보내 램프를 가져오게 하면서, 몸을 지키라며 반지 하나를 끼워 준다. 알라딘이 램프를 먼저 내주지 않자 마법사는 동굴 입구를 막아 버렸다.
 

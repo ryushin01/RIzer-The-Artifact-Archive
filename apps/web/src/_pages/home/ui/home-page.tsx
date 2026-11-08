@@ -5,6 +5,7 @@ import { Collection } from "./collection";
 import { Faq } from "./faq";
 import { FinalCta } from "./final-cta";
 import { Hero } from "./hero";
+import { LegendMap } from "./legend-map";
 import { Realms } from "./realms";
 import { Statement } from "./statement";
 import { Timeline } from "./timeline";
@@ -26,6 +27,7 @@ async function Exhibition() {
       <Statement />
       <Collection artifacts={items.slice(0, COLLECTION_SIZE)} total={items.length} />
       <Realms artifacts={items.map(toRealmItem)} />
+      <LegendMap artifacts={items.map(toRealmItem)} />
       <Timeline artifacts={items.map(toTimelineItem)} />
       <Faq />
       <FinalCta count={items.length} />

@@ -38,6 +38,10 @@ describe("artifact repository", () => {
     expect((await repo.list({ q: "토르" })).map((r) => r.slug)).toContain("mjolnir");
     const korean = SEED_ARTIFACTS.filter((a) => a.gallery === "korean").map((a) => a.slug);
     expect((await repo.list({ gallery: "korean" })).map((r) => r.slug).sort()).toEqual(korean.sort());
+    // 해설 본문과 주석까지 찾고, 이름이 맞은 유물을 앞에 둔다.
+    expect((await repo.list({ q: "롤랑의 틈" })).map((r) => r.slug)).toEqual(["durandal"]);
+    expect((await repo.list({ q: "반드시 끼던 쇠장갑" })).map((r) => r.slug)).toEqual(["jarngreipr"]);
+    expect((await repo.list({ q: "묠니르" }))[0]?.slug).toBe("mjolnir");
     // LIKE 특수 문자는 글자 그대로 찾는다.
     expect(await repo.list({ q: "%" })).toHaveLength(0);
   });

@@ -46,7 +46,7 @@
 | 공포의 투구 | 북유럽·게르만 신화 | [Helmet](https://www.metmuseum.org/art/collection/search/27936) — Turkish, probably Istanbul, ca. 1560 (04.3.456a) |
 | 타른헬름 | 북유럽·게르만 신화 | [Close Helmet](https://www.metmuseum.org/art/collection/search/27142) — French, ca. 1850 in the style of the mid-16th century (14.25.611) |
 | 하르페 | 그리스 신화 | [Perseus with the Head of Medusa](https://www.metmuseum.org/art/collection/search/204758) — Italian (Antonio Canova), 1804–6 (67.110.1) |
-| 트리아이나 | 그리스 신화 | [Trident Head](https://www.metmuseum.org/art/collection/search/30701) — Korean, 16th–19th century (36.25.2097) |
+| 트리아이나 | 그리스 신화 | [Tetradrachm: Poseidon, Striding with Trident (reverse)](https://clevelandart.org/art/1929.911.b) — Greek, Macedonian, minted at Salamis (Cyprus), c. 300–295 BCE (1929.911.b) |
 | 케라우노스 | 그리스 신화 | [Bronze statuette of Zeus or Poseidon](https://www.metmuseum.org/art/collection/search/251078) — Greek, early 5th century BCE (21.88.52) |
 | 하데스의 투구 | 그리스 신화 | [Bronze helmet of Corinthian type](https://www.metmuseum.org/art/collection/search/250922) — Greek, ca. 650–600 BCE (20.51.2) |
 | 네메아의 사자 가죽 | 그리스 신화 | [Limestone head of Herakles wearing the lion skin](https://www.metmuseum.org/art/collection/search/242208) — Cypriot, early 5th century BCE (74.51.2657) |
@@ -83,7 +83,7 @@
 | 카바차와 쿤달라 | 인도 신화 | [Earring with Vishnu Riding Garuda](https://clevelandart.org/art/1915.342.2) — Nepal, Kathmandu Valley, 1600s or 1700s (1915.342.2) |
 | 여의보주 | 인도 신화 | [Tile with Cintamani Design](https://www.metmuseum.org/art/collection/search/823310) — Turkey, ca. 1560–70 (2019.173) |
 | 간장과 막야 | 중국 신화와 전설 | [Sword](https://www.metmuseum.org/art/collection/search/25653) — Chinese, 5th–4th century BCE (12.37.145) |
-| 여의금고봉 | 중국 신화와 전설 | [Ruyi Scepter](https://www.metmuseum.org/art/collection/search/40703) — China, 18th–19th century (29.110.45) |
+| 여의금고봉 | 중국 신화와 전설 | [The Monkey King Songokū, from the Chinese novel Journey to the West](https://www.metmuseum.org/art/collection/search/54818) — Japan, probably 1824 (JP2047) |
 | 청룡언월도 | 중국 신화와 전설 | [Figure of Guan Yu, a guardian deity](https://www.metmuseum.org/art/collection/search/47910) — China, 19th century (63.213.11) |
 | 방천화극 | 중국 신화와 전설 | [Halberd Head](https://www.metmuseum.org/art/collection/search/25837) — Chinese, 1122 BCE–255 BCE (13.220.139b) |
 | 적토마 | 중국 신화와 전설 | [Galloping horse](https://www.metmuseum.org/art/collection/search/207018) — Italian (Francesco Fanelli), second half of the 17th century (1982.60.113) |

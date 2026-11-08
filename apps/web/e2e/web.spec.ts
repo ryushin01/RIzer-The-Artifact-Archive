@@ -41,8 +41,8 @@ test.describe("아카이브", () => {
     // 다른 테스트가 동시에 유물을 공개할 수 있어 정확한 개수는 단위 테스트에서 확인한다.
     await expect(page.getByRole("status")).toHaveText(/^유물 \d+점$/);
     await page.getByRole("searchbox", { name: "검색" }).fill("토르");
-    // 묠니르, 메긴교르드, 야른그레이프르
-    await expect(page.getByRole("status")).toHaveText("유물 3점");
+    // 해설과 주석까지 찾으므로 여러 점이 나오고, 이름이 맞는 쪽이 앞에 온다.
+    await expect(page.getByRole("status")).toHaveText(/^유물 \d+점$/);
     await expect(page.getByRole("link", { name: "묠니르" })).toBeVisible();
     await expect(page).toHaveURL(/q=%ED%86%A0%EB%A5%B4/);
 

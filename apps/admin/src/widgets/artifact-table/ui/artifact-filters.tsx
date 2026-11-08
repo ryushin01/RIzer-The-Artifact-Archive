@@ -22,7 +22,7 @@ export function ArtifactFilters({ q, gallery, status }: { q?: string; gallery?: 
     <form method="get" role="search" aria-label="유물 검색" className="flex flex-wrap items-end gap-3">
       <Field className="w-full sm:w-64">
         <FieldLabel htmlFor="filter-q">검색어</FieldLabel>
-        <Input id="filter-q" name="q" type="search" defaultValue={q} placeholder="이름, 원어, 소유자" />
+        <Input id="filter-q" name="q" type="search" defaultValue={q} placeholder="이름, 해설, 주석" />
       </Field>
       <Field className="w-full sm:w-48">
         <FieldLabel htmlFor="filter-gallery">전시실</FieldLabel>

@@ -34,6 +34,15 @@ const columns = {
   ),
 };
 
+/** 검색 결과에서 이름·원어가 맞은 유물을 먼저, 소유자·요약이 맞은 유물을 그다음, 본문·주석만 맞은 유물을 뒤에 둔다. */
+function relevance(q: string): SQL {
+  const pattern = `%${escapeLike(q)}%`;
+  return sql`case
+    when ${artifacts.title} ilike ${pattern} or ${artifacts.titleOriginal} ilike ${pattern} then 0
+    when ${artifacts.owner} ilike ${pattern} or ${artifacts.summary} ilike ${pattern} then 1
+    else 2 end`;
+}
+
 export function createArtifactRepository(db: Database) {
   function whereOf(query: AdminArtifactQuery): SQL | undefined {
     const where: SQL[] = [];
@@ -48,6 +57,9 @@ export function createArtifactRepository(db: Database) {
           ilike(artifacts.titleOriginal, pattern),
           ilike(artifacts.owner, pattern),
           ilike(artifacts.summary, pattern),
+          ilike(artifacts.story, pattern),
+          // 서브쿼리 안에서는 열 이름이 겹치므로 테이블 이름까지 직접 쓴다.
+          sql`exists (select 1 from "annotations" where "annotations"."artifact_id" = "artifacts"."id" and ("annotations"."title" ilike ${pattern} or "annotations"."body" ilike ${pattern}))`,
         )!,
       );
     }
@@ -68,7 +80,7 @@ export function createArtifactRepository(db: Database) {
       .select(columns)
       .from(artifacts)
       .where(whereOf(query))
-      .orderBy(...order, asc(artifacts.id))
+      .orderBy(...(query.q ? [relevance(query.q)] : []), ...order, asc(artifacts.id))
       .$dynamic();
     if (query.limit !== undefined) rows.limit(query.limit);
     if (query.offset) rows.offset(query.offset);
