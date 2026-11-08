@@ -12,7 +12,7 @@
                                        apps/admin ──▶ PostgreSQL(Neon · 개발은 PGlite)
 ```
 
-- **관리 화면(apps/admin)이 데이터의 주인입니다.** DB와 스토리지를 쓰고, 공개 사이트가 읽는 공개 API(`/api/public/artifacts`, `/api/public/artifacts/:slug`)를 내보냅니다. 계약 타입은 `packages/domain`의 `api.ts`입니다.
+- **관리 화면(apps/admin)이 데이터의 주인입니다.** DB와 스토리지를 쓰고, 공개 사이트가 읽는 공개 API(`/api/public/artifacts`, `/api/public/artifacts/:slug`)를 내보냅니다. 계약 타입은 `packages/domain`의 `api.ts`입니다. 목록은 해설·출처를 뺀 요약만 주고 `limit`·`offset`으로 나눠 받을 수 있습니다(`total`은 전체 개수).
 - **공개 사이트(apps/web)는 DB를 모릅니다.** 서버에서 공개 API를 `'use cache'` + `cacheTag`로 읽어 두고, 관리 화면이 저장하면 `/api/revalidate`로 태그를 비웁니다. 개발 중에 PGlite를 한 프로세스만 열게 되는 장점도 있습니다.
 - 이미지는 DB에 **스토리지 키**로 저장하고, 공개 API가 응답할 때 공개 주소로 바꿉니다. 스토리지 도메인(개발 포트, Blob 도메인)이 바뀌어도 데이터를 고치지 않습니다. `tiles/`로 시작하는 시드 타일 키는 공개 사이트의 정적 파일 주소로 바꿉니다(Blob 작업 한도 때문, [배포](deployment.md)).
 
@@ -37,7 +37,7 @@
 
 | 슬라이스 | 사가가 맡는 비동기 흐름 |
 |---|---|
-| `archive` | 검색어는 300ms 기다렸다가, 버튼 필터는 바로 불러온다. `takeLatest`로 이전 요청을 취소해 늦게 온 응답이 화면을 덮지 않는다. 끝나면 주소를 `replaceState`로 맞춘다 |
+| `archive` | 검색어는 300ms 기다렸다가, 버튼 필터는 바로 불러온다. `takeLatest`로 이전 요청을 취소해 늦게 온 응답이 화면을 덮지 않는다. 끝나면 주소를 `replaceState`로 맞춘다. "더 보기"는 `takeLeading`으로 한 번만 읽어 붙이고(`limit`·`offset`, 주소에는 남기지 않음), 그사이 조건이 바뀌었으면 결과를 버린다 |
 | `tour` | 안내 투어: 8초마다 다음 주석. 기다리는 동안 멈춤·직접 선택이 오면 `race`로 투어를 끝낸다(사용자 선택 우선) |
 | `motion` | 운영체제의 "동작 줄이기"를 `eventChannel`로 따라가고, 사이트 설정을 저장한 뒤 `html[data-motion]`을 바꾼다 |
 

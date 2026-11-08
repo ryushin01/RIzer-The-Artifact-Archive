@@ -1,7 +1,7 @@
 # RIzer — The Artifact Archive
 
 [![CI](https://github.com/ryushin01/RIzer-The-Artifact-Archive/actions/workflows/ci.yml/badge.svg)](https://github.com/ryushin01/RIzer-The-Artifact-Archive/actions/workflows/ci.yml)
-![version](https://img.shields.io/badge/version-0.2.0-e2283c)
+![version](https://img.shields.io/badge/version-0.3.0-e2283c)
 ![Storybook](https://img.shields.io/badge/Storybook-10-FF4785?logo=storybook&logoColor=white)
 
 엑스칼리버, 성배, 묠니르, 여의봉 같은 세계 곳곳의 전설 속 유물 92점을 고해상도 딥줌으로 확대해 보고, 사진의 부분마다 달린 해설을 읽는 온라인 전시실입니다. 큐레이터는 관리 화면에서 유물·해설·이미지 주석을 편집합니다.
@@ -26,7 +26,7 @@
 
 | 아카이브 검색 | 입장 화면 | 모바일 |
 |---|---|---|
-| ![북유럽 신화 전시실로 거른 유물 카드 목록과 검색 필터](docs/images/web-archive.jpg) | ![RIZER와 ARCHIVE 사이의 붉은 입장 버튼](docs/images/web-gate.jpg) | <img src="docs/images/web-mobile.jpg" alt="모바일의 엑스칼리버 딥줌 뷰어와 주석 번호" width="220"> |
+| ![북유럽·게르만 신화 전시실로 거른 유물 18점의 카드 목록과 열 개 전시실 필터](docs/images/web-archive.jpg) | ![RIZER와 ARCHIVE 사이의 붉은 입장 버튼](docs/images/web-gate.jpg) | <img src="docs/images/web-mobile.jpg" alt="모바일의 엑스칼리버 딥줌 뷰어와 주석 번호" width="220"> |
 
 ### 관리 화면
 
@@ -38,9 +38,9 @@
 
 | 영역 | 내용 |
 |---|---|
-| 공개 사이트 | 입장 화면, 스크롤 연출(고정 문장·컬렉션·열 개 전시실·첫 기록 연표·질문), 아카이브 검색(검색어·전시실·종류·정렬, 주소 동기화) |
+| 공개 사이트 | 입장 화면, 스크롤 연출(고정 문장·컬렉션·열 개 전시실·시대별 첫 기록 연표·질문), 아카이브 검색(검색어·전시실·종류·정렬, 주소 동기화, 24점씩 "더 보기") |
 | 딥줌 뷰어 | DZI 타일, 키보드 확대·이동, 주석 번호 버튼, 안내 투어(자동 재생·멈춤), 미니맵, 전체 화면 |
-| 관리 화면 | 유물 작성·수정·공개·삭제, 원본 업로드와 타일 생성, 주석 편집기(끌어서 그리기 + 키보드용 '보이는 영역으로 추가'·숫자 입력), 게스트(읽기 전용) 계정 |
+| 관리 화면 | 유물 목록(검색·전시실·상태, 30점씩 쪽 나누기), 유물 작성·수정·공개·삭제, 원본 업로드와 타일 생성, 주석 편집기(끌어서 그리기 + 키보드용 '보이는 영역으로 추가'·숫자 입력), 게스트(읽기 전용) 계정 |
 | 연동 | 관리 화면에서 저장하면 공개 사이트 캐시를 바로 비운다(캐시 태그) |
 | 접근성 | 본문 바로가기, 움직임 끄기(KWCAG 6.2.2), 색 대비 4.5:1, 스토리·E2E axe 검사 |
 

@@ -8,7 +8,8 @@
   - 네트워크 없이 확인하려면 `pnpm --filter @rizer/admin seed:images --synthetic`(무늬 이미지, CI·E2E용).
   - 한 점만: `pnpm --filter @rizer/admin seed:images --only excalibur,gram`
   - 새로 추가한 시드 유물만: `pnpm --filter @rizer/admin seed:images --missing` (기본 타일 510px, 긴 변 최대 3000px)
-  - 시드 유물을 추가하면 이미 데이터가 있는 DB에도 서버가 시작할 때 없는 슬러그만 골라 넣습니다(주석 포함). 큐레이터가 고친 유물은 건드리지 않습니다.
+  - 시드 유물을 추가하면 이미 데이터가 있는 DB에도 서버가 시작할 때 없는 슬러그만 골라 넣습니다(주석 포함).
+  - 카탈로그의 해설·출처·사진·주석을 고치면, 시드로 넣은 뒤 아무도 고치지 않은 유물(수정 시각 = 생성 시각)은 서버가 시작할 때 맞춰집니다. 큐레이터가 고친 유물은 건드리지 않습니다.
 - 개발 DB는 PGlite(`apps/admin/.data/pglite`)입니다. 비어 있으면 시드(계정 2개, 유물 전부, 주석)를 넣고, 이미지가 빈 유물에는 `seed/manifest.json`의 이미지를 붙입니다. 처음부터 다시: `pnpm --filter @rizer/admin db:reset`.
 
 ## 명령
