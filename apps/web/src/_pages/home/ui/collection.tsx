@@ -12,7 +12,7 @@ import { Container, IconArrowLeft, IconArrowRight, IconButton, LinkButton, Secti
  * 컬렉션 가로 목록. 손가락·트랙패드로 넘기거나 이전·다음 버튼을 쓴다.
  * 카드가 링크라 Tab으로도 차례로 지나가며, 초점을 받은 카드는 보이는 위치로 스크롤된다.
  */
-export function Collection({ artifacts }: { artifacts: ArtifactSummary[] }) {
+export function Collection({ artifacts, total }: { artifacts: ArtifactSummary[]; total: number }) {
   const trackRef = useRef<HTMLUListElement>(null);
   const [edge, setEdge] = useState({ start: true, end: false });
 
@@ -36,8 +36,8 @@ export function Collection({ artifacts }: { artifacts: ArtifactSummary[] }) {
             index="01"
             label="The Collection"
             titleId="collection-title"
-            title="전설이 남긴 열여섯 점"
-            description="아서왕의 검부터 신라의 피리까지. 카드를 골라 딥줌 뷰어로 들어가면 사진의 아주 작은 부분까지 확대해 볼 수 있습니다."
+            title="먼저 만나는 대표 유물"
+            description="아서왕의 검부터 신라의 피리까지, 전설을 대표하는 유물부터 소개합니다. 카드를 골라 딥줌 뷰어로 들어가면 사진의 아주 작은 부분까지 확대해 볼 수 있습니다."
           />
           <Arrows>
             <IconButton type="button" aria-label="이전 유물들" onClick={() => scroll(-1)} disabled={edge.start}>
@@ -58,7 +58,7 @@ export function Collection({ artifacts }: { artifacts: ArtifactSummary[] }) {
       </Track>
       <Container>
         <LinkButton href="/artifacts" $variant="ghost">
-          전체 아카이브에서 찾기
+          전체 {total}점 아카이브에서 찾기
           <IconArrowRight width={18} />
         </LinkButton>
       </Container>

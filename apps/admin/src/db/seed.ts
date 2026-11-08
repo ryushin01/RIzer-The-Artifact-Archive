@@ -26,7 +26,7 @@ const seedArtifactId = (slug: string) => `art_${slug.replace(/-/g, "_")}`;
 /**
  * 시드 데이터를 넣는다.
  * - 계정: 게스트는 항상, 큐레이터는 비밀번호 해시가 있을 때만.
- * - 유물 16점과 주석. 이미지는 manifest에 있는 것만 붙이고, 나머지는 syncSeedImages가 나중에 채운다.
+ * - 시드 유물과 주석. 이미지는 manifest에 있는 것만 붙이고, 나머지는 syncSeedImages가 나중에 채운다.
  */
 export async function insertSeedData(
   db: Database,
@@ -39,28 +39,51 @@ export async function insertSeedData(
     ...(hashes.curator ? [{ ...SEED_USERS.curator, passwordHash: hashes.curator }] : []),
   ]);
 
-  // 최근 수정 순서가 카탈로그 순서와 같도록 1분씩 차이를 둔다.
+  await insertSeedArtifacts(db, SEED_ARTIFACTS, manifest, now);
+}
+
+/** 시드 유물과 그 주석을 넣는다. 최근 수정 순서가 카탈로그 순서와 같도록 1분씩 차이를 둔다. */
+async function insertSeedArtifacts(
+  db: Database,
+  list: typeof SEED_ARTIFACTS,
+  manifest: SeedImageManifest,
+  now: Date,
+) {
+  if (!list.length) return;
   await db.insert(artifacts).values(
-    SEED_ARTIFACTS.map((a, i) => ({
+    list.map((a, i) => ({
       ...a,
       id: seedArtifactId(a.slug),
       image: manifest[a.slug] ?? null,
-      createdAt: new Date(now.getTime() - (SEED_ARTIFACTS.length - i) * 60_000),
-      updatedAt: new Date(now.getTime() - (SEED_ARTIFACTS.length - i) * 60_000),
+      createdAt: new Date(now.getTime() - (list.length - i) * 60_000),
+      updatedAt: new Date(now.getTime() - (list.length - i) * 60_000),
     })),
   );
-
-  const rows = Object.entries(SEED_ANNOTATIONS).flatMap(([slug, list]) =>
-    list.map((a, order) => ({
-      id: `ann_${slug.replace(/-/g, "_")}_${order}`,
-      artifactId: seedArtifactId(slug),
-      title: a.title,
-      body: a.body,
-      ...a.region,
-      order,
-    })),
-  );
+  const slugs = new Set(list.map((a) => a.slug));
+  const rows = Object.entries(SEED_ANNOTATIONS)
+    .filter(([slug]) => slugs.has(slug))
+    .flatMap(([slug, notes]) =>
+      notes.map((a, order) => ({
+        id: `ann_${slug.replace(/-/g, "_")}_${order}`,
+        artifactId: seedArtifactId(slug),
+        title: a.title,
+        body: a.body,
+        ...a.region,
+        order,
+      })),
+    );
   if (rows.length) await db.insert(annotations).values(rows);
+}
+
+/**
+ * 이미 시드가 들어간 DB에 새로 추가된 시드 유물을 넣는다(카탈로그를 늘렸을 때 운영 DB에도 나타나게).
+ * 같은 주소(slug)의 유물이 있으면 건드리지 않는다. 큐레이터가 지운 시드 유물은 다시 생긴다.
+ */
+export async function insertMissingSeedArtifacts(db: Database, manifest: SeedImageManifest, now = new Date()) {
+  const existing = new Set((await db.select({ slug: artifacts.slug }).from(artifacts)).map((r) => r.slug));
+  const missing = SEED_ARTIFACTS.filter((a) => !existing.has(a.slug));
+  await insertSeedArtifacts(db, missing, manifest, now);
+  return missing.length;
 }
 
 /** 시드 유물 중 이미지가 비어 있는 것에 manifest의 이미지를 붙인다. 이미 붙은 이미지는 건드리지 않는다. */

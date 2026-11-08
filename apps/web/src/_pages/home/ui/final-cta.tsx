@@ -1,5 +1,6 @@
 "use client";
 
+import { GALLERIES } from "@rizer/domain";
 import styled from "styled-components";
 
 import { media } from "@/shared/config";
@@ -12,7 +13,7 @@ export function FinalCta({ count }: { count: number }) {
       <GlowBackdrop $intensity={0.7} />
       <Container>
         <Inner>
-          <MonoLabel>[ {count} ARTIFACTS · 6 REALMS ]</MonoLabel>
+          <MonoLabel>[ {count} ARTIFACTS · {GALLERIES.length} REALMS ]</MonoLabel>
           <Display id="cta-title" $size="lg">
             Enter the
             <br />

@@ -46,7 +46,7 @@ export function Hero({ featured }: { featured: ArtifactSummary[] }) {
             Archived
           </Display>
           <Lead>
-            엑스칼리버, 성배, 묠니르. 이야기로만 전하던 전설의 유물 열여섯 점을 초고해상도로 확대해 보고, 부분마다 달린 해설을 읽는 온라인 전시실입니다.
+            엑스칼리버, 성배, 묠니르. 이야기로만 전하던 세계 곳곳의 전설 속 유물을 초고해상도로 확대해 보고, 부분마다 달린 해설을 읽는 온라인 전시실입니다.
           </Lead>
           <Actions>
             <LinkButton href="/artifacts" $variant="light">

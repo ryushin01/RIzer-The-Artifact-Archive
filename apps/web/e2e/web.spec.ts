@@ -17,7 +17,7 @@ test.describe("첫 화면", () => {
   test("섹션과 메뉴가 있고 접근성 위반이 없다", async ({ page }) => {
     await skipGate(page);
     await page.goto("/");
-    for (const name of ["전설이 남긴 열여섯 점", "여섯 개의 신화, 여섯 개의 전시실", "처음 글로 남은 순간"]) {
+    for (const name of ["먼저 만나는 대표 유물", "열 갈래의 신화, 열 개의 전시실", "처음 글로 남은 순간"]) {
       await expect(page.getByRole("heading", { name })).toBeVisible();
     }
     await expect(page.getByRole("navigation", { name: "주 메뉴" })).toBeVisible();
@@ -38,24 +38,25 @@ test.describe("아카이브", () => {
 
   test("검색어와 전시실로 거르고 주소에 남긴다", async ({ page }) => {
     await page.goto("/artifacts");
-    // 다른 테스트가 동시에 유물을 공개할 수 있어 정확한 개수(16점)는 단위 테스트에서 확인한다.
+    // 다른 테스트가 동시에 유물을 공개할 수 있어 정확한 개수는 단위 테스트에서 확인한다.
     await expect(page.getByRole("status")).toHaveText(/^유물 \d+점$/);
     await page.getByRole("searchbox", { name: "검색" }).fill("토르");
-    await expect(page.getByRole("status")).toHaveText("유물 1점");
+    // 묠니르, 메긴교르드, 야른그레이프르
+    await expect(page.getByRole("status")).toHaveText("유물 3점");
     await expect(page.getByRole("link", { name: "묠니르" })).toBeVisible();
     await expect(page).toHaveURL(/q=%ED%86%A0%EB%A5%B4/);
 
     await page.getByRole("button", { name: "조건 지우기" }).click();
-    await page.getByRole("radio", { name: "한국 신화" }).check();
-    await expect(page.getByRole("status")).toHaveText("유물 2점");
+    await page.getByRole("radio", { name: "한국 신화와 설화" }).check();
+    await expect(page.getByRole("status")).toHaveText("유물 4점");
     await expect(page).toHaveURL(/gallery=korean/);
     await expectNoA11yViolations(page);
   });
 
   test("주소의 조건으로 서버에서 바로 거른다", async ({ page }) => {
     await page.goto("/artifacts?gallery=norse");
-    await expect(page.getByRole("status")).toHaveText("유물 4점");
-    await expect(page.getByRole("radio", { name: "북유럽 신화" })).toBeChecked();
+    await expect(page.getByRole("status")).toHaveText("유물 18점");
+    await expect(page.getByRole("radio", { name: "북유럽·게르만 신화" })).toBeChecked();
   });
 });
 

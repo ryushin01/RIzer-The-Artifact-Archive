@@ -8,7 +8,7 @@ import { media } from "@/shared/config";
 import { Container, MonoLabel, SectionHeader } from "@/shared/ui";
 import { pad2 } from "@/shared/lib/format";
 
-/** 여섯 전시실. 궤도 선화가 천천히 돈다(움직임을 끄면 멈춘다). */
+/** 전시실 목록. 궤도 선화가 천천히 돈다(움직임을 끄면 멈춘다). */
 export function Realms({ artifacts }: { artifacts: ArtifactSummary[] }) {
   return (
     <Section id="realms" aria-labelledby="realms-title">
@@ -23,9 +23,9 @@ export function Realms({ artifacts }: { artifacts: ArtifactSummary[] }) {
       <Container>
         <SectionHeader
           index="02"
-          label="Six Realms"
+          label="Ten Realms"
           titleId="realms-title"
-          title="여섯 개의 신화, 여섯 개의 전시실"
+          title="열 갈래의 신화, 열 개의 전시실"
           description="유물은 처음 등장한 신화와 전설에 따라 전시실로 나뉩니다. 전시실을 고르면 그 전설의 유물만 모아 봅니다."
         />
         <List>
@@ -37,7 +37,7 @@ export function Realms({ artifacts }: { artifacts: ArtifactSummary[] }) {
                   <MonoLabel $tone="accent">{pad2(i + 1)}</MonoLabel>
                   <strong>{g.label}</strong>
                   <MonoLabel>{g.labelEn}</MonoLabel>
-                  <span className="names">{items.map((a) => a.title).join(" · ") || "준비 중"}</span>
+                  <span className="names">{namesOf(items)}</span>
                   <span className="count">{items.length}점</span>
                 </RealmLink>
               </li>
@@ -47,6 +47,13 @@ export function Realms({ artifacts }: { artifacts: ArtifactSummary[] }) {
       </Container>
     </Section>
   );
+}
+
+/** 전시실마다 앞의 몇 점만 이름을 보이고 나머지는 개수로 줄인다. */
+function namesOf(items: ArtifactSummary[], shown = 4) {
+  if (!items.length) return "준비 중";
+  const names = items.slice(0, shown).map((a) => a.title).join(" · ");
+  return items.length > shown ? `${names} 외 ${items.length - shown}점` : names;
 }
 
 const spin = keyframes`

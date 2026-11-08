@@ -3,11 +3,13 @@
 ## 준비
 
 - Node.js 24(`.node-version`), pnpm 12(`packageManager`에 고정). 저장소 루트에서 명령을 실행합니다.
-- 시드 유물 16점의 타일은 저장소(`apps/web/public/tiles`)에 들어 있어, 받은 그대로 실행해도 이미지가 보입니다. 원본부터 다시 만들려면 `pnpm seed:images`로 원본을 받아 `apps/admin/.data/storage`에 자르고(git에 넣지 않음), 공개용으로 바꿀 때는 `pnpm --filter @rizer/admin export:seed-tiles`로 정적 타일과 `src/db/seed-images.json`을 다시 만듭니다. 이유는 [배포](deployment.md)를 보세요.
+- 시드 유물의 타일은 저장소(`apps/web/public/tiles`)에 들어 있어, 받은 그대로 실행해도 이미지가 보입니다. 원본부터 다시 만들려면 `pnpm seed:images`로 원본을 받아 `apps/admin/.data/storage`에 자르고(git에 넣지 않음), 공개용으로 바꿀 때는 `pnpm --filter @rizer/admin export:seed-tiles`로 정적 타일과 `src/db/seed-images.json`을 다시 만듭니다. 이유는 [배포](deployment.md)를 보세요.
   - 원본은 The Met Open Access에서 받아 `apps/admin/.data/originals`에 보관합니다. 다시 실행하면 받은 원본을 재사용합니다.
   - 네트워크 없이 확인하려면 `pnpm --filter @rizer/admin seed:images --synthetic`(무늬 이미지, CI·E2E용).
   - 한 점만: `pnpm --filter @rizer/admin seed:images --only excalibur,gram`
-- 개발 DB는 PGlite(`apps/admin/.data/pglite`)입니다. 비어 있으면 시드(계정 2개, 유물 16점, 주석)를 넣고, 이미지가 빈 유물에는 `seed/manifest.json`의 이미지를 붙입니다. 처음부터 다시: `pnpm --filter @rizer/admin db:reset`.
+  - 새로 추가한 시드 유물만: `pnpm --filter @rizer/admin seed:images --missing` (기본 타일 510px, 긴 변 최대 3000px)
+  - 시드 유물을 추가하면 이미 데이터가 있는 DB에도 서버가 시작할 때 없는 슬러그만 골라 넣습니다(주석 포함). 큐레이터가 고친 유물은 건드리지 않습니다.
+- 개발 DB는 PGlite(`apps/admin/.data/pglite`)입니다. 비어 있으면 시드(계정 2개, 유물 전부, 주석)를 넣고, 이미지가 빈 유물에는 `seed/manifest.json`의 이미지를 붙입니다. 처음부터 다시: `pnpm --filter @rizer/admin db:reset`.
 
 ## 명령
 

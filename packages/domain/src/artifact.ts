@@ -16,11 +16,15 @@ export type ArtifactStatus = z.infer<typeof artifactStatusSchema>;
  */
 export const GALLERIES = [
   { id: "arthurian", label: "아서왕과 기사 전설", labelEn: "Arthurian & Chivalric" },
-  { id: "norse", label: "북유럽 신화", labelEn: "Norse" },
+  { id: "norse", label: "북유럽·게르만 신화", labelEn: "Norse & Germanic" },
+  { id: "celtic", label: "켈트 신화", labelEn: "Celtic" },
   { id: "greek", label: "그리스 신화", labelEn: "Greek" },
   { id: "sacred", label: "성서와 성유물", labelEn: "Sacred Relics" },
+  { id: "near-east", label: "이집트·중동 전설", labelEn: "Egypt & Near East" },
+  { id: "indian", label: "인도 신화", labelEn: "Indian" },
+  { id: "chinese", label: "중국 신화와 전설", labelEn: "Chinese" },
   { id: "japanese", label: "일본 신화", labelEn: "Japanese" },
-  { id: "korean", label: "한국 신화", labelEn: "Korean" },
+  { id: "korean", label: "한국 신화와 설화", labelEn: "Korean" },
 ] as const;
 export type GalleryId = (typeof GALLERIES)[number]["id"];
 export const galleryIdSchema = z.enum(GALLERIES.map((g) => g.id) as [GalleryId, ...GalleryId[]]);
@@ -36,6 +40,9 @@ export const KINDS = [
   { id: "vessel", label: "그릇" },
   { id: "jewel", label: "장신구" },
   { id: "treasure", label: "보물" },
+  { id: "mount", label: "탈것" },
+  { id: "elixir", label: "영약" },
+  { id: "book", label: "책과 문서" },
 ] as const;
 export type KindId = (typeof KINDS)[number]["id"];
 export const kindIdSchema = z.enum(KINDS.map((k) => k.id) as [KindId, ...KindId[]]);

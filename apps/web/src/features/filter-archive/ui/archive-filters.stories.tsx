@@ -17,8 +17,8 @@ export const ChooseGallery: StoryObj<typeof meta> = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole("status")).toHaveTextContent("유물 16점");
-    await userEvent.click(canvas.getByRole("radio", { name: "북유럽 신화" }));
-    await expect(canvas.getByRole("radio", { name: "북유럽 신화" })).toBeChecked();
+    await userEvent.click(canvas.getByRole("radio", { name: "북유럽·게르만 신화" }));
+    await expect(canvas.getByRole("radio", { name: "북유럽·게르만 신화" })).toBeChecked();
     await expect(canvas.getByRole("button", { name: "조건 지우기" })).toBeVisible();
   },
 };

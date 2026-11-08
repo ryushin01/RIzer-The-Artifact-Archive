@@ -75,7 +75,17 @@ describe("유물", () => {
     }
     const slugs = SEED_ARTIFACTS.map((a) => a.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
-    expect(SEED_ARTIFACTS).toHaveLength(16);
+    expect(SEED_ARTIFACTS.length).toBeGreaterThan(80);
+    expect(SEED_ARTIFACTS.filter((a) => a.featured).length).toBeGreaterThan(0);
+  });
+
+  it("시드 유물의 사진은 서로 다른 소장품이고 CC0다", () => {
+    // 합성 이미지는 대표 번호가 첫 조각과 같으므로 조각 번호만 센다.
+    const ids = SEED_ARTIFACTS.flatMap((a) =>
+      a.source.parts.length ? a.source.parts.map((p) => p.objectId) : [a.source.objectId],
+    );
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(SEED_ARTIFACTS.every((a) => a.source.license === "CC0-1.0")).toBe(true);
   });
 
   it("시드 주석은 있는 유물을 가리키고 영역이 이미지 안에 있다", () => {
@@ -86,6 +96,7 @@ describe("유물", () => {
         expect(annotationInputSchema.safeParse({ ...a, order }).success, `${slug} ${a.title}`).toBe(true);
       });
     }
-    expect(Object.keys(SEED_ANNOTATIONS)).toHaveLength(16);
+    // 대표 유물 16점에는 모두 주석이 있다.
+    expect(Object.keys(SEED_ANNOTATIONS).length).toBeGreaterThanOrEqual(16);
   });
 });

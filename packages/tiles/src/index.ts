@@ -39,6 +39,10 @@ export type TileOptions = {
   name?: string;
   /** WebP 품질(1~100). 기본값 82 */
   quality?: number;
+  /** 타일 한 변(px, 겹침 제외). 기본값 254. 크게 하면 파일 수가 줄어든다(510이면 약 4분의 1). */
+  tileSize?: number;
+  /** 원본의 긴 변을 이 크기까지 줄인 뒤 자른다. 기본값은 줄이지 않음. */
+  maxSize?: number;
 };
 
 const hex = (n: number) => n.toString(16).padStart(2, "0");
@@ -47,15 +51,24 @@ const hex = (n: number) => n.toString(16).padStart(2, "0");
 export async function generateDeepZoom(
   input: string | Buffer,
   outDir: string,
-  { name = "image", quality = 82 }: TileOptions = {},
+  { name = "image", quality = 82, tileSize = TILE_SIZE, maxSize }: TileOptions = {},
 ): Promise<TileResult> {
-  const source = () => sharp(input, { limitInputPixels: LIMIT_INPUT_PIXELS }).rotate();
-  const meta = await source().metadata();
+  const original = () => sharp(input, { limitInputPixels: LIMIT_INPUT_PIXELS }).rotate();
+  const meta = await original().metadata();
   // rotate()가 EXIF 방향을 반영하므로, 90도 회전된 사진은 가로세로를 바꾼다.
   const swapped = (meta.orientation ?? 1) >= 5;
-  const width = swapped ? meta.height : meta.width;
-  const height = swapped ? meta.width : meta.height;
-  if (!width || !height) throw new Error("이미지 크기를 읽지 못했습니다.");
+  const fullWidth = swapped ? meta.height : meta.width;
+  const fullHeight = swapped ? meta.width : meta.height;
+  if (!fullWidth || !fullHeight) throw new Error("이미지 크기를 읽지 못했습니다.");
+
+  // 최대 크기가 있으면 한 번 줄여 두고 그 결과를 원본처럼 쓴다.
+  const scale = maxSize ? Math.min(1, maxSize / Math.max(fullWidth, fullHeight)) : 1;
+  const width = Math.round(fullWidth * scale);
+  const height = Math.round(fullHeight * scale);
+  const resized =
+    scale < 1 ? await original().resize(width, height, { fit: "fill" }).png({ compressionLevel: 1 }).toBuffer() : null;
+  const source = () =>
+    resized ? sharp(resized, { limitInputPixels: LIMIT_INPUT_PIXELS }) : original();
 
   await rm(path.join(/*turbopackIgnore: true*/ outDir, `${name}_files`), { recursive: true, force: true });
   await mkdir(outDir, { recursive: true });
@@ -64,7 +77,7 @@ export async function generateDeepZoom(
   await source()
     .toColourspace("srgb")
     .webp({ quality, effort: 4 })
-    .tile({ size: TILE_SIZE, overlap: TILE_OVERLAP, layout: "dz", container: "fs" })
+    .tile({ size: tileSize, overlap: TILE_OVERLAP, layout: "dz", container: "fs" })
     .toFile(dziBase);
 
   const previewPath = path.join(/*turbopackIgnore: true*/ outDir, "preview.webp");

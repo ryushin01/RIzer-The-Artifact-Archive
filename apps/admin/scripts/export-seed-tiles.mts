@@ -1,4 +1,4 @@
-// 시드 유물 16점의 딥줌 타일을 공개 사이트의 정적 파일(apps/web/public/tiles)로 내보낸다.
+// 시드 유물의 딥줌 타일을 공개 사이트의 정적 파일(apps/web/public/tiles)로 내보낸다.
 //
 //   pnpm --filter @rizer/admin export:seed-tiles   (먼저 pnpm seed:images로 로컬 타일을 만든다)
 //

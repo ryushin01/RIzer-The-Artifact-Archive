@@ -13,7 +13,7 @@ export function ArchiveHeader() {
         <Display as="h1" $size="lg">
           Archive
         </Display>
-        <p>전설 속 유물 열여섯 점을 이름, 전시실, 종류로 찾아봅니다. 카드를 고르면 딥줌 뷰어가 열립니다.</p>
+        <p>세계 곳곳의 전설 속 유물을 이름, 전시실, 종류로 찾아봅니다. 카드를 고르면 딥줌 뷰어가 열립니다.</p>
       </div>
     </Header>
   );

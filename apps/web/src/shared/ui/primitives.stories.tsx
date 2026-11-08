@@ -46,6 +46,6 @@ export const Typography: StoryObj = {
 
 export const Header: StoryObj = {
   render: () => (
-    <SectionHeader index="01" label="The Collection" titleId="t" title="전설이 남긴 열여섯 점" description="섹션 머리 예시입니다." />
+    <SectionHeader index="01" label="The Collection" titleId="t" title="먼저 만나는 대표 유물" description="섹션 머리 예시입니다." />
   ),
 };

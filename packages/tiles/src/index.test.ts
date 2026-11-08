@@ -46,6 +46,20 @@ describe("generateDeepZoom", () => {
   });
 });
 
+describe("generateDeepZoom 옵션", () => {
+  it("긴 변을 줄이고 큰 타일로 자르면 파일 수가 줄어든다", async () => {
+    const out = path.join(dir, "big");
+    const result = await generateDeepZoom(await sample(), out, { name: "art", tileSize: 510, maxSize: 1500 });
+    expect(result).toMatchObject({ width: 1500, height: 1000 });
+    const dzi = await readFile(path.join(out, "art.dzi"), "utf8");
+    expect(dzi).toContain('TileSize="510"');
+    expect(dzi).toContain('Width="1500"');
+    // 최대 레벨(1500px → 11레벨)은 3×2 타일
+    const files = await listFiles(out);
+    expect(files.filter((f) => f.startsWith("art_files/11/"))).toHaveLength(6);
+  });
+});
+
 describe("contentTypeOf", () => {
   it("확장자로 Content-Type을 고른다", () => {
     expect(contentTypeOf("a/b.dzi")).toBe("application/xml");

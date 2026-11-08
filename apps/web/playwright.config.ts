@@ -8,7 +8,7 @@ const buildThen = (dir: string, command: string) =>
 
 /**
  * 공개 사이트와 어드민을 프로덕션 빌드로 함께 띄워 끝에서 끝까지 확인한다.
- * 어드민은 매번 새 메모리 DB에 시드(유물 16점, 계정)를 넣고 시작한다. 이미지는 apps/admin/.data/storage에 있어야 한다
+ * 어드민은 매번 새 메모리 DB에 시드(유물 전부, 계정)를 넣고 시작한다. 이미지는 apps/admin/.data/storage에 있어야 한다
  * (pnpm seed:images, CI는 --synthetic).
  */
 export default defineConfig({

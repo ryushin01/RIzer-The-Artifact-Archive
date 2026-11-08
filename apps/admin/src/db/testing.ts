@@ -7,7 +7,7 @@ import { insertSeedData } from "./seed";
 export const TEST_PASSWORD = "test1234";
 export const TEST_HASH = "$2b$04$a3JH1jHNuGqVZPdtvKcTIebRWTdT4iCUZo0t9CQi5TFWBwXrvZUQG";
 
-/** 테스트마다 새로 만드는 메모리 DB. 시드(계정 둘, 유물 16점, 주석)를 넣는다. */
+/** 테스트마다 새로 만드는 메모리 DB. 시드(계정 둘, 시드 유물 전부, 주석)를 넣는다. */
 export async function createTestDb(manifest: SeedImageManifest = {}) {
   const db = await openPglite("memory://");
   await insertSeedData(db, { guest: TEST_HASH, curator: TEST_HASH }, manifest);

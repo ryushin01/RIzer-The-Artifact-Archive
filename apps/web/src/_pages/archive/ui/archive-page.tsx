@@ -12,7 +12,7 @@ import { ArchiveLayout } from "./archive-layout";
 
 export const metadata: Metadata = {
   title: "아카이브",
-  description: "전설 속 유물 열여섯 점을 이름, 전시실, 종류로 찾아봅니다.",
+  description: "세계 곳곳의 전설 속 유물을 이름, 전시실, 종류로 찾아봅니다.",
 };
 
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);

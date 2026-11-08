@@ -8,7 +8,14 @@ import { SEED_MANIFEST_KEY, type SeedImageManifest } from "@/entities/artifact";
 import bundledSeedImages from "./seed-images.json";
 
 import { type Database, openPglite, openPostgres } from "./index";
-import { DEV_CURATOR_PASSWORD, GUEST_PASSWORD, insertSeedData, isEmpty, syncSeedImages } from "./seed";
+import {
+  DEV_CURATOR_PASSWORD,
+  GUEST_PASSWORD,
+  insertMissingSeedArtifacts,
+  insertSeedData,
+  isEmpty,
+  syncSeedImages,
+} from "./seed";
 
 /**
  * 서버 전체가 함께 쓰는 DB 연결.
@@ -67,6 +74,12 @@ async function open() {
       if (!isUniqueViolation(error)) throw error;
     }
   } else {
+    try {
+      await insertMissingSeedArtifacts(db, manifest);
+    } catch (error) {
+      // 여러 인스턴스가 동시에 넣으면 늦은 쪽은 고유 키 위반이 난다. 이미 들어간 것이다.
+      if (!isUniqueViolation(error)) throw error;
+    }
     await syncSeedImages(db, manifest);
   }
   return db;

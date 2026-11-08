@@ -7,12 +7,12 @@
 | 관리 화면 + 공개 API | Vercel 프로젝트 `rizer-admin` (Root Directory `apps/admin`) | https://rizer-admin.vercel.app |
 | 공개 사이트 | Vercel 프로젝트 `rizer-web` (Root Directory `apps/web`) | https://rizer-web.vercel.app |
 | DB | Neon PostgreSQL `rizer-db` (Vercel Marketplace, iad1) | `DATABASE_URL`(pooled)을 쓴다. 관리 화면 함수도 같은 리전(`apps/admin/vercel.json`의 `regions: ["iad1"]`)에서 돌게 해 쿼리마다 태평양을 건너지 않게 한다 |
-| 시드 유물 16점의 타일 | 공개 사이트의 정적 파일 `apps/web/public/tiles` (저장소에 포함) | Vercel CDN이 1년 캐시 |
+| 시드 유물의 타일 | 공개 사이트의 정적 파일 `apps/web/public/tiles` (저장소에 포함) | Vercel CDN이 1년 캐시 |
 | 큐레이터가 올리는 이미지 | Vercel Blob 스토어 `rizer-archive` (공개) | 원본은 브라우저가 서명된 주소로 바로 올린다 |
 
 ## 시드 타일을 Blob에 두지 않는 이유
 
-Vercel Blob Hobby는 업로드·목록 같은 **고급 작업이 월 2,000회**이고, 넘으면 30일 동안 Blob을 쓸 수 없습니다. 시드 타일은 4,800여 개라 한 번 올리는 것만으로 한도를 넘습니다. 그래서 시드 타일은 저장소에 넣어 공개 사이트가 정적 파일로 내보내고, Blob은 새로 올리는 이미지에만 씁니다.
+Vercel Blob Hobby는 업로드·목록 같은 **고급 작업이 월 2,000회**이고, 넘으면 30일 동안 Blob을 쓸 수 없습니다. 시드 타일은 8,400여 개라 한 번 올리는 것만으로 한도를 넘습니다. 그래서 시드 타일은 저장소에 넣어 공개 사이트가 정적 파일로 내보내고, Blob은 새로 올리는 이미지에만 씁니다.
 
 - 4000px 이미지 한 장을 올리면 타일이 300개 안팎이라 고급 작업 300회쯤을 씁니다. 한 달에 몇 장 정도로 쓴다.
 - 시드 이미지를 바꾸면 `pnpm seed:images` → `pnpm --filter @rizer/admin export:seed-tiles`로 `apps/web/public/tiles`와 `apps/admin/src/db/seed-images.json`을 다시 만들어 커밋한다.

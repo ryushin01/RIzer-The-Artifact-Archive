@@ -23,7 +23,7 @@ const image: StoredImage = {
 };
 
 describe("artifact repository", () => {
-  it("시드 16점을 대표 유물 먼저 보여 준다", async () => {
+  it("시드 유물을 모두, 대표 유물 먼저 보여 준다", async () => {
     const repo = createArtifactRepository(await createTestDb());
     const rows = await repo.list();
     expect(rows).toHaveLength(SEED_ARTIFACTS.length);
@@ -33,10 +33,11 @@ describe("artifact repository", () => {
 
   it("이름·원어·소유자로 검색하고 전시실로 거른다", async () => {
     const repo = createArtifactRepository(await createTestDb());
-    expect((await repo.list({ q: "엑스칼" })).map((r) => r.slug)).toEqual(["excalibur"]);
+    expect((await repo.list({ q: "excal" })).map((r) => r.slug)).toEqual(["excalibur"]);
     expect((await repo.list({ q: "mjöl" })).map((r) => r.slug)).toEqual(["mjolnir"]);
-    expect((await repo.list({ q: "토르" })).map((r) => r.slug)).toEqual(["mjolnir"]);
-    expect((await repo.list({ gallery: "korean" })).map((r) => r.slug).sort()).toEqual(["cheonbuin", "manpasikjeok"]);
+    expect((await repo.list({ q: "토르" })).map((r) => r.slug)).toContain("mjolnir");
+    const korean = SEED_ARTIFACTS.filter((a) => a.gallery === "korean").map((a) => a.slug);
+    expect((await repo.list({ gallery: "korean" })).map((r) => r.slug).sort()).toEqual(korean.sort());
     // LIKE 특수 문자는 글자 그대로 찾는다.
     expect(await repo.list({ q: "%" })).toHaveLength(0);
   });
@@ -82,12 +83,20 @@ describe("artifact repository", () => {
     const repo = createArtifactRepository(await createTestDb());
     const excalibur = (await repo.getBySlug("excalibur"))!;
     const related = await repo.related("arthurian", excalibur.id);
-    expect(related.map((r) => r.slug).sort()).toEqual(["durandal", "holy-grail"]);
+    expect(related).toHaveLength(4);
+    expect(related.every((r) => r.gallery === "arthurian" && r.slug !== "excalibur")).toBe(true);
+    // 대표 유물이 먼저 온다.
+    expect(related.slice(0, 2).map((r) => r.slug).sort()).toEqual(["durandal", "holy-grail"]);
   });
 
   it("통계를 센다", async () => {
     const repo = createArtifactRepository(await createTestDb());
-    expect(await repo.stats()).toMatchObject({ total: 16, published: 16, draft: 0, withImage: 0 });
+    expect(await repo.stats()).toMatchObject({
+      total: SEED_ARTIFACTS.length,
+      published: SEED_ARTIFACTS.length,
+      draft: 0,
+      withImage: 0,
+    });
   });
 });
 

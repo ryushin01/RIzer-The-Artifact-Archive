@@ -1,8 +1,10 @@
-// 시드 유물 16점의 원본 이미지를 받아 딥줌 타일로 자르고 스토리지에 올린다.
+// 시드 유물의 원본 이미지를 받아 딥줌 타일로 자르고 스토리지에 올린다.
 //
 //   pnpm seed:images              The Met Open Access(CC0)에서 원본을 받는다(처음 한 번, .data/originals에 보관)
 //   pnpm seed:images --synthetic  네트워크 없이 무늬 이미지를 만든다(CI·E2E용)
 //   pnpm seed:images --only excalibur,gram
+//   pnpm seed:images --missing                  목록에 아직 없는 유물만
+//   --tile-size 510 --max-size 3000              타일 크기·최대 해상도(기본 510, 3000. 처음 16점은 254·원본 크기로 만들었다)
 //
 // 결과 목록(manifest)은 스토리지의 seed/manifest.json에 쓴다. 어드민 서버가 켜질 때 읽어,
 // 이미지가 빈 시드 유물에 붙인다. 이미 띄운 서버에는 다시 켜면 반영된다.
@@ -26,6 +28,12 @@ const args = process.argv.slice(2);
 const synthetic = args.includes("--synthetic");
 const onlyArg = args.find((a) => a.startsWith("--only"));
 const only = onlyArg ? (onlyArg.split("=")[1] ?? args[args.indexOf(onlyArg) + 1] ?? "").split(",") : null;
+const missingOnly = args.includes("--missing");
+const numberArg = (name: string, fallback: number) => {
+  const i = args.indexOf(name);
+  return i >= 0 && args[i + 1] ? Number(args[i + 1]) : fallback;
+};
+const tileOptions = { tileSize: numberArg("--tile-size", 510), maxSize: numberArg("--max-size", 3000) };
 
 const ORIGINALS = path.join(process.cwd(), ".data/originals");
 const adminUrl = (process.env.ADMIN_URL || process.env.NEXTAUTH_URL || "http://localhost:3000").replace(/\/$/, "");
@@ -102,7 +110,7 @@ async function main() {
   const existing = await storage.get(SEED_MANIFEST_KEY);
   const manifest: SeedImageManifest = existing ? JSON.parse(existing.toString("utf8")) : {};
 
-  const targets = SEED_ARTIFACTS.filter((a) => !only || only.includes(a.slug));
+  const targets = SEED_ARTIFACTS.filter((a) => (!only || only.includes(a.slug)) && (!missingOnly || !manifest[a.slug]));
   console.log(`${targets.length}점 처리 (${synthetic ? "무늬 이미지" : "The Met 원본"}, 스토리지: ${storage.driver})`);
 
   for (const [i, artifact] of targets.entries()) {
@@ -121,7 +129,7 @@ async function main() {
     const id = seedId(artifact.slug);
     const key = `artifacts/${id}/original.jpg`;
     await storage.put(key, body, "image/jpeg");
-    const image = await tileAndUpload(storage, id, { key, body }, manifest[artifact.slug] ?? null);
+    const image = await tileAndUpload(storage, id, { key, body }, manifest[artifact.slug] ?? null, new Date(), tileOptions);
     manifest[artifact.slug] = image;
     // 하나씩 끝날 때마다 저장해, 중간에 멈춰도 다시 실행하면 이어서 쓸 수 있다.
     await storage.put(SEED_MANIFEST_KEY, Buffer.from(JSON.stringify(manifest, null, 2)), "application/json", "no-cache");

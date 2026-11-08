@@ -1,10 +1,10 @@
 # RIzer — The Artifact Archive
 
 [![CI](https://github.com/ryushin01/RIzer-The-Artifact-Archive/actions/workflows/ci.yml/badge.svg)](https://github.com/ryushin01/RIzer-The-Artifact-Archive/actions/workflows/ci.yml)
-![version](https://img.shields.io/badge/version-0.1.0-e2283c)
+![version](https://img.shields.io/badge/version-0.2.0-e2283c)
 ![Storybook](https://img.shields.io/badge/Storybook-10-FF4785?logo=storybook&logoColor=white)
 
-엑스칼리버, 성배, 묠니르 같은 전설 속 유물 16점을 고해상도 딥줌으로 확대해 보고, 사진의 부분마다 달린 해설을 읽는 온라인 전시실입니다. 큐레이터는 관리 화면에서 유물·해설·이미지 주석을 편집합니다.
+엑스칼리버, 성배, 묠니르, 여의봉 같은 세계 곳곳의 전설 속 유물 92점을 고해상도 딥줌으로 확대해 보고, 사진의 부분마다 달린 해설을 읽는 온라인 전시실입니다. 큐레이터는 관리 화면에서 유물·해설·이미지 주석을 편집합니다.
 
 **[전시실 보기](https://rizer-web.vercel.app/)** · **[관리 화면 보기](https://rizer-admin.vercel.app/login)**: 로그인 화면에서 **게스트로 둘러보기**를 누르면 읽기 전용으로 들어갑니다.
 
@@ -38,7 +38,7 @@
 
 | 영역 | 내용 |
 |---|---|
-| 공개 사이트 | 입장 화면, 스크롤 연출(고정 문장·컬렉션·여섯 전시실·첫 기록 연표·질문), 아카이브 검색(검색어·전시실·종류·정렬, 주소 동기화) |
+| 공개 사이트 | 입장 화면, 스크롤 연출(고정 문장·컬렉션·열 개 전시실·첫 기록 연표·질문), 아카이브 검색(검색어·전시실·종류·정렬, 주소 동기화) |
 | 딥줌 뷰어 | DZI 타일, 키보드 확대·이동, 주석 번호 버튼, 안내 투어(자동 재생·멈춤), 미니맵, 전체 화면 |
 | 관리 화면 | 유물 작성·수정·공개·삭제, 원본 업로드와 타일 생성, 주석 편집기(끌어서 그리기 + 키보드용 '보이는 영역으로 추가'·숫자 입력), 게스트(읽기 전용) 계정 |
 | 연동 | 관리 화면에서 저장하면 공개 사이트 캐시를 바로 비운다(캐시 태그) |
@@ -65,7 +65,7 @@ pnpm install
 pnpm dev           # 관리 화면 http://localhost:3000, 공개 사이트 http://localhost:3001
 ```
 
-시드 유물 16점의 딥줌 타일은 저장소에 들어 있습니다. 관리 화면은 **게스트로 둘러보기**(읽기 전용) 또는 `curator@rizer.dev` / `rizer1234`(개발용)로 들어갑니다.
+시드 유물 92점의 딥줌 타일은 저장소에 들어 있습니다. 관리 화면은 **게스트로 둘러보기**(읽기 전용) 또는 `curator@rizer.dev` / `rizer1234`(개발용)로 들어갑니다.
 
 | 명령 | 설명 |
 |---|---|
@@ -82,7 +82,7 @@ apps/
 ├─ web/        공개 사이트 (3001) — styled-components, Redux + saga, 딥줌 뷰어, E2E(e2e/)
 └─ admin/      관리 화면·공개 API (3000) — shadcn/ui, Drizzle, Auth.js, 주석 편집기
 packages/
-├─ domain/     유물·주석(W3C Web Annotation) 스키마, 공개 API 계약, 시드 유물 16점
+├─ domain/     유물·주석(W3C Web Annotation) 스키마, 공개 API 계약, 시드 유물 92점
 ├─ tiles/      sharp 딥줌 타일 생성과 CLI
 ├─ storage/    로컬·S3(R2)·Vercel Blob 스토리지
 ├─ ui/         shadcn/ui 컴포넌트와 테마 (관리 화면)
