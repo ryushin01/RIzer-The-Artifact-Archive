@@ -38,7 +38,7 @@ export function ArchiveFilters() {
             <input
               id={`${id}-q`}
               type="search"
-              placeholder="이름, 원어, 소유자 — 예: 토르"
+              placeholder="이름, 해설, 주석까지 — 예: 무지개"
               defaultValue={query.q ?? ""}
               onChange={(e) => dispatch(queryChanged({ q: e.target.value.trim() || undefined }))}
               autoComplete="off"

@@ -676,15 +676,15 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
     ),
   },
   "poseidon-trident": {
-    imageAlt: "16~19세기 조선의 삼지창 머리. 가운데 곧은 날 양옆으로 갈고리처럼 휜 날이 솟아 있고, 아래에 자루를 끼우는 통이 있다.",
-    source: met(
-      30701,
-      "Trident Head",
-      "Korean",
-      "16th–19th century",
-      "https://images.metmuseum.org/CRDImages/aa/original/36.25.2097_001Jun2015.jpg",
-      "36.25.2097",
-      "Bequest of George C. Stone, 1935",
+    imageAlt: "기원전 300~295년 무렵 마케도니아 왕 데메트리오스의 은화 뒷면. 벌거벗은 포세이돈이 왼팔에 망토를 걸치고 오른손에 든 삼지창을 겨누며 성큼 걷는 모습과 그리스 문자가 새겨져 있다.",
+    source: cma(
+      111419,
+      "Tetradrachm: Poseidon, Striding with Trident (reverse)",
+      "Greek, Macedonian, minted at Salamis (Cyprus)",
+      "c. 300–295 BCE",
+      "https://openaccess-cdn.clevelandart.org/1929.911.b/1929.911.b_print.jpg",
+      "1929.911.b",
+      "Purchase from the J. H. Wade Fund",
     ),
   },
   "prydwen": {
@@ -700,7 +700,7 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
     ),
   },
   "rakhsh": {
-    imageAlt: "1450년 무렵 인도에서 그린 『샤나메』 사본의 한 장 「라크시를 올가미로 잡는 루스탐」. 위아래 페르시아어 글 사이에 초원을 달리는 말 떼와 올가미를 든 사람들이 그려져 있다.",
+    imageAlt: "1450년 무렵 인도에서 그린 『샤나메』 사본의 한 장 「락시를 올가미로 잡는 루스탐」. 위아래 페르시아어 글 사이에 초원을 달리는 말 떼와 올가미를 든 사람들이 그려져 있다.",
     source: met(
       452419,
       "\"Rustam Lassos Rakhsh\", Folio from a Shahnama (Book of Kings)",
@@ -772,15 +772,15 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
     ),
   },
   "ruyi-jingu-bang": {
-    imageAlt: "18~19세기 중국 청나라의 칠보 여의. 푸른 칠보 몸체에 금동 원형 장식 세 개가 박힌 S자 모양의 막대다.",
+    imageAlt: "1824년 무렵 야시마 가쿠테이의 일본 목판화 「손오공」. 붉은 옷의 원숭이 왕이 긴 막대를 등에 메고 구름이 깔린 땅에 서서, 입에서 작은 원숭이 떼를 불어 낸다.",
     source: met(
-      40703,
-      "Ruyi Scepter",
-      "China",
-      "18th–19th century",
-      "https://images.metmuseum.org/CRDImages/as/original/29_110_45_O1.jpg",
-      "29.110.45",
-      "Gift of Edward G. Kennedy, 1929",
+      54818,
+      "The Monkey King Songokū, from the Chinese novel Journey to the West",
+      "Japan",
+      "probably 1824",
+      "https://images.metmuseum.org/CRDImages/as/original/DP135893.jpg",
+      "JP2047",
+      "H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929",
     ),
   },
   "skidbladnir": {

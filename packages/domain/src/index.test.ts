@@ -5,6 +5,8 @@ import {
   artifactInputSchema,
   formatYear,
   fromFragment,
+  fromWebAnnotations,
+  toAnnotationPage,
   storyParagraphs,
   toFragment,
   toPixels,
@@ -56,6 +58,30 @@ describe("주석 영역", () => {
     );
     expect(anno.type).toBe("Annotation");
     expect(anno.target.selector.value).toBe("xywh=percent:1,2,3,4");
+  });
+});
+
+describe("주석 가져오기·내보내기", () => {
+  const item = { id: "a1", artifactId: "x", title: "칼날", body: "설명", order: 0, region: { x: 1, y: 2, w: 3, h: 4 } };
+
+  it("내보낸 파일을 그대로 다시 읽는다", () => {
+    expect(fromWebAnnotations(toAnnotationPage([item], "https://x.dev/a.dzi"))).toEqual([
+      { title: "칼날", body: "설명", region: item.region },
+    ]);
+  });
+
+  it("본문이 하나인 주석과 픽셀 좌표도 읽는다", () => {
+    const one = { type: "Annotation", body: { value: "메모" }, target: { selector: { value: "xywh=pixel:100,50,200,100" } } };
+    expect(fromWebAnnotations(one, { width: 1000, height: 500 })).toEqual([
+      { title: "메모", body: "메모", region: { x: 10, y: 10, w: 20, h: 20 } },
+    ]);
+  });
+
+  it("잘못된 파일은 몇 번째 주석이 문제인지 알린다", () => {
+    expect(() => fromWebAnnotations({ hello: 1 })).toThrow(/찾지 못했습니다/);
+    expect(() => fromWebAnnotations([{ body: [], target: {} }])).toThrow(/1번째 주석/);
+    const outside = { body: { value: "x" }, target: { selector: { value: "xywh=percent:90,0,20,10" } } };
+    expect(() => fromWebAnnotations([outside])).toThrow(/1번째 주석: 영역이 이미지 밖/);
   });
 });
 

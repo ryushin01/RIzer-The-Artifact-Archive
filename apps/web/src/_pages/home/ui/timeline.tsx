@@ -34,7 +34,7 @@ export function Timeline({ artifacts }: { artifacts: TimelineItem[] }) {
     <Section id="timeline" aria-labelledby="timeline-title">
       <Container>
         <SectionHeader
-          index="03"
+          index="04"
           label="First Records"
           titleId="timeline-title"
           title="처음 글로 남은 순간"

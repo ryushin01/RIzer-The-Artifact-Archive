@@ -39,7 +39,7 @@ export function Faq() {
       <Container>
         <Grid>
           <SectionHeader
-            index="04"
+            index="05"
             label="Questions"
             titleId="faq-title"
             title="전설을 전시하는 방법에 대한 질문"
