@@ -100,3 +100,9 @@
 | 후쓰노미타마 | 일본 신화 | [Blade for a Double-Edged Sword (Ken)](https://www.metmuseum.org/art/collection/search/22090) — Japanese, 5th century (06.310.8) |
 | 자명고 | 한국 신화와 설화 | [Changgo (장구)](https://www.metmuseum.org/art/collection/search/500723) — Korean, 19th century (89.4.141) |
 | 천사옥대 | 한국 신화와 설화 | [Belt Ornament](https://clevelandart.org/art/1917.1053.1) — Korea, Goryeo dynasty (918–1392), 1100s (1917.1053.1) |
+| 판도라의 상자 | 그리스 신화 | [Pyxis](https://www.metmuseum.org/art/collection/search/255267) — Greek, South Italian, Apulian, ca. 300 BCE (68.11.43a, b) |
+| 카두케우스 | 그리스 신화 | [Bronze statuette of Hermes](https://www.metmuseum.org/art/collection/search/255323) — Greek or Roman, 1st century BCE–1st century CE (1971.11.11) |
+| 아스클레피오스의 지팡이 | 그리스 신화 | [Head of a marble statuette of Asklepios](https://www.metmuseum.org/art/collection/search/250062) — Roman, 3rd–2nd century BCE (17.194.836) |
+| 언약궤 | 성서와 성유물 | [Reliquary Chasse](https://www.metmuseum.org/art/collection/search/469859) — British, 1207–13 (1980.417) |
+| 알라딘의 램프 | 이집트·중동 전설 | [Oil Lamp](https://www.metmuseum.org/art/collection/search/449344) — Iran, 9th century (38.40.133) |
+| 우치데노코즈치 | 일본 신화 | [Mallet of Daikoku, One of the Gods of Good Fortune, and a Rat](https://www.metmuseum.org/art/collection/search/53998) — Japan, probably 1828 (JP2232) |

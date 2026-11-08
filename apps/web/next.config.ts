@@ -32,6 +32,10 @@ const nextConfig: NextConfig = {
     },
   ],
   images: { unoptimized: true },
+  // 공유 이미지가 읽는 한글 글꼴. process.cwd() 기준으로 읽으므로 추적 목록에 직접 넣는다.
+  outputFileTracingIncludes: {
+    "/artifacts/[slug]/opengraph-image": ["./node_modules/pretendard/dist/public/static/Pretendard-Bold.otf"],
+  },
 };
 
 export default nextConfig;

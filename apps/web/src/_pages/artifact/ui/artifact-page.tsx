@@ -28,7 +28,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${artifact.title} · RIzer Archive`,
       description: artifact.summary,
-      images: artifact.image ? [{ url: artifact.image.previewUrl, alt: artifact.imageAlt }] : [],
     },
   };
 }

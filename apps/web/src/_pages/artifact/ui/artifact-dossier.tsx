@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { ArtifactCard } from "@/entities/artifact";
-import { selected, selectTour } from "@/features/annotation-tour";
+import { CopyNoteLink, selected, selectTour } from "@/features/annotation-tour";
 import { recordYearLabel } from "@/shared/lib/format";
 import { IconArrowLeft, IconExternal, MonoLabel, RedDot } from "@/shared/ui";
 
@@ -84,7 +84,12 @@ export function ArtifactDossier({
                   <span className="n">{String(i + 1).padStart(2, "0")}</span>
                   <span className="t">{a.title}</span>
                 </NoteButton>
-                {a.id === activeId && <NoteBody>{a.body}</NoteBody>}
+                {a.id === activeId && (
+                  <NoteBody>
+                    <p>{a.body}</p>
+                    <CopyNoteLink />
+                  </NoteBody>
+                )}
               </li>
             ))}
           </Notes>
@@ -276,7 +281,10 @@ const NoteButton = styled.button`
     text-underline-offset: 4px;
   }
 `;
-const NoteBody = styled.p`
+const NoteBody = styled.div`
+  display: grid;
+  gap: 12px;
+  justify-items: start;
   padding: 0 4px 18px 40px;
   color: ${({ theme }) => theme.color.muted};
   font-size: 15px;

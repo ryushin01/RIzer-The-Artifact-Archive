@@ -1,6 +1,6 @@
 "use client";
 
-import { GALLERIES, type ArtifactSummary } from "@rizer/domain";
+import { GALLERIES } from "@rizer/domain";
 import Link from "next/link";
 import styled, { keyframes } from "styled-components";
 
@@ -8,8 +8,10 @@ import { media } from "@/shared/config";
 import { Container, MonoLabel, SectionHeader } from "@/shared/ui";
 import { pad2 } from "@/shared/lib/format";
 
+import type { RealmItem } from "../model";
+
 /** 전시실 목록. 궤도 선화가 천천히 돈다(움직임을 끄면 멈춘다). */
-export function Realms({ artifacts }: { artifacts: ArtifactSummary[] }) {
+export function Realms({ artifacts }: { artifacts: RealmItem[] }) {
   return (
     <Section id="realms" aria-labelledby="realms-title">
       <Orbit aria-hidden viewBox="0 0 600 600">
@@ -50,7 +52,7 @@ export function Realms({ artifacts }: { artifacts: ArtifactSummary[] }) {
 }
 
 /** 전시실마다 앞의 몇 점만 이름을 보이고 나머지는 개수로 줄인다. */
-function namesOf(items: ArtifactSummary[], shown = 4) {
+function namesOf(items: RealmItem[], shown = 4) {
   if (!items.length) return "준비 중";
   const names = items.slice(0, shown).map((a) => a.title).join(" · ");
   return items.length > shown ? `${names} 외 ${items.length - shown}점` : names;

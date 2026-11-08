@@ -15,6 +15,18 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
       "Rogers Fund, 1904",
     ),
   },
+  "aladdins-lamp": {
+    imageAlt: "9세기 이란의 청동 기름 램프. 뾰족한 주둥이와 둥근 몸통, 고리 손잡이 위로 깃털 모양 장식이 솟은 모양이다.",
+    source: met(
+      449344,
+      "Oil Lamp",
+      "Iran",
+      "9th century",
+      "https://images.metmuseum.org/CRDImages/is/original/DP246007.jpg",
+      "38.40.133",
+      "Rogers Fund, 1938",
+    ),
+  },
   "ambrosia": {
     imageAlt: "기원전 750~600년 무렵 키프로스의 굽 높은 잔(킬릭스). 연한 바탕에 붉은색과 검은색으로 기하학 무늬를 둘렀다.",
     source: met(
@@ -75,6 +87,18 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
       "Rogers Fund and Edward S. Harkness Gift, 1920",
     ),
   },
+  "ark-of-the-covenant": {
+    imageAlt: "1207~13년 영국의 금동 성유물함. 지붕 모양 뚜껑과 짐승 발 모양 다리가 달린 상자에 둥근 무늬판이 빽빽이 새겨져 있고, 앞면에 자물쇠가 있다.",
+    source: met(
+      469859,
+      "Reliquary Chasse",
+      "British",
+      "1207–13",
+      "https://images.metmuseum.org/CRDImages/cl/original/DT9068.jpg",
+      "1980.417",
+      "The Cloisters Collection, 1980",
+    ),
+  },
   "ascalon": {
     imageAlt: "16세기 초 프랑스의 호두나무 조각 「성 게오르기우스와 용」. 말에 탄 기사가 창을 내리꽂고, 말발굽 아래 용이 몸을 비틀고 있다.",
     source: met(
@@ -133,6 +157,18 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
       "https://images.metmuseum.org/CRDImages/an/original/DP-16934-019.jpg",
       "1978.93.21",
       "Purchase, H. Dunscombe Colt Gift, 1978",
+    ),
+  },
+  "caduceus": {
+    imageAlt: "1세기 무렵 그리스 또는 로마의 청동 헤르메스 소상. 망토를 어깨에 걸친 젊은 헤르메스가 서 있고, 손에 들었던 지팡이는 남아 있지 않다.",
+    source: met(
+      255323,
+      "Bronze statuette of Hermes",
+      "Greek or Roman",
+      "1st century BCE–1st century CE",
+      "https://images.metmuseum.org/CRDImages/gr/original/DP118086.jpg",
+      "1971.11.11",
+      "Rogers Fund, 1971",
     ),
   },
   "caladbolg": {
@@ -603,6 +639,18 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
       "Harris Brisbane Dick Fund, 1953",
     ),
   },
+  "pandoras-box": {
+    imageAlt: "기원전 300년 무렵 남이탈리아 아풀리아의 뚜껑 달린 도기 함(픽시스). 둥근 몸통에 검은 바탕과 붉은 소용돌이 무늬를 그렸고, 꼭지 달린 뚜껑이 덮여 있다.",
+    source: met(
+      255267,
+      "Pyxis",
+      "Greek, South Italian, Apulian",
+      "ca. 300 BCE",
+      "https://images.metmuseum.org/CRDImages/gr/original/DP1638.jpg",
+      "68.11.43a, b",
+      "Rogers Fund, 1968",
+    ),
+  },
   "peaches-of-immortality": {
     imageAlt: "18세기 중엽 중국 징더전의 분채 자기 병. 흰 바탕에 분홍빛 복숭아 아홉 개가 달린 가지가 그려져 있다.",
     source: met(
@@ -709,6 +757,18 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
       "https://images.metmuseum.org/CRDImages/is/original/sf48-154-10b.jpg",
       "48.154.10",
       "Gift of Alastair Bradley Martin, 1948",
+    ),
+  },
+  "rod-of-asclepius": {
+    imageAlt: "기원전 3~2세기 로마의 대리석 아스클레피오스 두상. 곱슬곱슬한 머리와 수염에 둘러싸인 얼굴에 푸른 유리 눈이 박혀 있다.",
+    source: met(
+      250062,
+      "Head of a marble statuette of Asklepios",
+      "Roman",
+      "3rd–2nd century BCE",
+      "https://images.metmuseum.org/CRDImages/gr/original/LC-17_194_836.jpg",
+      "17.194.836",
+      "Gift of J. Pierpont Morgan, 1917",
     ),
   },
   "ruyi-jingu-bang": {
@@ -889,6 +949,18 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
       "https://images.metmuseum.org/CRDImages/an/original/DP-45436-001.jpg",
       "65.28a, b",
       "Rogers Fund, 1965",
+    ),
+  },
+  "uchide-no-kozuchi": {
+    imageAlt: "1828년 무렵 야시마 가쿠테이의 목판화(스리모노) 「다이코쿠의 방망이와 쥐」. 모란꽃을 그린 붉은 방망이 위에 회색 쥐가 올라 있고, 위쪽에 시가 적혀 있다.",
+    source: met(
+      53998,
+      "Mallet of Daikoku, One of the Gods of Good Fortune, and a Rat",
+      "Japan",
+      "probably 1828",
+      "https://images.metmuseum.org/CRDImages/as/original/DP138468.jpg",
+      "JP2232",
+      "H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929",
     ),
   },
   "vajra": {

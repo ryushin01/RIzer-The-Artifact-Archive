@@ -8,6 +8,7 @@ import { Hero } from "./hero";
 import { Realms } from "./realms";
 import { Statement } from "./statement";
 import { Timeline } from "./timeline";
+import { toRealmItem, toTimelineItem } from "../model";
 
 /** 컬렉션에 먼저 보여 줄 유물 수. 대표 유물이 앞에 오므로 처음 시드한 열여섯 점이 나온다. */
 const COLLECTION_SIZE = 16;
@@ -24,8 +25,8 @@ async function Exhibition() {
       <Hero featured={featured.length ? featured : items.slice(0, 5)} />
       <Statement />
       <Collection artifacts={items.slice(0, COLLECTION_SIZE)} total={items.length} />
-      <Realms artifacts={items} />
-      <Timeline artifacts={items} />
+      <Realms artifacts={items.map(toRealmItem)} />
+      <Timeline artifacts={items.map(toTimelineItem)} />
       <Faq />
       <FinalCta count={items.length} />
     </>

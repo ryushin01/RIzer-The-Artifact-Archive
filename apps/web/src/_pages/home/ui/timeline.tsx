@@ -1,12 +1,14 @@
 "use client";
 
-import { galleryOf, type ArtifactSummary } from "@rizer/domain";
+import { galleryOf } from "@rizer/domain";
 import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
 
 import { recordYearLabel } from "@/shared/lib/format";
 import { Container, MonoLabel, RedDot, SectionHeader } from "@/shared/ui";
+
+import type { TimelineItem } from "../model";
 
 /** 연표를 나누는 시대. 고른 시대의 유물만 보여 줘 90여 점을 한 줄로 넘기지 않아도 되게 한다. */
 export const ERAS = [
@@ -23,7 +25,7 @@ type EraId = (typeof ERAS)[number]["id"];
  * 순서 있는 목록이라 화면 낭독기도 연대순으로 읽는다. 가로로 넘겨 보고, 시대 버튼으로 거른다.
  * 시대 버튼은 눌림 상태(aria-pressed)를 가진 네이티브 버튼이다.
  */
-export function Timeline({ artifacts }: { artifacts: ArtifactSummary[] }) {
+export function Timeline({ artifacts }: { artifacts: TimelineItem[] }) {
   const [era, setEra] = useState<EraId>("all");
   const sorted = [...artifacts].sort((a, b) => a.recordYear - b.recordYear || a.title.localeCompare(b.title));
   const test = ERAS.find((e) => e.id === era)!.test;

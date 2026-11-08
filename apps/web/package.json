@@ -1,6 +1,6 @@
 {
   "name": "@rizer/web",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "private": true,
   "scripts": {
     "dev": "next dev --port 3001",
@@ -29,6 +29,7 @@
     "react-redux": "^9.3.1",
     "redux-saga": "^1.5.1",
     "server-only": "^0.0.1",
+    "sharp": "^0.35.5",
     "styled-components": "^6.6.0"
   },
   "devDependencies": {

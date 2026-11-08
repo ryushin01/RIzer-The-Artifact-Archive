@@ -1032,5 +1032,71 @@
     "dominantColor": "#383838",
     "tileCount": 60,
     "version": "20261108023456"
+  },
+  "pandoras-box": {
+    "dziKey": "tiles/art_pandoras_box/v20261108031224/image.dzi",
+    "previewKey": "tiles/art_pandoras_box/v20261108031224/preview.webp",
+    "originalKey": "",
+    "width": 2048,
+    "height": 2048,
+    "lqip": "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAABwBACdASoYABgAPu1qr1CppaQiqAqpMB2JQAAFzpIBgt31+Phz9WQCQEYWAAD+BLuN7dDqQn8nT47vtevADGz3/L6UScjv5dMyf2/kl6mpqMlOGsQBxyjD5oAw7RY0aflEX/oBMOD38tx45q/kepEW+2SSgj91dEEYmJ0wjZdI3eYZdkI5klwC4Nq2CAAA",
+    "dominantColor": "#c8c8c8",
+    "tileCount": 48,
+    "version": "20261108031224"
+  },
+  "caduceus": {
+    "dziKey": "tiles/art_caduceus/v20261108031231/image.dzi",
+    "previewKey": "tiles/art_caduceus/v20261108031231/preview.webp",
+    "originalKey": "",
+    "width": 2250,
+    "height": 3000,
+    "lqip": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAACwBACdASoSABgAPu1kpk4ppaMiMBgMATAdiWkAAC54DTJ6XYrS4A0IVgwLx+AAAP5Sz7sATUk4jciR28M3HmMDB8WV6ivkgpF61csKS4LrTa89f6vV6gxu/FShBpWYxIUceVtKwoAAAA==",
+    "dominantColor": "#c8c8c8",
+    "tileCount": 54,
+    "version": "20261108031231"
+  },
+  "rod-of-asclepius": {
+    "dziKey": "tiles/art_rod_of_asclepius/v20261108031234/image.dzi",
+    "previewKey": "tiles/art_rod_of_asclepius/v20261108031234/preview.webp",
+    "originalKey": "",
+    "width": 1680,
+    "height": 1680,
+    "lqip": "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAABQBQCdASoYABgAPu1ur1KppiQiqAgBMB2JQBhqn+AjcHrmySLLb7VAjfWP3qQLIQDmjOAA/RyKNOkTFGV8unt5egrv5EGRSilT3qaCrI+oaqo8qNGTn0GJRuS1ZdhTtFYGLLR8z0vyzw3OqdNh6yB+zgseMSpRRv0wBW+hLK4oUiu/I2AmAAAA",
+    "dominantColor": "#686868",
+    "tileCount": 31,
+    "version": "20261108031234"
+  },
+  "ark-of-the-covenant": {
+    "dziKey": "tiles/art_ark_of_the_covenant/v20261108031246/image.dzi",
+    "previewKey": "tiles/art_ark_of_the_covenant/v20261108031246/preview.webp",
+    "originalKey": "",
+    "width": 3000,
+    "height": 2400,
+    "lqip": "data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAAAwBQCdASoYABMAPu1oq08ppiOiMBgIATAdiUAWnQHpcm5KyJZqRVgU5vmLZmgyJsgVnAD+w6E06EurLvX3ASkkwcqkWWA5xQViJ++BUsd05aRM5kD1jmbdbY9YCEMfkcLMi/MuXP09m7wg6pL3Zmcnm0hx4dgRHBOQGRiMbevUytxgGrRsC8oq4F2X7Snvx+wipqbAAAA=",
+    "dominantColor": "#c8c8c8",
+    "tileCount": 54,
+    "version": "20261108031246"
+  },
+  "aladdins-lamp": {
+    "dziKey": "tiles/art_aladdins_lamp/v20261108031249/image.dzi",
+    "previewKey": "tiles/art_aladdins_lamp/v20261108031249/preview.webp",
+    "originalKey": "",
+    "width": 3000,
+    "height": 2199,
+    "lqip": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAAAQBACdASoYABIAPu1qq08ppiOiMBgIATAdiWkAAC519WeB26BgCAOOgAD+35aCS38ZxmPhTQFlaceVJxKyNj08tUzMrakwH7+6Klhvm1Q5AIcAAAA=",
+    "dominantColor": "#e8e8e8",
+    "tileCount": 54,
+    "version": "20261108031249"
+  },
+  "uchide-no-kozuchi": {
+    "dziKey": "tiles/art_uchide_no_kozuchi/v20261108031251/image.dzi",
+    "previewKey": "tiles/art_uchide_no_kozuchi/v20261108031251/preview.webp",
+    "originalKey": "",
+    "width": 2676,
+    "height": 3000,
+    "lqip": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAADwBACdASoVABgAPu1kqk2ppaQiMAgBMB2JYwC2yCHfj/LEJEeih/KAyXPo+ugKiYAA/ucVMHNHH1RcgiFd7pOgazX0NNMORqhU2zboc5v1n4IAv5CK/oSLbuUz9DNGZzEqXdDRPWBsKhvnV/VruvcbyWwaDZJZMX4kA/Gv+mur48mcf0AAAA==",
+    "dominantColor": "#e8e8d8",
+    "tileCount": 60,
+    "version": "20261108031251"
   }
 }

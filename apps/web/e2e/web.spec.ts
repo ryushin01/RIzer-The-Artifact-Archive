@@ -98,6 +98,28 @@ test.describe("유물 화면", () => {
     await expectNoA11yViolations(page);
   });
 
+  test("주석 바로가기 주소로 들어오면 그 주석이 열리고, 고르면 주소가 따라 바뀐다", async ({ page }) => {
+    await page.goto("/artifacts/excalibur?note=3");
+    await expect(page.getByRole("button", { name: /^03\s*곧은 양날$/, pressed: true })).toBeVisible({ timeout: 20_000 });
+    const tip = page.getByRole("button", { name: /^04\s*칼끝$/ });
+    await tip.click();
+    await expect(page).toHaveURL(/\?note=4$/);
+    await expect(page.getByRole("button", { name: "이 주석 링크 복사" })).toBeVisible();
+    // 다시 누르면 닫히고 주소에서도 빠진다.
+    await tip.click();
+    await expect(page).toHaveURL(/\/artifacts\/excalibur$/);
+  });
+
+  test("유물마다 공유 이미지가 있다", async ({ page, request }) => {
+    await page.goto("/artifacts/excalibur");
+    const og = await page.locator('meta[property="og:image"]').first().getAttribute("content");
+    expect(og).toContain("/artifacts/excalibur/opengraph-image");
+    const res = await request.get(new URL(og!).pathname + new URL(og!).search);
+    expect(res.status()).toBe(200);
+    expect(res.headers()["content-type"]).toBe("image/png");
+    expect((await res.body()).byteLength).toBeGreaterThan(20_000);
+  });
+
   test("다른 영역 안에 든 주석 번호도 마우스로 누를 수 있다", async ({ page }) => {
     // 카바차와 쿤달라: 1번 영역이 2번 영역 안에 있다. 바깥 영역이 클릭을 가로채면 안 된다.
     await page.goto("/artifacts/kavacha-kundala");
