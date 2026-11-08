@@ -1,5 +1,5 @@
 import type { ArtifactSource } from "../../artifact";
-import { met } from "../met";
+import { cma, met } from "../sources";
 
 /** 전설 유물마다 빌려 쓰는 사진. 모습이 닮은 The Met CC0 소장품이며, 대체 텍스트는 사진 속 실제 물건을 설명한다. */
 export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactSource }> = {
@@ -184,15 +184,15 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
     ),
   },
   "cheonsa-okdae": {
-    imageAlt: "8세기 아바르족의 금 허리띠 장식판. 네모난 금판에 날개 달린 짐승이 덩굴무늬 사이를 걷는 모습을 투각했다.",
-    source: met(
-      464094,
-      "Gold Openwork Belt Mount",
-      "Avar",
-      "700s",
-      "https://images.metmuseum.org/CRDImages/md/original/dp30432.jpg",
-      "17.190.1686",
-      "Gift of J. Pierpont Morgan, 1917",
+    imageAlt: "12세기 고려의 금동 허리띠 장식. 네모난 판에 덩굴무늬를 배경으로 앉아 있는 사슴을 돋을새김했고, 푸른 녹이 앉아 있다.",
+    source: cma(
+      97487,
+      "Belt Ornament",
+      "Korea, Goryeo dynasty (918–1392)",
+      "1100s",
+      "https://openaccess-cdn.clevelandart.org/1917.1053.1/1917.1053.1_print.jpg",
+      "1917.1053.1",
+      "Gift of the John Huntington Art and Polytechnic Trust",
     ),
   },
   "cintamani": {
@@ -484,15 +484,15 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
     ),
   },
   "kavacha-kundala": {
-    imageAlt: "기원전 4~3세기 에트루리아의 금 귀걸이 한 쌍. 둥근 금 알갱이와 반구가 포도송이처럼 모인 방패 모양이다.",
-    source: met(
-      250672,
-      "Gold earrings",
-      "Etruscan",
-      "4th–early 3rd century BCE",
-      "https://images.metmuseum.org/CRDImages/gr/original/DP257485-1810312.jpg",
-      "18.103.1, .2",
-      "Funds from various donors, 1918",
+    imageAlt: "17~18세기 네팔 카트만두 계곡의 금 귀걸이. 금줄로 짠 틀에 붉고 푸른 보석을 박아 새 가루다를 탄 비슈누를 나타냈고, 아래로 진주와 금 원판이 매달려 있다.",
+    source: cma(
+      94777,
+      "Earring with Vishnu Riding Garuda",
+      "Nepal, Kathmandu Valley",
+      "1600s or 1700s",
+      "https://openaccess-cdn.clevelandart.org/1915.342.2/1915.342.2_print.jpg",
+      "1915.342.2",
+      "Gift of Mr. and Mrs. J. H. Wade",
     ),
   },
   "kurikara": {

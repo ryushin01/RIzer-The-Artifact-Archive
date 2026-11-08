@@ -1,6 +1,6 @@
 // 시드 유물의 원본 이미지를 받아 딥줌 타일로 자르고 스토리지에 올린다.
 //
-//   pnpm seed:images              The Met Open Access(CC0)에서 원본을 받는다(처음 한 번, .data/originals에 보관)
+//   pnpm seed:images              소장품 원본(The Met·클리블랜드 미술관 Open Access, CC0)을 받는다(처음 한 번, .data/originals에 보관)
 //   pnpm seed:images --synthetic  네트워크 없이 무늬 이미지를 만든다(CI·E2E용)
 //   pnpm seed:images --only excalibur,gram
 //   pnpm seed:images --missing                  목록에 아직 없는 유물만
@@ -42,7 +42,7 @@ const storage = storageFromEnv(process.env, path.join(process.cwd(), ".data/stor
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const seedId = (slug: string) => `art_${slug.replace(/-/g, "_")}`;
 
-/** The Met 이미지 서버는 짧은 시간에 요청이 몰리면 막으므로 간격을 두고, 실패하면 늘려 가며 다시 시도한다. */
+/** 미술관 이미지 서버(특히 The Met)는 짧은 시간에 요청이 몰리면 막으므로 간격을 두고, 실패하면 늘려 가며 다시 시도한다. */
 async function download(url: string, file: string) {
   if (existsSync(file)) return readFile(file);
   for (let attempt = 1; attempt <= 5; attempt++) {
@@ -114,7 +114,7 @@ async function main() {
   const manifest: SeedImageManifest = existing ? JSON.parse(existing.toString("utf8")) : {};
 
   const targets = SEED_ARTIFACTS.filter((a) => (!only || only.includes(a.slug)) && (!missingOnly || !manifest[a.slug]));
-  console.log(`${targets.length}점 처리 (${synthetic ? "무늬 이미지" : "The Met 원본"}, 스토리지: ${storage.driver})`);
+  console.log(`${targets.length}점 처리 (${synthetic ? "무늬 이미지" : "소장품 원본"}, 스토리지: ${storage.driver})`);
 
   for (const [i, artifact] of targets.entries()) {
     const started = performance.now();

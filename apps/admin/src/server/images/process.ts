@@ -24,7 +24,7 @@ export const extensionOf = (contentType: string) =>
  */
 /**
  * 타일 크기 510px: 254px보다 파일 수가 약 4분의 1이라 Vercel Blob의 업로드 작업 한도(월 2,000회)를 덜 쓴다.
- * 긴 변은 6000px까지 남긴다(The Met 원본은 4000px 안팎).
+ * 긴 변은 6000px까지 남긴다(The Met 원본은 4000px, 클리블랜드는 3400px 안팎).
  */
 export const UPLOAD_TILE_OPTIONS = { tileSize: 510, maxSize: 6000 } as const;
 

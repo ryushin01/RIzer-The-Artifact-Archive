@@ -14,7 +14,7 @@ import {
   insertMissingSeedArtifacts,
   insertSeedData,
   isEmpty,
-  syncSeedAnnotations,
+  refreshUntouchedSeedArtifacts,
   syncSeedImages,
 } from "./seed";
 
@@ -82,7 +82,7 @@ async function open() {
       if (!isUniqueViolation(error)) throw error;
     }
     try {
-      await syncSeedAnnotations(db);
+      await refreshUntouchedSeedArtifacts(db, manifest);
     } catch (error) {
       if (!isUniqueViolation(error)) throw error;
     }

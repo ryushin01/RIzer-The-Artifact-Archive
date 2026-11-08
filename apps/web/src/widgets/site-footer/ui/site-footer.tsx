@@ -18,10 +18,15 @@ export function SiteFooter({ adminUrl }: { adminUrl?: string }) {
           <p>
             전설 속 유물은 실물이 없습니다. 이 아카이브의 사진은 모습이 닮은 실제 소장품을 빌려 썼으며, 모두{" "}
             <a href="https://www.metmuseum.org/hubs/open-access" target="_blank" rel="noreferrer">
-              메트로폴리탄 미술관 Open Access(CC0)
+              메트로폴리탄 미술관
               <span className="sr-only"> (새 창)</span>
-            </a>{" "}
-            자료입니다. 해설과 주석은 이 프로젝트에서 새로 썼습니다.
+            </a>
+            과{" "}
+            <a href="https://www.clevelandart.org/open-access" target="_blank" rel="noreferrer">
+              클리블랜드 미술관
+              <span className="sr-only"> (새 창)</span>
+            </a>
+            의 Open Access(CC0) 자료입니다. 해설과 주석은 이 프로젝트에서 새로 썼습니다.
           </p>
           <Links>
             {adminUrl && (

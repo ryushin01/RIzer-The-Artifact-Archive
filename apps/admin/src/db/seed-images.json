@@ -792,15 +792,15 @@
     "version": "20261107170911"
   },
   "kavacha-kundala": {
-    "dziKey": "tiles/art_kavacha_kundala/v20261107170914/image.dzi",
-    "previewKey": "tiles/art_kavacha_kundala/v20261107170914/preview.webp",
+    "dziKey": "tiles/art_kavacha_kundala/v20261108023452/image.dzi",
+    "previewKey": "tiles/art_kavacha_kundala/v20261108023452/preview.webp",
     "originalKey": "",
-    "width": 1200,
-    "height": 812,
-    "lqip": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAABwBACdASoYABAAPu1iqU2ppaOiMAgBMB2JZgCdICd6zAUjqcAm2ytxpDlEAAD+jO+OE+ZW583LRH9aACbxaAbFQAor8s3eBwG8Flzg7du3YflhkGO4Ys0YvxmmrdUHBYb4hSFgLAAAAA==",
-    "dominantColor": "#b8b8b8",
-    "tileCount": 19,
-    "version": "20261107170914"
+    "width": 2249,
+    "height": 3000,
+    "lqip": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAACQBACdASoSABgAPuFeqE2opSQiMAwBEBwJZQDNhCHfj5vwizNKHkGTHDP3DUgA/vVm2SvM0h7aYXKAsQ/Tf97PnKFTqaR3qLoRbgY7HEoxd2JJFK4GmJmXBLEWRQAA",
+    "dominantColor": "#080808",
+    "tileCount": 54,
+    "version": "20261108023452"
   },
   "cintamani": {
     "dziKey": "tiles/art_cintamani/v20261107170916/image.dzi",
@@ -1001,14 +1001,14 @@
     "version": "20261107171011"
   },
   "cheonsa-okdae": {
-    "dziKey": "tiles/art_cheonsa_okdae/v20261107171013/image.dzi",
-    "previewKey": "tiles/art_cheonsa_okdae/v20261107171013/preview.webp",
+    "dziKey": "tiles/art_cheonsa_okdae/v20261108023456/image.dzi",
+    "previewKey": "tiles/art_cheonsa_okdae/v20261108023456/preview.webp",
     "originalKey": "",
     "width": 3000,
-    "height": 2587,
-    "lqip": "data:image/webp;base64,UklGRtAAAABXRUJQVlA4IMQAAACQBQCdASoYABUAPu1ur1KppiQiqAgBMB2JQBOggQI8D3YkQo8Wvz/SQAN1OKwqC1qagTOcgAD+1a920MTSHckWB4YbozV2O89zJQ6JlAv8KsTLFpSleT6PI1iqqkxyvEJSI9MTvdFPJbxplbxHPxSuIlYBSrQpcdWUM5pzoJFrZcrdMS8CoHqWvBvhgsK8vymgjqfTxcZ3xB77e0tL1rbdEStSskhG+JTAcAr+ikzJUuCQf0OG1c8UpE+NyEs+qh6fAAAA",
-    "dominantColor": "#c8c8c8",
+    "height": 2934,
+    "lqip": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAAAQBQCdASoYABcAPuFeqk2opSQiMAwBEBwJZQDQVCHfr45cQcdxhu6BEvVzCDiUDasQAP7YroL85dy476Q4VmtZ76rzJBwH99YZqPmVMYlbIaYRveaAZQ51vz0lO4AA",
+    "dominantColor": "#383838",
     "tileCount": 60,
-    "version": "20261107171013"
+    "version": "20261108023456"
   }
 }

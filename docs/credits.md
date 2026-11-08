@@ -1,6 +1,6 @@
 # 이미지 출처
 
-모든 사진은 [메트로폴리탄 미술관 Open Access](https://www.metmuseum.org/hubs/open-access)의 공개 도메인(CC0) 자료입니다. 전설 속 유물은 실물이 없으므로, 모습이 닮은 실제 소장품의 사진을 빌려 씁니다. 천부인 이미지는 소장품 사진 세 장을 이 프로젝트에서 이어 붙인 합성 이미지입니다.
+모든 사진은 [메트로폴리탄 미술관](https://www.metmuseum.org/hubs/open-access)과 [클리블랜드 미술관](https://www.clevelandart.org/open-access) Open Access의 공개 도메인(CC0) 자료입니다. 전설 속 유물은 실물이 없으므로, 모습이 닮은 실제 소장품의 사진을 빌려 씁니다. 천부인 이미지는 소장품 사진 세 장을 이 프로젝트에서 이어 붙인 합성 이미지입니다.
 
 유물 선정은 나무위키 「전설의 무기」·「전설의 도구」 문서를 참고했고, 해설과 주석은 이 프로젝트에서 새로 썼습니다. 전설과 같은 지역의 소장품이 없으면 모양이 닮은 다른 지역의 소장품을 쓰고, 화면의 대체 텍스트와 출처에 사진 속 실제 물건을 밝힙니다. 이 목록은 `packages/domain/src/seed`(`catalog.ts`, `legends/`)에서 만듭니다.
 
@@ -78,7 +78,7 @@
 | 수다르샤나 차크라 | 인도 신화 | [Vishnu](https://www.metmuseum.org/art/collection/search/677426) — Nepal (Kathmandu Valley), dated August 12, 1105 (2015.678) |
 | 간디바 | 인도 신화 | ["Arjuna Battles Raja Tamradhvaja", Folio from a Razmnama](https://www.metmuseum.org/art/collection/search/451314) — India, ca. 1616–17 (55.121.30) |
 | 암리타 | 인도 신화 | [The Churning of the Ocean of Milk](https://www.metmuseum.org/art/collection/search/37989) — India (Punjab Hill, Mandi), ca. 1780–90 (1977.443.2) |
-| 카바차와 쿤달라 | 인도 신화 | [Gold earrings](https://www.metmuseum.org/art/collection/search/250672) — Etruscan, 4th–early 3rd century BCE (18.103.1, .2) |
+| 카바차와 쿤달라 | 인도 신화 | [Earring with Vishnu Riding Garuda](https://clevelandart.org/art/1915.342.2) — Nepal, Kathmandu Valley, 1600s or 1700s (1915.342.2) |
 | 여의보주 | 인도 신화 | [Tile with Cintamani Design](https://www.metmuseum.org/art/collection/search/823310) — Turkey, ca. 1560–70 (2019.173) |
 | 간장과 막야 | 중국 신화와 전설 | [Sword](https://www.metmuseum.org/art/collection/search/25653) — Chinese, 5th–4th century BCE (12.37.145) |
 | 여의금고봉 | 중국 신화와 전설 | [Ruyi Scepter](https://www.metmuseum.org/art/collection/search/40703) — China, 18th–19th century (29.110.45) |
@@ -97,4 +97,4 @@
 | 도쓰카노쓰루기 | 일본 신화 | [Blade for a Straight Single-Edged Sword (Chokutō)](https://www.metmuseum.org/art/collection/search/22714) — Japanese, 7th century or earlier (17.229.40) |
 | 후쓰노미타마 | 일본 신화 | [Blade for a Double-Edged Sword (Ken)](https://www.metmuseum.org/art/collection/search/22090) — Japanese, 5th century (06.310.8) |
 | 자명고 | 한국 신화와 설화 | [Changgo (장구)](https://www.metmuseum.org/art/collection/search/500723) — Korean, 19th century (89.4.141) |
-| 천사옥대 | 한국 신화와 설화 | [Gold Openwork Belt Mount](https://www.metmuseum.org/art/collection/search/464094) — Avar, 700s (17.190.1686) |
+| 천사옥대 | 한국 신화와 설화 | [Belt Ornament](https://clevelandart.org/art/1917.1053.1) — Korea, Goryeo dynasty (918–1392), 1100s (1917.1053.1) |

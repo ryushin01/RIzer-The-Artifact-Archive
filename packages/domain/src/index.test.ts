@@ -82,7 +82,9 @@ describe("유물", () => {
   it("시드 유물의 사진은 서로 다른 소장품이고 CC0다", () => {
     // 합성 이미지는 대표 번호가 첫 조각과 같으므로 조각 번호만 센다.
     const ids = SEED_ARTIFACTS.flatMap((a) =>
-      a.source.parts.length ? a.source.parts.map((p) => p.objectId) : [a.source.objectId],
+      a.source.parts.length
+        ? a.source.parts.map((p) => `${a.source.institution}:${p.objectId}`)
+        : [`${a.source.institution}:${a.source.objectId}`],
     );
     expect(new Set(ids).size).toBe(ids.length);
     expect(SEED_ARTIFACTS.every((a) => a.source.license === "CC0-1.0")).toBe(true);

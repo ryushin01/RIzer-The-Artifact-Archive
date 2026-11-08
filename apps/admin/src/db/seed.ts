@@ -1,5 +1,5 @@
 import { SEED_ANNOTATIONS, SEED_ARTIFACTS } from "@rizer/domain/seed";
-import { and, count, eq, inArray, isNull, sql } from "drizzle-orm";
+import { and, count, eq, inArray, isNull } from "drizzle-orm";
 
 import type { SeedImageManifest } from "@/entities/artifact";
 
@@ -80,28 +80,68 @@ async function insertSeedAnnotations(db: Database, slugs: string[]) {
   if (rows.length) await db.insert(annotations).values(rows);
 }
 
+/** 키 순서(jsonb는 순서를 바꾼다)와 부동소수 오차에 흔들리지 않는 비교용 문자열 */
+function stable(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stable).join(",")}]`;
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value)
+      .sort()
+      .map((k) => `${JSON.stringify(k)}:${stable((value as Record<string, unknown>)[k])}`)
+      .join(",")}}`;
+  }
+  if (typeof value === "number") return String(Math.round(value * 1000) / 1000);
+  return JSON.stringify(value);
+}
+
 /**
- * 시드 주석이 나중에 생긴 시드 유물에 주석을 채운다(유물을 먼저 넣고 주석을 뒤에 쓴 경우).
- * 주석이 하나도 없고, 넣은 뒤 아무도 고치지 않은(수정 시각 = 생성 시각) 시드 유물만 채운다.
- * 주석을 저장하면 유물의 수정 시각이 바뀌므로, 큐레이터가 일부러 주석을 비운 유물은 건드리지 않는다.
+ * 시드로 넣은 뒤 아무도 고치지 않은 유물(수정 시각 = 생성 시각)을 지금의 카탈로그와 맞춘다.
+ * 해설·사진 출처·대체 텍스트, 시드 이미지, 주석이 달라졌으면 바꾼다. 수정 시각은 그대로 둬 계속 '손대지 않은' 상태로 남긴다.
+ * 큐레이터가 고치거나 이미지를 올리거나 주석을 저장한 유물은 수정 시각이 바뀌므로 건드리지 않는다.
+ * 달라진 것만 쓰므로, 바뀐 것이 없으면 읽기 두 번으로 끝난다.
  */
-export async function syncSeedAnnotations(db: Database) {
-  const ids = Object.keys(SEED_ANNOTATIONS).map(seedArtifactId);
-  const targets = await db
-    .select({ slug: artifacts.slug })
-    .from(artifacts)
-    .where(
-      and(
-        inArray(artifacts.id, ids),
-        eq(artifacts.updatedAt, artifacts.createdAt),
-        sql`not exists (select 1 from "annotations" where "annotations"."artifact_id" = "artifacts"."id")`,
-      ),
-    );
-  await insertSeedAnnotations(
-    db,
-    targets.map((t) => t.slug),
-  );
-  return targets.length;
+export async function refreshUntouchedSeedArtifacts(db: Database, manifest: SeedImageManifest) {
+  const bySlug = new Map(SEED_ARTIFACTS.map((a) => [a.slug, a]));
+  const rows = (
+    await db
+      .select()
+      .from(artifacts)
+      .where(and(inArray(artifacts.id, SEED_ARTIFACTS.map((a) => seedArtifactId(a.slug))), eq(artifacts.updatedAt, artifacts.createdAt)))
+  ).filter((r) => bySlug.has(r.slug));
+  if (!rows.length) return { fields: 0, images: 0, annotations: 0 };
+
+  const notes = await db
+    .select()
+    .from(annotations)
+    .where(inArray(annotations.artifactId, rows.map((r) => r.id)))
+    .orderBy(annotations.order);
+  const notesOf = (id: string) =>
+    notes.filter((n) => n.artifactId === id).map((n) => [n.title, n.body, n.x, n.y, n.w, n.h]);
+
+  const counts = { fields: 0, images: 0, annotations: 0 };
+  for (const row of rows) {
+    const seed = bySlug.get(row.slug)!;
+    const { slug: _slug, ...fields } = seed;
+    const current = Object.fromEntries(Object.keys(fields).map((k) => [k, row[k as keyof typeof row]]));
+    const patch: Partial<typeof artifacts.$inferInsert> = {};
+    if (stable(current) !== stable(fields)) {
+      Object.assign(patch, fields);
+      counts.fields++;
+    }
+    const image = manifest[row.slug];
+    if (image && row.image?.dziKey !== image.dziKey) {
+      patch.image = image;
+      counts.images++;
+    }
+    if (Object.keys(patch).length) await db.update(artifacts).set(patch).where(eq(artifacts.id, row.id));
+
+    const wanted = (SEED_ANNOTATIONS[row.slug] ?? []).map((a) => [a.title, a.body, a.region.x, a.region.y, a.region.w, a.region.h]);
+    if (stable(notesOf(row.id)) !== stable(wanted)) {
+      await db.delete(annotations).where(eq(annotations.artifactId, row.id));
+      await insertSeedAnnotations(db, [row.slug]);
+      counts.annotations++;
+    }
+  }
+  return counts;
 }
 
 /**

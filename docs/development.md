@@ -4,7 +4,7 @@
 
 - Node.js 24(`.node-version`), pnpm 12(`packageManager`에 고정). 저장소 루트에서 명령을 실행합니다.
 - 시드 유물의 타일은 저장소(`apps/web/public/tiles`)에 들어 있어, 받은 그대로 실행해도 이미지가 보입니다. 원본부터 다시 만들려면 `pnpm seed:images`로 원본을 받아 `apps/admin/.data/storage`에 자르고(git에 넣지 않음), 공개용으로 바꿀 때는 `pnpm --filter @rizer/admin export:seed-tiles`로 정적 타일과 `src/db/seed-images.json`을 다시 만듭니다. 이유는 [배포](deployment.md)를 보세요.
-  - 원본은 The Met Open Access에서 받아 `apps/admin/.data/originals`에 보관합니다. 다시 실행하면 받은 원본을 재사용합니다.
+  - 원본은 The Met·클리블랜드 미술관 Open Access에서 받아 `apps/admin/.data/originals`에 보관합니다. 다시 실행하면 받은 원본을 재사용합니다.
   - 네트워크 없이 확인하려면 `pnpm --filter @rizer/admin seed:images --synthetic`(무늬 이미지, CI·E2E용).
   - 한 점만: `pnpm --filter @rizer/admin seed:images --only excalibur,gram`
   - 새로 추가한 시드 유물만: `pnpm --filter @rizer/admin seed:images --missing` (기본 타일 510px, 긴 변 최대 3000px)

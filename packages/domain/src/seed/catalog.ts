@@ -1,10 +1,10 @@
 import type { ArtifactInput, ArtifactSource } from "../artifact";
 import { LEGEND_ARTIFACTS } from "./legends";
-import { met } from "./met";
+import { met } from "./sources";
 
 /**
  * 시드 유물. 대표 유물 16점(아래)과 추가 전설 유물(legends/)로 이루어진다. 전설 속 유물이므로 실물이 없다.
- * 이미지는 모습이 닮은 메트로폴리탄 미술관(The Met) 소장품의 CC0 사진을 빌려 쓰고, source에 사진 속 실제 물건을 밝힌다.
+ * 이미지는 모습이 닮은 메트로폴리탄 미술관(The Met)·클리블랜드 미술관 소장품의 CC0 사진을 빌려 쓰고, source에 사진 속 실제 물건을 밝힌다.
  * 유물 선정은 나무위키 「전설의 무기」·「전설의 도구」 문서를 참고했고, 해설은 이 프로젝트에서 새로 썼다.
  */
 export type SeedArtifact = ArtifactInput & { source: ArtifactSource };

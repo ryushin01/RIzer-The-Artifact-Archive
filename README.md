@@ -12,7 +12,7 @@
 
 ## 화면
 
-사진은 [메트로폴리탄 미술관 Open Access](https://www.metmuseum.org/hubs/open-access)(CC0)이고, 계정·주석은 개발용 시드 데이터입니다.
+사진은 [메트로폴리탄 미술관](https://www.metmuseum.org/hubs/open-access)·[클리블랜드 미술관](https://www.clevelandart.org/open-access) Open Access(CC0)이고, 계정·주석은 개발용 시드 데이터입니다.
 
 ### 공개 사이트
 
