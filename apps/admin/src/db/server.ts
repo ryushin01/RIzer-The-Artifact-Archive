@@ -14,6 +14,7 @@ import {
   insertMissingSeedArtifacts,
   insertSeedData,
   isEmpty,
+  syncSeedAnnotations,
   syncSeedImages,
 } from "./seed";
 
@@ -78,6 +79,11 @@ async function open() {
       await insertMissingSeedArtifacts(db, manifest);
     } catch (error) {
       // 여러 인스턴스가 동시에 넣으면 늦은 쪽은 고유 키 위반이 난다. 이미 들어간 것이다.
+      if (!isUniqueViolation(error)) throw error;
+    }
+    try {
+      await syncSeedAnnotations(db);
+    } catch (error) {
       if (!isUniqueViolation(error)) throw error;
     }
     await syncSeedImages(db, manifest);

@@ -1,4 +1,5 @@
 import type { AnnotationInput } from "../annotation";
+import { LEGEND_ANNOTATIONS } from "./legends/annotations";
 
 export type SeedAnnotation = Omit<AnnotationInput, "order">;
 
@@ -12,7 +13,7 @@ const a = (title: string, body: string, x: number, y: number, w: number, h: numb
  * 시드 주석. 영역은 이미지 크기에 대한 백분율(xywh=percent)이다.
  * 위치는 각 사진의 미리보기에 10% 격자를 겹쳐 보고 잡았다. 순서가 "안내 투어"의 순서다.
  */
-export const SEED_ANNOTATIONS: Record<string, SeedAnnotation[]> = {
+const FEATURED_ANNOTATIONS: Record<string, SeedAnnotation[]> = {
   excalibur: [
     a("둥근 자루 끝", "자루 끝의 둥근 추는 칼의 무게중심을 손 가까이 당겨, 긴 칼을 한 손으로도 다루기 쉽게 한다.", 42, 5, 16, 8),
     a("십자형 코등이", "곧게 뻗은 코등이는 중세 기사의 검을 십자가처럼 보이게 했다. 아서는 이 검을 땅에 꽂고 맹세를 받았다고 그려지곤 한다.", 30, 24, 40, 6),
@@ -98,3 +99,5 @@ export const SEED_ANNOTATIONS: Record<string, SeedAnnotation[]> = {
     a("방울", "종 모양의 청동 방울. 소리로 신을 부르고 사람들을 모으던 제사 도구로, 무당의 방울로 이어졌다고 본다.", 76, 15, 14, 70),
   ],
 };
+
+export const SEED_ANNOTATIONS: Record<string, SeedAnnotation[]> = { ...FEATURED_ANNOTATIONS, ...LEGEND_ANNOTATIONS };

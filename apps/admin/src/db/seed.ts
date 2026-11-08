@@ -1,5 +1,5 @@
 import { SEED_ANNOTATIONS, SEED_ARTIFACTS } from "@rizer/domain/seed";
-import { count, eq, isNull, and } from "drizzle-orm";
+import { and, count, eq, inArray, isNull, sql } from "drizzle-orm";
 
 import type { SeedImageManifest } from "@/entities/artifact";
 
@@ -59,9 +59,14 @@ async function insertSeedArtifacts(
       updatedAt: new Date(now.getTime() - (list.length - i) * 60_000),
     })),
   );
-  const slugs = new Set(list.map((a) => a.slug));
+  await insertSeedAnnotations(db, list.map((a) => a.slug));
+}
+
+/** 시드 주석을 넣는다. 아이디가 정해져 있어 여러 인스턴스가 동시에 넣어도 한 번만 들어간다(늦은 쪽은 고유 키 위반). */
+async function insertSeedAnnotations(db: Database, slugs: string[]) {
+  const wanted = new Set(slugs);
   const rows = Object.entries(SEED_ANNOTATIONS)
-    .filter(([slug]) => slugs.has(slug))
+    .filter(([slug]) => wanted.has(slug))
     .flatMap(([slug, notes]) =>
       notes.map((a, order) => ({
         id: `ann_${slug.replace(/-/g, "_")}_${order}`,
@@ -73,6 +78,30 @@ async function insertSeedArtifacts(
       })),
     );
   if (rows.length) await db.insert(annotations).values(rows);
+}
+
+/**
+ * 시드 주석이 나중에 생긴 시드 유물에 주석을 채운다(유물을 먼저 넣고 주석을 뒤에 쓴 경우).
+ * 주석이 하나도 없고, 넣은 뒤 아무도 고치지 않은(수정 시각 = 생성 시각) 시드 유물만 채운다.
+ * 주석을 저장하면 유물의 수정 시각이 바뀌므로, 큐레이터가 일부러 주석을 비운 유물은 건드리지 않는다.
+ */
+export async function syncSeedAnnotations(db: Database) {
+  const ids = Object.keys(SEED_ANNOTATIONS).map(seedArtifactId);
+  const targets = await db
+    .select({ slug: artifacts.slug })
+    .from(artifacts)
+    .where(
+      and(
+        inArray(artifacts.id, ids),
+        eq(artifacts.updatedAt, artifacts.createdAt),
+        sql`not exists (select 1 from "annotations" where "annotations"."artifact_id" = "artifacts"."id")`,
+      ),
+    );
+  await insertSeedAnnotations(
+    db,
+    targets.map((t) => t.slug),
+  );
+  return targets.length;
 }
 
 /**

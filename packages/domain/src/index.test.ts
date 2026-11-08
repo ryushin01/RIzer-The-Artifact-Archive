@@ -96,7 +96,9 @@ describe("유물", () => {
         expect(annotationInputSchema.safeParse({ ...a, order }).success, `${slug} ${a.title}`).toBe(true);
       });
     }
-    // 대표 유물 16점에는 모두 주석이 있다.
-    expect(Object.keys(SEED_ANNOTATIONS).length).toBeGreaterThanOrEqual(16);
+    // 모든 시드 유물에 주석이 두 개 이상 있다(안내 투어가 비지 않게).
+    for (const seed of SEED_ARTIFACTS) {
+      expect(SEED_ANNOTATIONS[seed.slug]?.length ?? 0, seed.slug).toBeGreaterThanOrEqual(2);
+    }
   });
 });

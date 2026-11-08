@@ -256,7 +256,7 @@ export const LEGEND_IMAGES: Record<string, { imageAlt: string; source: ArtifactS
     ),
   },
   "eros-arrows": {
-    imageAlt: "1~2세기 로마의 청동 소상. 날개 달린 소년 에로스가 한 손에 긴 막대를 들고 다른 팔을 앞으로 뻗은 채 걸어 나간다.",
+    imageAlt: "1~2세기 로마의 청동 소상. 날개 달린 소년 에로스가 왼손에 활로 보이는 긴 물건을 들고 오른팔을 높이 뻗은 채 걸어 나간다.",
     source: met(
       246683,
       "Bronze statuette of Eros running",
