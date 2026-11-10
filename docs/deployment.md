@@ -70,4 +70,4 @@ vercel api "/v10/projects/<프로젝트>/env?upsert=true" -X POST --input -   # 
 
 - `/storybook`은 정적 파일 폴더라 `/storybook/index.html`로 보냅니다(`next.config.ts`의 `redirects`).
 - `/storybook/` 아래만 미리보기 iframe을 위해 `X-Frame-Options: SAMEORIGIN`, `frame-ancestors 'self'`를 쓰고, Storybook에서 `next/font/google`이 받는 Google 글꼴 서버를 허용합니다. 사이트의 나머지 헤더는 그대로입니다.
-- `STORYBOOK_IN_APP=1`로 빌드해 `public`(딥줌 타일 약 95MB)을 복사하지 않습니다. 같은 주소에서 열리므로 타일은 사이트의 것을 씁니다.
+- `pnpm build-storybook`(앱 빌드가 먼저 부르는 스크립트)으로 빌드할 때는 `public`(딥줌 타일 약 95MB)을 복사하지 않습니다. 같은 주소에서 열리므로 타일은 사이트의 것을 씁니다.
