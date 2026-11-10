@@ -23,7 +23,8 @@ export async function generateStaticParams() {
 async function metadataFor({ params }: Props, locale: Locale): Promise<Metadata> {
   const { slug } = await params;
   const detail = await getArtifact(slug, locale);
-  if (!detail || detail === "offline") return { title: MESSAGES[locale].meta.artifactFallback };
+  if (!detail) return { title: { absolute: MESSAGES[locale].notFound.pageTitle } };
+  if (detail === "offline") return { title: MESSAGES[locale].meta.artifactFallback };
   const { artifact } = detail;
   return {
     title: artifact.title,

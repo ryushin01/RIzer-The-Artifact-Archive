@@ -197,6 +197,7 @@ const ko = {
     copyFailed: "복사하지 못했습니다. 주소 표시줄의 주소를 복사해 주세요.",
   },
   notFound: {
+    pageTitle: "페이지를 찾을 수 없습니다 · RIzer Archive",
     message:
       "찾는 유물이 아카이브에 없습니다. 주소가 바뀌었거나 아직 공개하지 않은 유물입니다.",
     action: "아카이브로 가기",
@@ -405,6 +406,7 @@ const en: Messages = {
     copyFailed: "Could not copy. Please copy the address from the address bar.",
   },
   notFound: {
+    pageTitle: "Page not found · RIzer Archive",
     message:
       "This artifact is not in the archive. The address may have changed, or it has not been published yet.",
     action: "Go to the archive",
