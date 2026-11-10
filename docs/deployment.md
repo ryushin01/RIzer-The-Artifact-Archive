@@ -4,8 +4,8 @@
 
 | 구성 | 서비스 | 비고 |
 |---|---|---|
-| 관리 화면 + 공개 API | Vercel 프로젝트 `rizer-admin` (Root Directory `apps/admin`) | https://rizer-admin.vercel.app |
-| 공개 사이트 | Vercel 프로젝트 `rizer-web` (Root Directory `apps/web`) | https://rizer-web.vercel.app |
+| 관리 화면 + 공개 API | Vercel 프로젝트 `rizer-admin` (Root Directory `apps/admin`) | https://rizer-admin-ryushin01.vercel.app |
+| 공개 사이트 | Vercel 프로젝트 `rizer-web` (Root Directory `apps/web`) | https://rizer-web-ryushin01.vercel.app |
 | DB | Neon PostgreSQL `rizer-db` (Vercel Marketplace, iad1) | `DATABASE_URL`(pooled)을 쓴다. 관리 화면 함수도 같은 리전(`apps/admin/vercel.json`의 `regions: ["iad1"]`)에서 돌게 해 쿼리마다 태평양을 건너지 않게 한다 |
 | 시드 유물의 타일 | 공개 사이트의 정적 파일 `apps/web/public/tiles` (저장소에 포함) | Vercel CDN이 1년 캐시 |
 | 큐레이터가 올리는 이미지 | Vercel Blob 스토어 `rizer-archive` (공개) | 원본은 브라우저가 서명된 주소로 바로 올린다 |
@@ -34,7 +34,7 @@ Vercel Blob Hobby는 업로드·목록 같은 **고급 작업이 월 2,000회**�
 | 변수 | 값 |
 |---|---|
 | `DATABASE_URL` | Neon 연결 시 자동 |
-| `NEXTAUTH_URL`, `NEXTAUTH_SECRET` | `https://rizer-admin.vercel.app`, 임의 문자열 |
+| `NEXTAUTH_URL`, `NEXTAUTH_SECRET` | `https://rizer-admin-ryushin01.vercel.app`, 임의 문자열 |
 | `SEED_DEMO`, `CURATOR_PASSWORD` | `1`, 큐레이터 비밀번호 |
 | `STORAGE_DRIVER`, `BLOB_READ_WRITE_TOKEN` | `blob`, Blob 스토어 연결 시 자동 |
 | `WEB_URL`, `WEB_REVALIDATE_URL`, `REVALIDATE_SECRET` | 공개 사이트 주소, `…/api/revalidate`, 공개 사이트와 같은 비밀값 |
@@ -43,8 +43,8 @@ Vercel Blob Hobby는 업로드·목록 같은 **고급 작업이 월 2,000회**�
 
 | 변수 | 값 |
 |---|---|
-| `ARCHIVE_API_URL`, `NEXT_PUBLIC_ARCHIVE_API_URL` | `https://rizer-admin.vercel.app` (`NEXT_PUBLIC_`은 빌드 때 들어가므로 바꾸면 다시 배포) |
-| `SITE_URL` | `https://rizer-web.vercel.app` |
+| `ARCHIVE_API_URL`, `NEXT_PUBLIC_ARCHIVE_API_URL` | `https://rizer-admin-ryushin01.vercel.app` (`NEXT_PUBLIC_`은 빌드 때 들어가므로 바꾸면 다시 배포) |
+| `SITE_URL` | `https://rizer-web-ryushin01.vercel.app` |
 | `STORAGE_DRIVER` | `blob` (CSP에 Blob 공개 도메인을 넣는다) |
 | `REVALIDATE_SECRET` | 관리 화면과 같은 값 |
 
@@ -62,4 +62,4 @@ vercel api "/v10/projects/<프로젝트>/env?upsert=true" -X POST --input -   # 
 
 1. 공개 사이트는 관리 화면 API가 꺼져 있어도 빌드된다. 데이터는 요청 때 읽고, 관리 화면이 저장하면 `/api/revalidate`로 캐시를 비운다.
 2. 관리 화면에 큐레이터로 들어가 유물 하나를 고치고 저장한 뒤, 공개 사이트의 그 유물 화면을 새로고침하면 바로 바뀌어 있어야 한다.
-3. 타일 요청이 `rizer-web.vercel.app/tiles/…`(시드)로 가고 `Cache-Control: immutable`인지 확인한다.
+3. 타일 요청이 `rizer-web-ryushin01.vercel.app/tiles/…`(시드)로 가고 `Cache-Control: immutable`인지 확인한다.
