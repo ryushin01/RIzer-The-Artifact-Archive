@@ -7,6 +7,12 @@ import { media } from "@/shared/config";
 import { otherLocalePath, useLocale, useMessages } from "@/shared/i18n";
 import { Container, MonoLabel } from "@/shared/ui";
 
+/** 함께 배포한 Storybook. 개발 서버에는 빌드 결과물이 없어 Storybook 개발 서버로 보낸다. */
+const STORYBOOK_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:6006"
+    : "/storybook/index.html";
+
 /** 바닥글: 이미지 출처와 프로젝트 정보 */
 export function SiteFooter({ adminUrl }: { adminUrl?: string }) {
   const locale = useLocale();
@@ -22,12 +28,20 @@ export function SiteFooter({ adminUrl }: { adminUrl?: string }) {
           </div>
           <p>
             {t.before}
-            <a href="https://www.metmuseum.org/hubs/open-access" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.metmuseum.org/hubs/open-access"
+              target="_blank"
+              rel="noreferrer"
+            >
               {t.met}
               <span className="sr-only">{newWindow}</span>
             </a>
             {t.and}
-            <a href="https://www.clevelandart.org/open-access" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.clevelandart.org/open-access"
+              target="_blank"
+              rel="noreferrer"
+            >
               {t.cleveland}
               <span className="sr-only">{newWindow}</span>
             </a>
@@ -37,17 +51,28 @@ export function SiteFooter({ adminUrl }: { adminUrl?: string }) {
             {adminUrl && (
               <li>
                 <a href={adminUrl} target="_blank" rel="noreferrer">
-                  {t.admin}<span className="sr-only">{newWindow}</span>
+                  {t.admin}
+                  <span className="sr-only">{newWindow}</span>
                 </a>
               </li>
             )}
             <li>
-              <a href="https://github.com/ryushin01/RIzer-The-Artifact-Archive" target="_blank" rel="noreferrer">
+              <a href={STORYBOOK_URL}>{t.storybook}</a>
+            </li>
+            <li>
+              <a
+                href="https://github.com/ryushin01/RIzer-The-Artifact-Archive"
+                target="_blank"
+                rel="noreferrer"
+              >
                 GitHub<span className="sr-only">{newWindow}</span>
               </a>
             </li>
             <li>
-              <a href={otherLocalePath(locale, pathname)} lang={locale === "ko" ? "en" : "ko"}>
+              <a
+                href={otherLocalePath(locale, pathname)}
+                lang={locale === "ko" ? "en" : "ko"}
+              >
                 {t.language}
               </a>
             </li>

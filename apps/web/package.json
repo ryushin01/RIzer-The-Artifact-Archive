@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3001",
-    "build": "next build",
+    "build": "pnpm run build-storybook && next build",
     "start": "next start --port 3001",
     "lint": "eslint && steiger src",
     "typecheck": "next typegen && tsc7 --noEmit",
@@ -12,7 +12,7 @@
     "test:coverage": "vitest run --project unit --coverage",
     "test:storybook": "vitest run --project storybook",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build --quiet",
+    "build-storybook": "storybook build -o public/storybook --quiet",
     "e2e": "playwright test"
   },
   "dependencies": {
