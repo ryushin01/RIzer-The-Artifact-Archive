@@ -15,5 +15,5 @@ export const nextAppConfig = [
       ],
     },
   },
-  globalIgnores([".next/**", "out/**", "build/**", "coverage/**", "storybook-static/**", "next-env.d.ts"]),
+  globalIgnores([".next/**", "out/**", "build/**", "coverage/**", "storybook-static/**", "public/storybook/**", "next-env.d.ts"]),
 ];

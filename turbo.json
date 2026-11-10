@@ -33,7 +33,8 @@
       "outputs": [
         ".next/**",
         "!.next/cache/**",
-        "storybook-static/**"
+        "storybook-static/**",
+        "public/storybook/**"
       ]
     },
     "typecheck": {
