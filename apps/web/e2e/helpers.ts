@@ -15,10 +15,13 @@ export async function expectNoA11yViolations(page: Page) {
 }
 
 /** 없는 유물 화면. 스트리밍 중에 notFound가 나오면 상태 코드는 200이지만 404 화면과 noindex가 나온다. */
-export async function expectNotFound(page: Page) {
+export async function expectNotFound(page: Page, locale: "ko" | "en" = "ko") {
   await expect(page.getByRole("heading", { name: /Lost Relic/ })).toBeVisible();
   // 라우트 그룹의 not-found는 프레임워크가 같은 meta를 두 번 넣을 수 있다. 값은 같으므로 첫 번째만 본다.
   await expect(page.locator('head meta[name="robots"]').first()).toHaveAttribute("content", /noindex/);
+  // 화면 제목으로도 404임을 알 수 있어야 한다(KWCAG 6.4.2).
+  await expect(page).toHaveTitle(locale === "en" ? /^Page not found/ : /^페이지를 찾을 수 없습니다/);
+  await expect(page.locator("title")).toHaveCount(1);
 }
 
 export async function loginAsCurator(page: Page) {

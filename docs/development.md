@@ -70,7 +70,8 @@
 | 고친 뒤 | 57 | 8.9초 | 93 | 1077KB | 96 |
 
 - 고친 것: 히어로의 나머지 슬라이드와 첫 화면 아래 카드를 미리 받지 않음, 첫 사진에 `fetchpriority="high"`, 파비콘 추가.
-- 모바일 점수는 달라지지 않았습니다. Lantern 모의 측정에서는 한글 글꼴(Pretendard 조각 27개, 약 720KB)이 가장 큰 비용입니다. 스로틀 없이 잰 실제 첫 페인트는 0.2초입니다.
+- 운영(Vercel) 첫 화면, 2026-11-10, 3회 중앙값: 모바일 성능 95(LCP 2.3초), 데스크톱 100, 접근성 100, 권장사항 96, SEO 100. 같은 날 배포 전 0.4.0 운영은 모바일 63, 데스크톱 93이었습니다.
+- 로컬 측정에서는 모바일 점수가 달라지지 않았습니다. Lantern 모의 측정에서는 한글 글꼴(Pretendard 조각 27개, 약 720KB)이 가장 큰 비용입니다. 스로틀 없이 잰 실제 첫 페인트는 0.2초입니다.
 
 ## 알려진 함정
 
@@ -87,5 +88,6 @@
 | Vercel 배포에서만 CSP에 공개 사이트 주소가 빠짐 | Vercel이 Turborepo로 빌드하면 `turbo.json`에 적지 않은 환경 변수는 빌드에 넘어가지 않음 | 빌드 때 읽는 변수(`next.config.ts`의 CSP 등)는 `turbo.json`의 `build.env`에 적는다 |
 | 영어판에 한국어 해설이 나옴 | 시드 한국어를 고치면 번역 대조가 어긋나 해당 필드는 한국어로 남음(의도한 동작) | 시드를 고칠 때 `packages/domain/src/seed/en`의 번역도 맞춘다 |
 | 라우트 파일을 옮긴 뒤 `.next/dev/types`에서 타입 오류 | 옛 경로의 생성 타입이 남음 | `apps/web/.next/dev`를 지우고 다시 검사 |
+| 운영 404 화면 제목이 사이트 기본 제목으로 나옴 | `metadata`는 루트 `app/not-found`만 지원. 언어별 라우트 그룹의 not-found에서 내보낸 값은 운영의 미리 그린 404 셸에 빠짐(로컬 `next start`에서는 우연히 보임) | `NotFoundScreen`이 `document.title`을 맞춘다. `<title>`을 새로 그리면 제목 요소가 두 개가 됨 |
 | 스크립트(tsx)에서 top-level await 오류 | `apps/admin`은 CommonJS 패키지 | 스크립트는 `.mts`로 작성 |
 | 주석 개수가 0으로 나옴 | 서브쿼리 안의 `artifacts.id`가 따옴표 없는 `"id"`로 그려져 `annotations.id`로 읽힘 | 테이블 이름을 직접 씀(`repository.ts`) |
