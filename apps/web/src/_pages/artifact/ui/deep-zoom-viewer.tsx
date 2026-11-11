@@ -9,7 +9,7 @@ import styled from "styled-components";
 import { selected, selectTour, TourControls } from "@/features/annotation-tour";
 import { selectReducedMotion } from "@/features/motion-preference";
 import { useMessages } from "@/shared/i18n";
-import { IconButton, IconExpand, IconHome, IconMinus, IconPlus, MonoLabel } from "@/shared/ui";
+import { IconArrowLeft, IconArrowRight, IconButton, IconExpand, IconHome, IconMinus, IconPlus, MonoLabel } from "@/shared/ui";
 
 import { padRect, regionToImageRect } from "../model/geometry";
 
@@ -20,6 +20,7 @@ type Props = { title: string; image: DeepZoomImage; imageAlt: string; annotation
  * - 주석은 사진 위에 번호 버튼으로 얹는다. 실제 <button>이라 Tab으로 차례로 지나가며 고를 수 있다.
  * - 고른 주석(스토어의 activeId)으로 확대한다. 안내 투어(사가)도 같은 값을 바꾼다.
  * - 키보드: 사진에 초점을 두고 화살표로 움직이고, +/-로 확대·축소, 0으로 전체 보기.
+ * - 끌기 없이 한 번 누르기로도 옮길 수 있게 이동 버튼을 둔다(KWCAG 6.5.1 단일 포인터).
  */
 export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
   const t = useMessages().viewer;
@@ -47,8 +48,8 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
         showNavigationControl: false,
         // 좁은 화면에서는 미니맵이 사진을 많이 가리므로 넓은 화면에서만 보인다.
         showNavigator: wide,
-        // 위쪽 도구 막대(좁은 화면에서는 두 줄)에 사진과 주석 번호가 가리지 않게 여백을 둔다.
-        viewportMargins: { top: wide ? 72 : 124, bottom: 12, left: 12, right: 12 },
+        // 위쪽 도구 막대(좁은 화면에서는 두 줄)와 아래쪽 이동 버튼에 사진과 주석 번호가 가리지 않게 여백을 둔다.
+        viewportMargins: { top: wide ? 72 : 124, bottom: 64, left: 12, right: 12 },
         navigatorPosition: "BOTTOM_RIGHT",
         navigatorAutoFade: false,
         navigatorBackground: "#050505",
@@ -119,6 +120,16 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
   }, [activeId, ready]);
 
   const zoomBy = (factor: number) => viewerRef.current?.viewport.zoomBy(factor).applyConstraints(reduced);
+  /** 보이는 폭·높이의 1/4만큼 옮긴다. dx·dy는 -1·0·1. */
+  const pan = (dx: number, dy: number) => {
+    const viewport = viewerRef.current?.viewport;
+    if (!viewport) return;
+    const bounds = viewport.getBounds();
+    const center = viewport.getCenter();
+    center.x += bounds.width * 0.25 * dx;
+    center.y += bounds.height * 0.25 * dy;
+    viewport.panTo(center, reduced).applyConstraints(reduced);
+  };
   const home = () => {
     dispatch(selected(null));
     viewerRef.current?.viewport.goHome(reduced);
@@ -159,6 +170,20 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
           </IconButton>
         </Zoom>
       </Toolbar>
+      <Pan role="group" aria-label={t.panGroup}>
+        <IconButton type="button" aria-label={t.panLeft} onClick={() => pan(-1, 0)} disabled={!ready}>
+          <IconArrowLeft />
+        </IconButton>
+        <IconButton type="button" aria-label={t.panUp} onClick={() => pan(0, -1)} disabled={!ready}>
+          <IconArrowRight style={{ transform: "rotate(-90deg)" }} />
+        </IconButton>
+        <IconButton type="button" aria-label={t.panDown} onClick={() => pan(0, 1)} disabled={!ready}>
+          <IconArrowRight style={{ transform: "rotate(90deg)" }} />
+        </IconButton>
+        <IconButton type="button" aria-label={t.panRight} onClick={() => pan(1, 0)} disabled={!ready}>
+          <IconArrowRight />
+        </IconButton>
+      </Pan>
       <Resolution>
         <MonoLabel>
           {image.width.toLocaleString("ko-KR")} × {image.height.toLocaleString("ko-KR")} PX
@@ -260,10 +285,18 @@ const ZoomLabel = styled.span`
   border-radius: 6px;
   background: rgba(5, 5, 5, 0.6);
 `;
+/** 왼쪽 아래. 넓은 화면의 미니맵은 오른쪽 아래에 있다. */
+const Pan = styled.div`
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  gap: 6px;
+`;
 const Resolution = styled.div`
   position: absolute;
   left: 16px;
-  bottom: 14px;
+  bottom: 66px;
   padding: 4px 10px;
   border-radius: 999px;
   background: rgba(5, 5, 5, 0.7);

@@ -120,6 +120,21 @@ test.describe("유물 화면", () => {
     await expectNoA11yViolations(page);
   });
 
+  test("끌기 없이 이동 버튼으로 사진을 옮긴다", async ({ page }) => {
+    await page.goto("/artifacts/excalibur");
+    const marker = page.getByRole("button", { name: /^주석 1: / });
+    await expect(marker).toBeVisible({ timeout: 20_000 });
+    const pan = page.getByRole("group", { name: "사진 이동" });
+    const x = async () => (await marker.boundingBox())!.x;
+    const before = await x();
+    // 오른쪽을 보려고 옮기면 사진 위의 표시는 왼쪽으로 간다.
+    await pan.getByRole("button", { name: "오른쪽으로 이동" }).click();
+    await expect.poll(x).toBeLessThan(before - 20);
+    const afterRight = await x();
+    await pan.getByRole("button", { name: "왼쪽으로 이동" }).click();
+    await expect.poll(x).toBeGreaterThan(afterRight + 20);
+  });
+
   test("주석 바로가기 주소로 들어오면 그 주석이 열리고, 고르면 주소가 따라 바뀐다", async ({
     page,
   }) => {
