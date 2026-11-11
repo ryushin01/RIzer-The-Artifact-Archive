@@ -22,9 +22,10 @@ export const theme = {
     focus: "#ffd166",
   },
   font: {
-    display: "var(--font-display), 'Pretendard Variable', sans-serif",
-    body: "'Pretendard Variable', Pretendard, system-ui, sans-serif",
-    mono: "var(--font-mono), ui-monospace, monospace",
+    // 글꼴을 받기 전이나 받지 못하면 운영체제의 명조와 고정폭 글꼴로 나온다.
+    display: "var(--font-display-en), var(--font-display-ko), AppleMyungjo, Batang, serif",
+    body: "var(--font-body), AppleMyungjo, Batang, 'Noto Serif CJK KR', serif",
+    mono: "var(--font-mono), ui-monospace, Menlo, Consolas, monospace",
   },
   radius: { sm: "8px", md: "14px", lg: "24px", pill: "999px" },
   bp: { sm: "640px", md: "900px", lg: "1200px" },
