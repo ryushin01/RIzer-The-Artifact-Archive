@@ -29,6 +29,8 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
   const { activeId, markersVisible } = useSelector(selectTour);
   const reduced = useSelector(selectReducedMotion);
   const hostRef = useRef<HTMLDivElement>(null);
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<OpenSeadragon.Viewer | null>(null);
   const [ready, setReady] = useState(false);
   const [zoomPercent, setZoomPercent] = useState(100);
@@ -38,12 +40,12 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
   useEffect(() => {
     let disposed = false;
     let unlisten = () => {};
+    let unobserve = () => {};
     const sizeAtMount = { width: image.width, height: image.height };
     (async () => {
       const { default: OSD } = await import("openseadragon");
       if (disposed || !hostRef.current) return;
       const wideQuery = window.matchMedia("(min-width: 900px)");
-      const wide = wideQuery.matches;
       const viewer = OSD({
         element: hostRef.current,
         tileSources: image.dziUrl,
@@ -51,8 +53,6 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
         showNavigationControl: false,
         // 좁은 화면에서는 미니맵이 사진을 많이 가리므로 넓은 화면에서만 보인다(아래에서 너비 변화에 맞춘다).
         showNavigator: true,
-        // 위쪽 도구 막대(좁은 화면에서는 두 줄)와 아래쪽 이동 버튼에 사진과 주석 번호가 가리지 않게 여백을 둔다.
-        viewportMargins: { top: wide ? 72 : 124, bottom: 64, left: 12, right: 12 },
         navigatorPosition: "BOTTOM_RIGHT",
         navigatorAutoFade: false,
         navigatorBackground: "#050505",
@@ -94,6 +94,22 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
         const z = viewer.viewport.viewportToImageZoom(viewer.viewport.getZoom(true));
         setZoomPercent(Math.round(z * 100));
       });
+      // 위쪽 도구 막대와 아래쪽 줄(좁으면 두 줄로 넘어간다)에 사진과 주석 번호가 가리지 않게,
+      // 실제 높이를 재서 여백으로 둔다. 줄이 바뀌거나 창 크기가 바뀌면 다시 잰다.
+      const fitMargins = () => {
+        const gap = 20; // 막대의 바깥 여백 12px + 사진과의 간격 8px
+        viewer.viewport.setMargins({
+          top: (toolbarRef.current?.offsetHeight ?? 44) + gap,
+          bottom: (bottomRef.current?.offsetHeight ?? 44) + gap,
+          left: 12,
+          right: 12,
+        });
+        viewer.viewport.applyConstraints(true);
+      };
+      fitMargins();
+      const observer = new ResizeObserver(fitMargins);
+      [toolbarRef.current, bottomRef.current].forEach((el) => el && observer.observe(el));
+      unobserve = () => observer.disconnect();
       // 창 너비가 바뀌어도 미니맵과 아래쪽 해상도 표시가 겹치지 않게 미니맵 표시를 맞춘다.
       const syncNavigator = () => viewer.navigator?.setVisible(wideQuery.matches);
       syncNavigator();
@@ -104,6 +120,7 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
     return () => {
       disposed = true;
       unlisten();
+      unobserve();
       viewerRef.current?.destroy();
       viewerRef.current = null;
     };
@@ -156,7 +173,7 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
       <p id={helpId} className="sr-only">
         {t.hint}
       </p>
-      <Toolbar>
+      <Toolbar ref={toolbarRef}>
         <TourControls />
         <Zoom role="group" aria-label={t.zoomGroup}>
           <IconButton type="button" aria-label={t.zoomIn} onClick={() => zoomBy(1.6)} disabled={!ready}>
@@ -179,7 +196,7 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
           </IconButton>
         </Zoom>
       </Toolbar>
-      <Bottom>
+      <Bottom ref={bottomRef}>
         <Pan role="group" aria-label={t.panGroup}>
           <IconButton type="button" aria-label={t.panLeft} onClick={() => pan(-1, 0)} disabled={!ready}>
             <IconArrowLeft />
