@@ -1,7 +1,6 @@
 import type { Decorator, Preview } from "@storybook/nextjs-vite";
 import { type ReactNode, useState } from "react";
 
-import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 

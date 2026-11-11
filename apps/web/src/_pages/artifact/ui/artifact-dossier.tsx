@@ -198,10 +198,12 @@ const Back = styled(Link)`
     color: ${({ theme }) => theme.color.text};
   }
 `;
+/* 유물 이름은 명판처럼 붓맛이 있는 송명(굵기 하나)으로 쓴다. */
 const Title = styled.h1`
   margin-top: 12px;
+  font-family: ${({ theme }) => theme.font.display};
   font-size: clamp(36px, 4.4vw, 60px);
-  font-weight: 800;
+  font-weight: 400;
   line-height: 1.1;
   letter-spacing: -0.02em;
 `;

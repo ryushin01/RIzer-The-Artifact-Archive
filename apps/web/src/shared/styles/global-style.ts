@@ -16,6 +16,8 @@ export const GlobalStyle = createGlobalStyle`
     word-break: keep-all;
     overflow-wrap: anywhere;
     -webkit-font-smoothing: antialiased;
+    /* 송명은 굵기가 하나라 굵은 제목에서 가짜 굵기를 만들지 않는다. */
+    font-synthesis-weight: none;
   }
   img, svg, canvas { display: block; max-width: 100%; }
   a { color: inherit; }
