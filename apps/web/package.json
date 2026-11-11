@@ -1,6 +1,6 @@
 {
   "name": "@rizer/web",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "private": true,
   "scripts": {
     "dev": "next dev --port 3001",
@@ -22,6 +22,7 @@
     "@rizer/config": "workspace:*",
     "@rizer/domain": "workspace:*",
     "@sentry/browser": "^11.12.0",
+    "@ssgoi/react": "7.5.0",
     "next": "16.4.5",
     "openseadragon": "^6.1.1",
     "react": "19.3.1",

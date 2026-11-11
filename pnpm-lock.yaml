@@ -320,6 +320,9 @@ importers:
       '@sentry/browser':
         specifier: ^11.12.0
         version: 11.12.0
+      '@ssgoi/react':
+        specifier: 7.5.0
+        version: 7.5.0(next@16.4.5(@babel/core@7.29.13(supports-color@7.2.0))(@opentelemetry/api@1.10.0)(@playwright/test@1.65.0)(@types/node@24.19.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(supports-color@7.2.0)
       next:
         specifier: 16.4.5
         version: 16.4.5(@babel/core@7.29.13(supports-color@7.2.0))(@opentelemetry/api@1.10.0)(@playwright/test@1.65.0)(@types/node@24.19.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -2648,6 +2651,30 @@ packages:
   '@smithy/types@4.20.0':
     resolution: {integrity: sha512-lCA6QG22dPk9ecHbv91jDQZsmtPUjdS1aE2Il6NNPqe7DrYc0dZQi6DhcESk2KYXH2sp5xbAcGdYMZDFnuzA2A==}
     engines: {node: '>=18.0.0'}
+
+  '@ssgoi/core@7.5.0':
+    resolution: {integrity: sha512-H62KSHDzYath4TfLtmsoDP62OIAwEi8qaHPuQYJSWPYqpiBT1dRsj2gPA4x1PXKrtoA8OFcs1McWfJtgI8fBEw==}
+    engines: {node: '>=18.0.0'}
+
+  '@ssgoi/react@7.5.0':
+    resolution: {integrity: sha512-Jw5exRdv9HHFwsXgqHmlA62NUjATS4ipVYoLuw0sqXbAZIQeP+d8lLdhumRgIjWyQtMp+tuAgEkIHiZXoY2y4g==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      '@remix-run/react': '*'
+      '@tanstack/react-router': '*'
+      next: '*'
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+      react-router: '*'
+    peerDependenciesMeta:
+      '@remix-run/react':
+        optional: true
+      '@tanstack/react-router':
+        optional: true
+      next:
+        optional: true
+      react-router:
+        optional: true
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
@@ -8648,6 +8675,20 @@ snapshots:
   '@smithy/types@4.20.0':
     dependencies:
       tslib: 2.9.1
+
+  '@ssgoi/core@7.5.0': {}
+
+  '@ssgoi/react@7.5.0(next@16.4.5(@babel/core@7.29.13(supports-color@7.2.0))(@opentelemetry/api@1.10.0)(@playwright/test@1.65.0)(@types/node@24.19.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(supports-color@7.2.0)':
+    dependencies:
+      '@babel/core': 7.29.13(supports-color@7.2.0)
+      '@ssgoi/core': 7.5.0
+      react: 19.3.1
+      react-dom: 19.3.1(react@19.3.1)
+      unplugin: 2.3.11
+    optionalDependencies:
+      next: 16.4.5(@babel/core@7.29.13(supports-color@7.2.0))(@opentelemetry/api@1.10.0)(@playwright/test@1.65.0)(@types/node@24.19.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+    transitivePeerDependencies:
+      - supports-color
 
   '@standard-schema/spec@1.1.0': {}
 

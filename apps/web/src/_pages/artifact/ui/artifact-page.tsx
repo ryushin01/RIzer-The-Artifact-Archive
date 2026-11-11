@@ -60,6 +60,7 @@ async function Content({ params, locale = "ko" }: LocaleProps) {
             image={artifact.image}
             imageAlt={artifact.imageAlt}
             annotations={annotations}
+            transitionKey={artifact.slug}
           />
         ) : (
           <p>{MESSAGES[locale].artifact.preparing}</p>

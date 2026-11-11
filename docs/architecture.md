@@ -54,6 +54,9 @@
 ## 언어판 (한국어·영어)
 
 - **주소:** 한국어는 그대로, 영어는 `/en/...`이다. `<html lang>`이 달라야 하므로 라우트 그룹 `src/app/(ko)`와 `src/app/en`이 각자 루트 레이아웃을 갖는다. 언어를 바꾸는 링크는 루트 레이아웃이 달라 전체 페이지로 이동한다(`<a>`).
+- **화면 전환:** SSGOI가 맡는다. 각 언어의 라우트 그룹 `(site)` 레이아웃(`_app/layouts/page-transitions.tsx`)이 `Ssgoi`와 `SsgoiRouteBoundary`를 둔다. 유물 카드 사진(`data-zoom-exit-key`)과 상세 화면의 딥줌 뷰어 틀(`data-zoom-enter-key`)에 같은 slug를 달아, 아카이브와 관련 유물에서 카드가 뷰어로 커진다. SSGOI는 누른 요소가 아니라 같은 키의 첫 요소에서 커지므로, 같은 유물이 두 번 나오는 첫 화면(히어로 바로가기·컬렉션)은 fade로 둔다. 규칙은 `page-transitions.config.ts`에 있고, `/en` 접두어는 middleware로 떼고 비교한다.
+  - 경계는 `usePathname()` 때문에 Suspense를 품는다. 그 안에서 `notFound()`가 나면 응답이 이미 시작돼 200이 되므로, 없는 주소(`[...missing]`)는 `(site)` 바깥에 둔다.
+  - SSGOI는 `prefers-reduced-motion`을 스스로 읽지 않는다. 움직임 설정(`selectReducedMotion`)이 꺼짐이면 전환이 없는 설정으로 바꾼다.
 - **화면 문구:** `shared/i18n/messages.ts`의 사전과 `useMessages()`를 쓴다. 번역 도구를 넣지 않은 것은 Cache Components와 맞추려면 요청 정보를 읽지 않는 편이 단순하기 때문이다. 언어는 라우트가 정적으로 넘긴다.
 - **유물 내용:** 번역 원본은 `packages/domain/src/seed/en`이다. 공개 API는 `locale=en`일 때 **DB 값이 시드 한국어와 같은 필드만** 번역으로 바꾼다. 큐레이터가 고친 내용을 낡은 번역으로 덮지 않기 위해서이고, 제목이나 해설이 번역되지 않으면 `contentLang: "ko"`로 알려 화면에 `lang`을 표시한다.
 - **영어 검색:** DB에 영어가 없으므로 `searchEnglish()`가 시드 번역에서 찾은 slug를 저장소 질의의 `alsoSlugs`·`rankSlugs`로 넘긴다.
