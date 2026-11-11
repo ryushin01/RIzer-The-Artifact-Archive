@@ -5,10 +5,14 @@
 | 구성                     | 서비스                                                          | 비고                                                                                                                                                     |
 | ------------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 관리 화면 + 공개 API     | Vercel 프로젝트 `rizer-admin` (Root Directory `apps/admin`)     | https://rizer-admin-ryushin01.vercel.app                                                                                                                 |
-| 공개 사이트              | Vercel 프로젝트 `rizer-web` (Root Directory `apps/web`)         | https://rizer-web-ryushin01.vercel.app                                                                                                                   |
+| 공개 사이트              | Vercel 프로젝트 `rizer-web` (Root Directory `apps/web`)         | https://rizer-ryushin01.vercel.app                                                                                                                   |
 | DB                       | Neon PostgreSQL `rizer-db` (Vercel Marketplace, iad1)           | `DATABASE_URL`(pooled)을 쓴다. 관리 화면 함수도 같은 리전(`apps/admin/vercel.json`의 `regions: ["iad1"]`)에서 돌게 해 쿼리마다 태평양을 건너지 않게 한다 |
 | 시드 유물의 타일         | 공개 사이트의 정적 파일 `apps/web/public/tiles` (저장소에 포함) | Vercel CDN이 1년 캐시                                                                                                                                    |
 | 큐레이터가 올리는 이미지 | Vercel Blob 스토어 `rizer-archive` (공개)                       | 원본은 브라우저가 서명된 주소로 바로 올린다                                                                                                              |
+
+예전 주소 `rizer-web-ryushin01.vercel.app`과 `rizer-web.vercel.app`은 Vercel 도메인 설정에서 새 주소로 308 이동합니다.
+
+**공개 사이트 주소를 바꿀 때:** 관리 화면의 `WEB_URL`이 시드 타일 주소와 CSP를 만들기 때문에 순서를 지킵니다. ① 새 도메인 추가 → ② `SITE_URL`(공개 사이트), `WEB_URL`·`WEB_REVALIDATE_URL`(관리 화면) 변경 → ③ 두 프로젝트 다시 배포 → ④ 옛 도메인을 308로 이동. 환경 변수만 먼저 바꿔 두면, 다음 배포부터 옛 주소에서 딥줌 타일이 CSP에 막힙니다.
 
 ## 시드 타일을 Blob에 두지 않는 이유
 
@@ -44,7 +48,7 @@ Vercel Blob Hobby는 업로드·목록 같은 **고급 작업이 월 2,000회**�
 | 변수                                             | 값                                                                                                |
 | ------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
 | `ARCHIVE_API_URL`, `NEXT_PUBLIC_ARCHIVE_API_URL` | `https://rizer-admin-ryushin01.vercel.app` (`NEXT_PUBLIC_`은 빌드 때 들어가므로 바꾸면 다시 배포) |
-| `SITE_URL`                                       | `https://rizer-web-ryushin01.vercel.app`                                                          |
+| `SITE_URL`                                       | `https://rizer-ryushin01.vercel.app`                                                          |
 | `STORAGE_DRIVER`                                 | `blob` (CSP에 Blob 공개 도메인을 넣는다)                                                          |
 | `REVALIDATE_SECRET`                              | 관리 화면과 같은 값                                                                               |
 
@@ -62,7 +66,7 @@ vercel api "/v10/projects/<프로젝트>/env?upsert=true" -X POST --input -   # 
 
 1. 공개 사이트는 관리 화면 API가 꺼져 있어도 빌드된다. 데이터는 요청 때 읽고, 관리 화면이 저장하면 `/api/revalidate`로 캐시를 비운다.
 2. 관리 화면에 큐레이터로 들어가 유물 하나를 고치고 저장한 뒤, 공개 사이트의 그 유물 화면을 새로고침하면 바로 바뀌어 있어야 한다.
-3. 타일 요청이 `rizer-web-ryushin01.vercel.app/tiles/…`(시드)로 가고 `Cache-Control: immutable`인지 확인한다.
+3. 타일 요청이 `rizer-ryushin01.vercel.app/tiles/…`(시드)로 가고 `Cache-Control: immutable`인지 확인한다.
 
 ## 디자인 시스템(Storybook)
 
