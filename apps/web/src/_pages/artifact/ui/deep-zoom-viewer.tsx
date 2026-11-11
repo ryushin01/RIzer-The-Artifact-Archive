@@ -99,8 +99,15 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
       const fitMargins = () => {
         const viewport = viewer.viewport;
         // 전체 보기였다면 새 여백으로 다시 맞추고, 사용자가 확대·이동해 둔 화면은 그대로 둔다.
+        // 애니메이션 중일 수 있으므로 지금 값이 아니라 목표 배율·중심으로 판단한다.
         const home = viewport.getHomeZoom();
-        const atHome = Math.abs(viewport.getZoom(true) - home) / home < 0.01;
+        const homeCenter = viewport.getHomeBounds().getCenter();
+        const center = viewport.getCenter(false);
+        const span = viewport.getBounds(false).width;
+        const atHome =
+          Math.abs(viewport.getZoom(false) - home) / home < 0.01 &&
+          Math.abs(center.x - homeCenter.x) < span * 0.01 &&
+          Math.abs(center.y - homeCenter.y) < span * 0.01;
         // 막대의 바깥 여백 12px + 사진과의 간격 8px. 주석 번호는 영역의 왼쪽 위에서 16px 밖으로 나오므로 위·왼쪽은 그만큼 더 둔다.
         const gap = 20;
         const marker = 16;
