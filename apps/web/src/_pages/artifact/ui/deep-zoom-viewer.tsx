@@ -97,14 +97,21 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
       // 위쪽 도구 막대와 아래쪽 줄(좁으면 두 줄로 넘어간다)에 사진과 주석 번호가 가리지 않게,
       // 실제 높이를 재서 여백으로 둔다. 줄이 바뀌거나 창 크기가 바뀌면 다시 잰다.
       const fitMargins = () => {
-        const gap = 20; // 막대의 바깥 여백 12px + 사진과의 간격 8px
-        viewer.viewport.setMargins({
-          top: (toolbarRef.current?.offsetHeight ?? 44) + gap,
+        const viewport = viewer.viewport;
+        // 전체 보기였다면 새 여백으로 다시 맞추고, 사용자가 확대·이동해 둔 화면은 그대로 둔다.
+        const home = viewport.getHomeZoom();
+        const atHome = Math.abs(viewport.getZoom(true) - home) / home < 0.01;
+        // 막대의 바깥 여백 12px + 사진과의 간격 8px. 주석 번호는 영역의 왼쪽 위에서 16px 밖으로 나오므로 위·왼쪽은 그만큼 더 둔다.
+        const gap = 20;
+        const marker = 16;
+        viewport.setMargins({
+          top: (toolbarRef.current?.offsetHeight ?? 44) + gap + marker,
           bottom: (bottomRef.current?.offsetHeight ?? 44) + gap,
-          left: 12,
+          left: 12 + marker,
           right: 12,
         });
-        viewer.viewport.applyConstraints(true);
+        if (atHome) viewport.goHome(true);
+        else viewport.applyConstraints(true);
       };
       fitMargins();
       const observer = new ResizeObserver(fitMargins);
