@@ -8,6 +8,7 @@ import styled from "styled-components";
 
 import { selected, selectTour, TourControls } from "@/features/annotation-tour";
 import { selectReducedMotion } from "@/features/motion-preference";
+import { media } from "@/shared/config";
 import { useMessages } from "@/shared/i18n";
 import { IconArrowLeft, IconArrowRight, IconButton, IconExpand, IconHome, IconMinus, IconPlus, MonoLabel } from "@/shared/ui";
 
@@ -186,7 +187,12 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
       </Pan>
       <Resolution>
         <MonoLabel>
-          {image.width.toLocaleString("ko-KR")} × {image.height.toLocaleString("ko-KR")} PX
+          <span className="full">
+            {image.width.toLocaleString("ko-KR")} × {image.height.toLocaleString("ko-KR")} PX
+          </span>
+          <span className="short">
+            {image.width}×{image.height}
+          </span>
         </MonoLabel>
       </Resolution>
     </Wrap>
@@ -293,10 +299,30 @@ const Pan = styled.div`
   display: flex;
   gap: 6px;
 `;
+/**
+ * 미니맵이 없는 좁은 화면: 이동 버튼 줄의 오른쪽(사진과 주석 번호를 가리지 않게). 아주 좁으면 짧게 쓴다.
+ * 넓은 화면: 미니맵이 오른쪽 아래에 있으므로 이동 버튼 위.
+ */
 const Resolution = styled.div`
   position: absolute;
-  left: 16px;
-  bottom: 66px;
+  right: 12px;
+  bottom: 22px;
+  .full {
+    display: none;
+  }
+  ${media.sm} {
+    .full {
+      display: inline;
+    }
+    .short {
+      display: none;
+    }
+  }
+  ${media.md} {
+    right: auto;
+    left: 16px;
+    bottom: 66px;
+  }
   padding: 4px 10px;
   border-radius: 999px;
   background: rgba(5, 5, 5, 0.7);
