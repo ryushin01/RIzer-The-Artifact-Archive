@@ -22,10 +22,13 @@ export const theme = {
     focus: "#ffd166",
   },
   font: {
-    // 글꼴을 받기 전이나 받지 못하면 운영체제의 명조와 고정폭 글꼴로 나온다.
-    display: "var(--font-display-en), var(--font-display-ko), AppleMyungjo, Batang, serif",
-    body: "var(--font-body), AppleMyungjo, Batang, 'Noto Serif CJK KR', serif",
-    mono: "var(--font-mono), ui-monospace, Menlo, Consolas, monospace",
+    // 대체 글꼴: 웹 글꼴을 받기 전이나 받지 못해도 전시실 분위기가 남도록 고른다.
+    // 표시 글꼴은 블랙레터(Old English Text MT, 오피스가 깔린 윈도·맥) 다음 운영체제 명조,
+    // 본문은 운영체제 명조(맥 AppleMyungjo, 안드로이드 Noto Serif CJK KR, 윈도 바탕), 번호는 고정폭.
+    display:
+      "var(--font-display-en), var(--font-display-ko), 'Old English Text MT', AppleMyungjo, 'Noto Serif CJK KR', Batang, serif",
+    body: "var(--font-body), AppleMyungjo, 'Noto Serif CJK KR', Batang, 'Times New Roman', serif",
+    mono: "var(--font-mono), ui-monospace, 'SF Mono', Menlo, Consolas, D2Coding, monospace",
   },
   radius: { sm: "8px", md: "14px", lg: "24px", pill: "999px" },
   bp: { sm: "640px", md: "900px", lg: "1200px" },
