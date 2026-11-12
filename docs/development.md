@@ -98,7 +98,7 @@
 - **Lighthouse:** `pnpm --filter @rizer/web lhci`가 공개 사이트의 첫 화면·유물 목록·엑스칼리버 상세·영문 첫 화면이 데스크톱 기준 성능 90·접근성 100·권장 사항 95·SEO 90점, LCP 2.5초·TBT 200ms·CLS 0.1 이하인지 3번씩 재서 확인합니다. 기준은 `lighthouserc.json`에 있습니다.
 - **접근성 린트:** `eslint-config-next`는 jsx-a11y 규칙을 몇 개만 켭니다. 플러그인은 이미 등록되어 있어 `eslint.config`에서 recommended 규칙만 더해 모두 켭니다.
 
-공개 사이트는 어드민 API에서 유물을 읽으므로 Lighthouse는 `apps/web/scripts/lighthouse-servers.sh`로 E2E와 같은 포트·환경 값(`e2e/env.ts`)에서 두 앱을 함께 띄웁니다.
+공개 사이트는 어드민 API에서 유물을 읽으므로 Lighthouse는 `apps/web/scripts/lighthouse-servers.sh`로 E2E와 같은 포트·환경 값(`e2e/env.ts`)에서 두 앱을 함께 띄웁니다. 실행 값은 스크립트가 기본으로 넣지만 `NEXT_PUBLIC_ARCHIVE_API_URL`은 빌드할 때 굳으므로, 로컬에서 잴 때는 `e2e/env.ts`의 값을 환경 변수로 넣고 두 앱을 빌드한 뒤 `pnpm --filter @rizer/web lhci`를 돌립니다(CI는 작업 전체에 같은 값을 넣음).
 
 두 검사 모두 프로덕션 빌드가 먼저 있어야 하며, CI는 빌드 뒤에 돌립니다.
 

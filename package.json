@@ -16,9 +16,7 @@
     "storybook": "turbo run storybook --filter=@rizer/web",
     "e2e": "turbo run e2e",
     "seed:images": "pnpm --filter @rizer/admin seed:images",
-    "tiles": "pnpm --filter @rizer/tiles cli",
-    "size": "size-limit",
-    "lhci": "lhci autorun"
+    "tiles": "pnpm --filter @rizer/tiles cli"
   },
   "devDependencies": {
     "@lhci/cli": "^0.16.0",
