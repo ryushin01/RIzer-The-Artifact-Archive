@@ -100,6 +100,8 @@
 
 공개 사이트는 어드민 API에서 유물을 읽으므로 Lighthouse는 `apps/web/scripts/lighthouse-servers.sh`로 E2E와 같은 포트·환경 값(`e2e/env.ts`)에서 두 앱을 함께 띄웁니다. 실행 값은 스크립트가 기본으로 넣지만 `NEXT_PUBLIC_ARCHIVE_API_URL`은 빌드할 때 굳으므로, 로컬에서 잴 때는 `e2e/env.ts`의 값을 환경 변수로 넣고 두 앱을 빌드한 뒤 `pnpm --filter @rizer/web lhci`를 돌립니다(CI는 작업 전체에 같은 값을 넣음).
 
+유물 상세는 딥줌 뷰어(OpenSeadragon)가 타일을 해독해 CI 러너에서 TBT가 230~370ms까지 나옵니다(로컬 0~70ms). 그래서 상세만 TBT 기준을 400ms로 둡니다.
+
 두 검사 모두 프로덕션 빌드가 먼저 있어야 하며, CI는 빌드 뒤에 돌립니다.
 
 ## 모니터링
