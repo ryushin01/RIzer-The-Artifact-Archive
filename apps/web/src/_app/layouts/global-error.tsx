@@ -10,7 +10,7 @@ export function GlobalError({ error, retry }: { error: unknown; retry: () => voi
   return (
     <html lang="ko">
       <body style={{ margin: 0, background: "#050505", color: "#f4f2ee", fontFamily: "system-ui, sans-serif" }}>
-        <title>오류 · RIzer Archive</title>
+        <title>오류 · Rizer Archive</title>
         <main style={{ display: "grid", placeItems: "center", minHeight: "100vh", padding: 16, textAlign: "center" }}>
           <div>
             <h1>화면을 불러오지 못했습니다</h1>

@@ -3,7 +3,7 @@ import type { Locale } from "@rizer/domain";
 /** 공개 사이트의 화면 문구. 유물 내용은 공개 API가 언어에 맞춰 준다. */
 const ko = {
   meta: {
-    title: "RIzer — 전설 유물 아카이브",
+    title: "Rizer — 전설 유물 아카이브",
     description:
       "엑스칼리버, 성배, 묠니르. 전설 속 유물을 초고해상도 딥줌으로 확대해 보고 부분마다 달린 해설을 읽는 온라인 전시실.",
     ogLocale: "ko_KR",
@@ -11,7 +11,7 @@ const ko = {
     archiveDescription:
       "세계 곳곳의 전설 속 유물을 이름, 전시실, 종류로 찾아봅니다.",
     artifactFallback: "유물",
-    ogAlt: "RIzer Archive 유물 공유 이미지",
+    ogAlt: "Rizer Archive 유물 공유 이미지",
     ogFallbackTitle: "전설 속 유물",
     ogFallbackPower:
       "전설 속 유물을 딥줌으로 확대해 보고 해설을 읽는 온라인 전시실",
@@ -20,7 +20,7 @@ const ko = {
   skipLink: "본문 바로가기",
   nav: {
     label: "주 메뉴",
-    home: "RIzer 첫 화면",
+    home: "Rizer 첫 화면",
     collection: "컬렉션",
     realms: "전시실",
     timeline: "연표",
@@ -28,7 +28,7 @@ const ko = {
     archive: "아카이브",
     switchTo: "English",
   },
-  gate: { title: "RIzer — 전설 유물 아카이브", enter: "아카이브 입장" },
+  gate: { title: "Rizer — 전설 유물 아카이브", enter: "아카이브 입장" },
   motion: {
     label: "움직임 효과",
     on: "움직임 효과 켜기",
@@ -202,7 +202,7 @@ const ko = {
     copyFailed: "복사하지 못했습니다. 주소 표시줄의 주소를 복사해 주세요.",
   },
   notFound: {
-    pageTitle: "페이지를 찾을 수 없습니다 · RIzer Archive",
+    pageTitle: "페이지를 찾을 수 없습니다 · Rizer Archive",
     message:
       "찾는 유물이 아카이브에 없습니다. 주소가 바뀌었거나 아직 공개하지 않은 유물입니다.",
     action: "아카이브로 가기",
@@ -216,7 +216,7 @@ export type Messages = typeof ko;
 
 const en: Messages = {
   meta: {
-    title: "RIzer — The Artifact Archive",
+    title: "Rizer — The Artifact Archive",
     description:
       "Excalibur, the Holy Grail, Mjölnir. Zoom deep into legendary artifacts and read the story behind every detail in this online gallery.",
     ogLocale: "en_US",
@@ -224,7 +224,7 @@ const en: Messages = {
     archiveDescription:
       "Search legendary artifacts from around the world by name, gallery and type.",
     artifactFallback: "Artifact",
-    ogAlt: "RIzer Archive artifact share image",
+    ogAlt: "Rizer Archive artifact share image",
     ogFallbackTitle: "Legendary Artifact",
     ogFallbackPower:
       "An online gallery for zooming into legendary artifacts and reading their stories",
@@ -233,7 +233,7 @@ const en: Messages = {
   skipLink: "Skip to main content",
   nav: {
     label: "Main menu",
-    home: "RIzer home",
+    home: "Rizer home",
     collection: "Collection",
     realms: "Galleries",
     timeline: "Timeline",
@@ -241,7 +241,7 @@ const en: Messages = {
     archive: "Archive",
     switchTo: "한국어",
   },
-  gate: { title: "RIzer — The Artifact Archive", enter: "Enter the archive" },
+  gate: { title: "Rizer — The Artifact Archive", enter: "Enter the archive" },
   motion: {
     label: "Motion effects",
     on: "Turn motion effects on",
@@ -416,7 +416,7 @@ const en: Messages = {
     copyFailed: "Could not copy. Please copy the address from the address bar.",
   },
   notFound: {
-    pageTitle: "Page not found · RIzer Archive",
+    pageTitle: "Page not found · Rizer Archive",
     message:
       "This artifact is not in the archive. The address may have changed, or it has not been published yet.",
     action: "Go to the archive",

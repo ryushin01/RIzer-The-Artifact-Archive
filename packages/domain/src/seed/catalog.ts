@@ -504,7 +504,7 @@ const FEATURED_ARTIFACTS: SeedArtifact[] = [
         "ca. 4th century BCE – 2nd century CE",
         "https://images.metmuseum.org/CRDImages/aa/original/DT4337.jpg",
         "1998.418 · 10.70 · 18.68",
-        "Composited by RIzer Archive from three CC0 images",
+        "Composited by Rizer Archive from three CC0 images",
       ),
       parts: [
         {

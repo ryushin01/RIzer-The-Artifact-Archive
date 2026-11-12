@@ -297,7 +297,7 @@ test.describe("영어판", () => {
     await expect(page).toHaveTitle(/Page not found/);
     // 없는 유물은 서버가 그린 첫 HTML에도 같은 제목이 들어 있다. 없는 주소는 본문 없는 오류 셸이라 화면이 맞춘다.
     const html = await (await page.request.get("/en/artifacts/no-such-relic")).text();
-    expect(html).toMatch(/<title>Page not found · RIzer Archive<\/title>/);
+    expect(html).toMatch(/<title>Page not found · Rizer Archive<\/title>/);
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
   });
 

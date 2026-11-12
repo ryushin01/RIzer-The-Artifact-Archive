@@ -1,6 +1,6 @@
-# RIzer — The Artifact Archive
+# Rizer — The Artifact Archive
 
-[![CI](https://github.com/ryushin01/RIzer-The-Artifact-Archive/actions/workflows/ci.yml/badge.svg)](https://github.com/ryushin01/RIzer-The-Artifact-Archive/actions/workflows/ci.yml)
+[![CI](https://github.com/ryushin01/Rizer-The-Artifact-Archive/actions/workflows/ci.yml/badge.svg)](https://github.com/ryushin01/Rizer-The-Artifact-Archive/actions/workflows/ci.yml)
 ![version](https://img.shields.io/badge/version-0.5.2-e2283c)
 ![Storybook](https://img.shields.io/badge/Storybook-10-FF4785?logo=storybook&logoColor=white)
 
