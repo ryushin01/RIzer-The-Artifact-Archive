@@ -1,6 +1,6 @@
 {
   "name": "rizer",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "private": true,
   "packageManager": "pnpm@12.16.1",
   "scripts": {
@@ -16,9 +16,14 @@
     "storybook": "turbo run storybook --filter=@rizer/web",
     "e2e": "turbo run e2e",
     "seed:images": "pnpm --filter @rizer/admin seed:images",
-    "tiles": "pnpm --filter @rizer/tiles cli"
+    "tiles": "pnpm --filter @rizer/tiles cli",
+    "size": "size-limit",
+    "lhci": "lhci autorun"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.16.0",
+    "@size-limit/file": "^14.3.0",
+    "size-limit": "^14.3.0",
     "turbo": "^2"
   },
   "engines": {

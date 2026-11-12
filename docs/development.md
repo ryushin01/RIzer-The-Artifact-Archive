@@ -91,3 +91,25 @@
 | 운영 404 화면 제목이 사이트 기본 제목으로 나옴 | `metadata`는 루트 `app/not-found`만 지원. 언어별 라우트 그룹의 not-found에서 내보낸 값은 운영의 미리 그린 404 셸에 빠짐(로컬 `next start`에서는 우연히 보임) | `NotFoundScreen`이 `document.title`을 맞춘다. `<title>`을 새로 그리면 제목 요소가 두 개가 됨 |
 | 스크립트(tsx)에서 top-level await 오류 | `apps/admin`은 CommonJS 패키지 | 스크립트는 `.mts`로 작성 |
 | 주석 개수가 0으로 나옴 | 서브쿼리 안의 `artifacts.id`가 따옴표 없는 `"id"`로 그려져 `annotations.id`로 읽힘 | 테이블 이름을 직접 씀(`repository.ts`) |
+
+## 품질 예산
+
+- **번들 크기:** `pnpm --filter @rizer/web size`가 공개 사이트 전체 JS 440 kB, CSS 96 kB(gzip)를 넘으면 실패합니다. 기준은 `.size-limit.json`에 있습니다.
+- **Lighthouse:** `pnpm --filter @rizer/web lhci`가 공개 사이트의 첫 화면·유물 목록·엑스칼리버 상세·영문 첫 화면이 데스크톱 기준 성능 90·접근성 100·권장 사항 95·SEO 90점, LCP 2.5초·TBT 200ms·CLS 0.1 이하인지 3번씩 재서 확인합니다. 기준은 `lighthouserc.json`에 있습니다.
+- **접근성 린트:** `eslint-config-next`는 jsx-a11y 규칙을 몇 개만 켭니다. 플러그인은 이미 등록되어 있어 `eslint.config`에서 recommended 규칙만 더해 모두 켭니다.
+
+공개 사이트는 어드민 API에서 유물을 읽으므로 Lighthouse는 `apps/web/scripts/lighthouse-servers.sh`로 E2E와 같은 포트·환경 값(`e2e/env.ts`)에서 두 앱을 함께 띄웁니다.
+
+두 검사 모두 프로덕션 빌드가 먼저 있어야 하며, CI는 빌드 뒤에 돌립니다.
+
+## 모니터링
+
+공개 사이트(`apps/web`)는 `instrumentation-client.ts`에서 `shared/lib/monitoring`을 켜고, Sentry와 web-vitals는 나중에 따로 받습니다.
+
+| 환경 변수 | 내용 |
+| --- | --- |
+| `NEXT_PUBLIC_SENTRY_DSN` | 있으면 처리하지 못한 오류와 나쁜(poor) Web Vitals를 Sentry로 보냅니다. 없으면 Sentry를 번들에 넣지 않고, 개발 모드에서 Web Vitals를 콘솔에만 찍습니다 |
+
+- Sentry에는 오류 내용만 보내고 사용자 정보·쿠키·헤더·쿼리 문자열, 방문 기록(세션), 이동·클릭 기록(브레드크럼), 콘솔 기록은 모으지 않습니다. Sentry를 받기 전에 난 오류는 모아 두었다가 처리되지 않은 오류로 보냅니다.
+- 쓰는 함수만 `sentry.ts`에서 다시 내보내 약 31 kB(gzip)로 받습니다. 모듈 전체를 불러오면 리플레이·피드백까지 들어가 140 kB가 됩니다.
+- 브라우저 오류만 모읍니다. 서버에서 난 오류는 호스팅(Vercel 등)의 로그로 확인합니다.

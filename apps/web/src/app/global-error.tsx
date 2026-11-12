@@ -1,7 +1,12 @@
 "use client";
 
+import { useEffect } from "react";
+
+import { reportError } from "@/shared/lib/monitoring";
+
 /** 루트 레이아웃까지 실패했을 때. 스타일 시스템 없이도 읽히도록 인라인 스타일만 쓴다. */
-export default function GlobalError({ retry }: { error: unknown; retry: () => void }) {
+export default function GlobalError({ error, retry }: { error: unknown; retry: () => void }) {
+  useEffect(() => reportError(error), [error]);
   return (
     <html lang="ko">
       <body style={{ margin: 0, background: "#050505", color: "#f4f2ee", fontFamily: "system-ui, sans-serif" }}>
