@@ -115,3 +115,14 @@
 - Sentry에는 오류 내용만 보내고 사용자 정보·쿠키·헤더·쿼리 문자열, 방문 기록(세션), 이동·클릭 기록(브레드크럼), 콘솔 기록은 모으지 않습니다. Sentry를 받기 전에 난 오류는 모아 두었다가 처리되지 않은 오류로 보냅니다.
 - 쓰는 함수만 `sentry.ts`에서 다시 내보내 약 31 kB(gzip)로 받습니다. 모듈 전체를 불러오면 리플레이·피드백까지 들어가 140 kB가 됩니다.
 - 브라우저 오류만 모읍니다. 서버에서 난 오류는 호스팅(Vercel 등)의 로그로 확인합니다.
+
+## 의존성 갱신 (Dependabot)
+
+`.github/dependabot.yml`이 npm 패키지와 GitHub Actions를 매주 확인하고, 개발용 패키지는 한 PR로 묶습니다. 아래 패키지는 주 버전 갱신을 받지 않습니다.
+
+| 패키지 | 이유 |
+| --- | --- |
+| `typescript` | typescript-eslint가 TypeScript 7을 지원하지 않습니다. 도구는 6, 타입 검사는 별칭 패키지 `typescript-7`(tsc7)로 합니다 |
+| `eslint` | `eslint-config-next`(Next.js 16.4)가 ESLint 9를 기준으로 합니다 |
+| `@types/node` | 실행 환경이 Node.js 24(`.node-version`)라 타입도 24에 맞춥니다 |
+| `postgres` | postgres.js 4는 매개변수 타입·트랜잭션 동작이 바뀌었고 Drizzle 지원이 확인되지 않았습니다. CI는 PGlite로 돌아 운영 드라이버를 검증하지 못하므로, 올릴 때는 Neon에 붙여 직접 확인합니다 |
