@@ -30,7 +30,7 @@ async function metadataFor({ params }: Props, locale: Locale): Promise<Metadata>
     title: artifact.title,
     description: `${artifact.summary} ${artifact.power}`,
     openGraph: {
-      title: `${artifact.title} · RIzer Archive`,
+      title: `${artifact.title} · Rizer Archive`,
       description: artifact.summary,
     },
     alternates: {

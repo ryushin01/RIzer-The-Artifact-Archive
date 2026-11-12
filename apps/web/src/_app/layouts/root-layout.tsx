@@ -43,10 +43,10 @@ function metadataOf(locale: Locale): Metadata {
   const t = MESSAGES[locale].meta;
   return {
     metadataBase: new URL(siteUrl()),
-    title: { default: t.title, template: "%s · RIzer Archive" },
+    title: { default: t.title, template: "%s · Rizer Archive" },
     description: t.description,
     openGraph: {
-      siteName: "RIzer Archive",
+      siteName: "Rizer Archive",
       locale: t.ogLocale,
       type: "website",
     },

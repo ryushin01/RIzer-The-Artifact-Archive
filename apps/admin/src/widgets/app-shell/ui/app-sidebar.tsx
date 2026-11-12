@@ -36,7 +36,7 @@ export function AppSidebar({ footer }: { footer: ReactNode }) {
                 <Landmark className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">RIzer Archive</span>
+                <span className="truncate font-semibold">Rizer Archive</span>
                 <span className="truncate text-xs text-muted-foreground">전설 유물 관리</span>
               </div>
             </SidebarMenuButton>
