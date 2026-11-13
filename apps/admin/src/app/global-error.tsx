@@ -9,7 +9,7 @@ export default function GlobalError({ error, retry }: { error: unknown; retry: (
   return (
     <html lang="ko" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
-        <title>오류 · RIzer Archive 관리</title>
+        <title>오류 · Rizer Archive 관리</title>
         <ErrorNotice error={error} retry={retry} />
       </body>
     </html>

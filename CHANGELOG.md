@@ -1,6 +1,10 @@
 # 변경 기록
 
-## 0.5.3 - 2026-11-12
+## 0.5.4 — 2026-11-12
+
+- 이름 표기를 RIzer에서 Rizer로 바꿨습니다. GitHub 저장소는 `Rizer-The-Artifact-Archive`이고, 화면 제목·공유 이미지 설명·관리 화면·문서의 표기를 맞췄습니다. 배포 주소(`rizer-ryushin01.vercel.app`, `rizer-admin-ryushin01.vercel.app`)는 그대로입니다.
+
+## 0.5.3 — 2026-11-12
 
 - 접근성 린트: eslint-plugin-jsx-a11y의 recommended 규칙을 모두 켬
 - 모니터링: `NEXT_PUBLIC_SENTRY_DSN`이 있으면 처리하지 못한 오류와 나쁜 Web Vitals를 Sentry로 보냄. 오류 내용만 보내고, Sentry(약 31 kB gzip)와 web-vitals는 첫 화면 뒤에 따로 받음
