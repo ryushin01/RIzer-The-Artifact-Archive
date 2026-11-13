@@ -1,6 +1,6 @@
 "use client";
 
-import { Landmark } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type ReactNode, Suspense } from "react";
@@ -32,11 +32,10 @@ export function AppSidebar({ footer }: { footer: ReactNode }) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" render={<Link href="/" />}>
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <Landmark className="size-4" />
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-[#f4f1ea]">
+                <Image src="/brand/logo.png" alt="Rizer Archive" width={22} height={22} />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">Rizer Archive</span>
                 <span className="truncate text-xs text-muted-foreground">전설 유물 관리</span>
               </div>
             </SidebarMenuButton>
