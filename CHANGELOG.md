@@ -1,5 +1,12 @@
 # 변경 기록
 
+## 0.5.3 - 2026-11-12
+
+- 접근성 린트: eslint-plugin-jsx-a11y의 recommended 규칙을 모두 켬
+- 모니터링: `NEXT_PUBLIC_SENTRY_DSN`이 있으면 처리하지 못한 오류와 나쁜 Web Vitals를 Sentry로 보냄. 오류 내용만 보내고, Sentry(약 31 kB gzip)와 web-vitals는 첫 화면 뒤에 따로 받음
+- 성능 예산: CI에서 size-limit(공개 사이트 전체 JS 440 kB, CSS 96 kB)과 Lighthouse CI(공개 사이트의 첫 화면·유물 목록·엑스칼리버 상세·영문 첫 화면이 데스크톱 기준 성능 90·접근성 100·권장 사항 95·SEO 90점, LCP 2.5초·TBT 200ms·CLS 0.1 이하)로 검사
+- 유물 목록: 쪽 제목(h1) 다음에 카드 제목(h3)이 바로 나와 제목 순서가 건너뛰던 것을, 화면 낭독기용 결과 목록 제목(h2)을 두어 고침
+
 ## 0.5.2 — 2026-11-11
 
 - 공개 사이트 글꼴을 바꿨습니다. 유물 이름은 중세 필사본 같은 블랙레터 UnifrakturCook(영문)과 붓맛이 있는 송명(한글), 해설은 나눔명조, 소장 번호와 라벨은 나눔고딕코딩입니다. Pretendard·Unbounded·Space Mono는 뺐고, 공유 이미지는 Pretendard Bold 그대로입니다.

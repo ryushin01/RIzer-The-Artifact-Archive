@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
@@ -23,6 +23,7 @@ export function ArchiveGrid() {
   /** "더 보기"를 누른 때의 개수. 결과가 붙으면 그 자리의 카드로 초점을 옮긴다. */
   const focusFrom = useRef<number | null>(null);
   const [announcement, setAnnouncement] = useState("");
+  const headingId = useId();
 
   useEffect(() => {
     const from = focusFrom.current;
@@ -57,7 +58,11 @@ export function ArchiveGrid() {
   }
   return (
     <>
-      <Grid ref={listRef} aria-busy={status === "loading"} aria-label={t.results} $loading={status === "loading"}>
+      {/* 쪽 제목(h1) 아래 카드 제목(h3)이 이어지도록, 결과 목록의 제목(h2)을 화면 낭독기에만 둔다. */}
+      <VisuallyHidden as="h2" id={headingId}>
+        {t.results}
+      </VisuallyHidden>
+      <Grid ref={listRef} aria-busy={status === "loading"} aria-labelledby={headingId} $loading={status === "loading"}>
         {items.map((a, i) => (
           <li key={a.id}>
             <ArtifactCard artifact={a} priority={i < 4} />
