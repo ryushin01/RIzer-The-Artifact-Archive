@@ -61,7 +61,7 @@ export function SiteFooter({ adminUrl }: { adminUrl?: string }) {
             </li>
             <li>
               <a
-                href="https://github.com/ryushin01/RIzer-The-Artifact-Archive"
+                href="https://github.com/ryushin01/Rizer-The-Artifact-Archive"
                 target="_blank"
                 rel="noreferrer"
               >

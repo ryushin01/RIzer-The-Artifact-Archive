@@ -68,3 +68,4 @@ storybook-static/
 # 로컬 스토리지(원본 이미지·딥줌 타일). pnpm seed:images로 다시 만든다.
 apps/admin/.data/
 
+.lighthouseci

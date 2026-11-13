@@ -1,7 +1,7 @@
-# RIzer — The Artifact Archive
+# Rizer — The Artifact Archive
 
-[![CI](https://github.com/ryushin01/RIzer-The-Artifact-Archive/actions/workflows/ci.yml/badge.svg)](https://github.com/ryushin01/RIzer-The-Artifact-Archive/actions/workflows/ci.yml)
-![version](https://img.shields.io/badge/version-0.5.2-e2283c)
+[![CI](https://github.com/ryushin01/Rizer-The-Artifact-Archive/actions/workflows/ci.yml/badge.svg)](https://github.com/ryushin01/Rizer-The-Artifact-Archive/actions/workflows/ci.yml)
+![version](https://img.shields.io/badge/version-0.5.5-e2283c)
 ![Storybook](https://img.shields.io/badge/Storybook-10-FF4785?logo=storybook&logoColor=white)
 
 엑스칼리버, 성배, 묠니르, 여의봉 같은 세계 곳곳의 전설이나 판타지 속에 등장하는 유물 100점을 고해상도 딥줌으로 확대해 보고, 사진의 부분마다 달린 해설을 읽는 온라인 전시실입니다. 큐레이터는 관리 화면에서 유물·해설·이미지 주석을 편집합니다.
@@ -58,7 +58,8 @@
 | 공개 사이트 | styled-components, Redux Toolkit + redux-saga, OpenSeadragon, UnifrakturCook·Song Myung·Nanum Myeongjo·Nanum Gothic Coding             |
 | 관리 화면   | shadcn/ui(Base UI) + Tailwind CSS 4, Drizzle ORM + PostgreSQL(개발·테스트는 PGlite), Auth.js, Annotorious                              |
 | 이미지·배포 | sharp(DZI 타일·미리보기·LQIP), Vercel Blob(S3 호환 R2 드라이버도 있음), Vercel                                                         |
-| 품질        | ESLint(FSD 경계 규칙), Vitest + Testing Library, redux-saga-test-plan, Storybook 10 스토리 테스트(axe), Playwright E2E, GitHub Actions |
+| 품질        | ESLint(FSD 경계 규칙), Vitest + Testing Library, redux-saga-test-plan, Storybook 10 스토리 테스트(axe), Playwright E2E, eslint-plugin-jsx-a11y, size-limit, Lighthouse CI, GitHub Actions |
+| 모니터링 | Sentry(DSN이 있을 때만), web-vitals |
 
 ## 시작하기
 
@@ -76,6 +77,7 @@ pnpm dev           # 관리 화면 http://localhost:3000, 공개 사이트 http:
 | `pnpm typecheck` / `lint` / `test` | 타입 검사 / 린트 / 단위 테스트 (전체 앱·패키지) |
 | `pnpm test:storybook`              | 모든 스토리를 Chromium에서 그리고 접근성 검사   |
 | `pnpm e2e`                         | 두 앱을 프로덕션 빌드로 띄워 E2E 검사           |
+| `pnpm --filter @rizer/web size` / `lhci` | 공개 사이트 번들 크기 / Lighthouse 기준 검사 (먼저 빌드 필요) |
 | `pnpm build`                       | 프로덕션 빌드                                   |
 | `pnpm tiles <원본> <출력 폴더>`    | 큰 원본을 로컬에서 딥줌 타일로 자르기           |
 

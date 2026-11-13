@@ -11,7 +11,7 @@ import { Container, MonoLabel, RedDot, SectionHeader } from "@/shared/ui";
 import type { TimelineItem } from "../model";
 
 /** 연표를 나누는 시대. 고른 시대의 유물만 보여 줘 90여 점을 한 줄로 넘기지 않아도 되게 한다. */
-export const ERAS = [
+const ERAS = [
   { id: "all", test: () => true },
   { id: "ancient", test: (y: number) => y < 0 },
   { id: "classical", test: (y: number) => y >= 0 && y <= 1000 },

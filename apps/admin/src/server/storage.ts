@@ -5,16 +5,16 @@ import path from "node:path";
 import { type Storage, storageFromEnv } from "@rizer/storage";
 
 /** 이 어드민의 바깥 주소. 로컬 스토리지의 타일 주소를 절대 주소로 만들 때 쓴다(공개 사이트가 다른 포트에서 읽는다). */
-export function adminOrigin() {
+function adminOrigin() {
   return (process.env.ADMIN_URL || process.env.NEXTAUTH_URL || "http://localhost:3000").replace(/\/$/, "");
 }
 
 /** 시드 타일(tiles/로 시작하는 키)을 내보내는 곳: 공개 사이트의 정적 파일(apps/web/public/tiles) */
-export function staticTilesOrigin() {
+function staticTilesOrigin() {
   return (process.env.STATIC_TILES_URL || process.env.WEB_URL || "http://localhost:3001").replace(/\/$/, "");
 }
 
-export const STATIC_TILES_PREFIX = "tiles/";
+const STATIC_TILES_PREFIX = "tiles/";
 
 const globalForStorage = globalThis as { storage?: Storage };
 

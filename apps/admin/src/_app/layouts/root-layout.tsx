@@ -12,7 +12,7 @@ const sans = Geist({ variable: "--font-sans", subsets: ["latin"] });
 const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: { default: "RIzer Archive 관리", template: "%s · RIzer Archive 관리" },
+  title: { default: "Rizer Archive 관리", template: "%s · Rizer Archive 관리" },
   description: "전설 유물 아카이브의 유물·딥줌 이미지·주석을 관리합니다.",
   robots: { index: false, follow: false },
 };

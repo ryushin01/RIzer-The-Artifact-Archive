@@ -1,4 +1,4 @@
-# RIzer — The Artifact Archive
+# Rizer — The Artifact Archive
 
 전설 속 유물을 딥줌으로 보는 전시 사이트(apps/web)와 관리 화면(apps/admin)의 pnpm + Turborepo 모노레포. 한국어 UI. pnpm만 쓰고, 명령은 루트에서 `pnpm --filter <이름>`으로 실행한다.
 
