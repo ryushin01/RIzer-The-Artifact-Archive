@@ -1,7 +1,7 @@
 # Rizer — The Artifact Archive
 
 [![CI](https://github.com/ryushin01/Rizer-The-Artifact-Archive/actions/workflows/ci.yml/badge.svg)](https://github.com/ryushin01/Rizer-The-Artifact-Archive/actions/workflows/ci.yml)
-![version](https://img.shields.io/badge/version-0.5.5-e2283c)
+![version](https://img.shields.io/badge/version-0.5.6-e2283c)
 ![Storybook](https://img.shields.io/badge/Storybook-10-FF4785?logo=storybook&logoColor=white)
 
 엑스칼리버, 성배, 묠니르, 여의봉 같은 세계 곳곳의 전설이나 판타지 속에 등장하는 유물 100점을 고해상도 딥줌으로 확대해 보고, 사진의 부분마다 달린 해설을 읽는 온라인 전시실입니다. 큐레이터는 관리 화면에서 유물·해설·이미지 주석을 편집합니다.
