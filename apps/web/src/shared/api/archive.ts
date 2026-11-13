@@ -12,7 +12,7 @@ export function toSearchParams(query: Partial<ArtifactQuery>): URLSearchParams {
   return params;
 }
 
-export class ArchiveApiError extends Error {
+class ArchiveApiError extends Error {
   constructor(
     message: string,
     readonly status: number,

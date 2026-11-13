@@ -38,4 +38,3 @@ export async function openPostgres(url: string): Promise<Database> {
   return db as unknown as Database;
 }
 
-export { schema };

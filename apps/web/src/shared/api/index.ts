@@ -1,1 +1,1 @@
-export { ArchiveApiError, fetchArtifact, fetchArtifacts, toSearchParams } from "./archive";
+export { fetchArtifacts, toSearchParams } from "./archive";

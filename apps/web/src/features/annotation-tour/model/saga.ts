@@ -3,7 +3,7 @@ import { delay, put, race, select, take, takeLatest } from "redux-saga/effects";
 import { next, paused, played, selectIsLast, selected } from "./slice";
 
 /** 한 주석에 머무는 시간. 읽을 시간을 넉넉히 둔다(KWCAG 6.2.1 응답 시간). */
-export const STEP_MS = 8000;
+const STEP_MS = 8000;
 
 /**
  * 안내 투어: 주석을 차례로 보여 준다.
