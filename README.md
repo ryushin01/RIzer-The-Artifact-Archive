@@ -111,7 +111,11 @@ packages/
 | 자료 | 저작자 | 사용 허락 | 원본 |
 |---|---|---|---|
 | 유물 사진 (전설 속 유물과 모습이 닮은 실제 소장품) | 메트로폴리탄 미술관, 클리블랜드 미술관 | CC0 (Open Access) | [The Met Open Access](https://www.metmuseum.org/hubs/open-access) · [Cleveland Open Access](https://www.clevelandart.org/open-access) |
-| Geist · Geist Mono 글꼴 | The Geist Project Authors(Vercel) | SIL OFL 1.1 | [vercel/geist-font](https://github.com/vercel/geist-font) |
-| Pretendard 글꼴 | 길형진(orioncactus) | SIL OFL 1.1 | [orioncactus/pretendard](https://github.com/orioncactus/pretendard) |
+| UnifrakturCook 글꼴 (공개 사이트 제목) | j. 'mach' wust, Peter Wiegel | SIL OFL 1.1 | [Google Fonts](https://fonts.google.com/specimen/UnifrakturCook) |
+| Song Myung(송명) 글꼴 (공개 사이트) | The Song Myung Project Authors | SIL OFL 1.1 | [Google Fonts](https://fonts.google.com/specimen/Song+Myung) |
+| Nanum Myeongjo(나눔명조) 글꼴 (공개 사이트) | NHN(네이버), 디자인 FONTRIX | SIL OFL 1.1 | [Google Fonts](https://fonts.google.com/specimen/Nanum+Myeongjo) |
+| Nanum Gothic Coding(나눔고딕코딩) 글꼴 (공개 사이트) | NHN(네이버), 디자인 산돌커뮤니케이션 | SIL OFL 1.1 | [Google Fonts](https://fonts.google.com/specimen/Nanum+Gothic+Coding) |
+| Geist · Geist Mono 글꼴 (관리 화면) | The Geist Project Authors(Vercel) | SIL OFL 1.1 | [vercel/geist-font](https://github.com/vercel/geist-font) |
+| Pretendard 글꼴 (공유 이미지) | 길형진(orioncactus) | SIL OFL 1.1 | [orioncactus/pretendard](https://github.com/orioncactus/pretendard) |
 
 유물마다 사진 속 실제 소장품과 등록 번호는 [이미지 출처](docs/credits.md)에 있습니다. 해설·주석과 합성 이미지는 이 프로젝트에서 만들었고, 사이트 바닥글의 '이미지·글꼴 출처' 링크가 이 표로 옵니다.
