@@ -1,5 +1,11 @@
 # 변경 기록
 
+## 0.5.5 — 2026-11-13
+
+- 모니터링: Sentry를 페이지를 다 받은 뒤(load) 한가할 때 받습니다. load가 10초 안에 오지 않으면 그때 바로 받습니다. Error가 아닌 일반 객체로 거부된 Promise의 필드 값(`extra.__serialized__`)도 보내기 전에 지웁니다.
+- 정리: 코드에서 쓰지 않는 의존성(`gsap`, `lenis`, `react-is`, 공개 사이트의 `@testing-library/user-event`)과 OpenSeadragon 6이 타입을 직접 싣고 있어 필요 없는 `@types/openseadragon`을 뺐습니다. 첫 버전부터 쓰이지 않던 관리 화면의 `use-dialog-form`도 지웠습니다.
+- 정리: 슬라이스 공개 API의 쓰지 않는 내보내기와 파일 안에서만 쓰는 상수의 export를 뗐습니다.
+
 ## 0.5.4 — 2026-11-12
 
 - 이름 표기를 RIzer에서 Rizer로 바꿨습니다. GitHub 저장소는 `Rizer-The-Artifact-Archive`이고, 화면 제목·공유 이미지 설명·관리 화면·문서의 표기를 맞췄습니다. 배포 주소(`rizer-ryushin01.vercel.app`, `rizer-admin-ryushin01.vercel.app`)는 그대로입니다.

@@ -5,7 +5,7 @@ import { safeStorage } from "@/shared/lib/safe-storage";
 
 import { modeChanged, type MotionMode, selectMotionMode, selectReducedMotion, systemChanged, toggled } from "./slice";
 
-export const STORAGE_KEY = "rizer:motion";
+const STORAGE_KEY = "rizer:motion";
 
 function systemChannel(): EventChannel<boolean> {
   return eventChannel((emit) => {
@@ -28,7 +28,7 @@ function* watchSystem() {
 }
 
 /** html[data-motion]을 바꿔 CSS 애니메이션과 스크롤 연출이 함께 멈추게 한다. */
-export function* applyToDocument() {
+function* applyToDocument() {
   const reduced: boolean = yield select(selectReducedMotion);
   document.documentElement.dataset.motion = reduced ? "reduce" : "full";
 }
