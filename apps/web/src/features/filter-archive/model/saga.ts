@@ -21,7 +21,7 @@ import {
 } from "./slice";
 
 /** 검색어를 칠 때는 잠시 기다렸다가 요청한다. 버튼 필터는 바로 요청한다. */
-export const TYPING_DEBOUNCE_MS = 300;
+const TYPING_DEBOUNCE_MS = 300;
 
 /** 주소를 검색 조건과 맞춘다(새로고침·공유해도 같은 결과). 기록을 쌓지 않도록 replaceState를 쓴다. */
 export function syncUrl(query: ArtifactQuery) {

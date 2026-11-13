@@ -16,7 +16,7 @@ export type ArchiveState = {
 
 const sameQuery = (a: ArtifactQuery, b: ArtifactQuery) => JSON.stringify(a) === JSON.stringify(b);
 
-export const initialArchiveState: ArchiveState = {
+const initialArchiveState: ArchiveState = {
   query: { sort: "featured" },
   items: [],
   total: 0,

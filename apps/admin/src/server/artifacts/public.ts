@@ -6,7 +6,7 @@ import type { StoredImage } from "@/entities/artifact";
 import type { AnnotationRow, ArtifactWithCount } from "./repository";
 
 /** 저장된 이미지(스토리지 키)를 공개 주소가 담긴 딥줌 이미지로 바꾼다. */
-export function toDeepZoomImage(image: StoredImage | null, storage: Pick<Storage, "publicUrl">): DeepZoomImage | null {
+function toDeepZoomImage(image: StoredImage | null, storage: Pick<Storage, "publicUrl">): DeepZoomImage | null {
   if (!image) return null;
   return {
     dziUrl: storage.publicUrl(image.dziKey),

@@ -8,7 +8,7 @@ import { media } from "@/shared/config";
 import { sessionFlag } from "@/shared/lib/safe-storage";
 import { MonoLabel } from "@/shared/ui";
 
-export const GATE_KEY = "rizer:gate";
+const GATE_KEY = "rizer:gate";
 
 /**
  * 입장 화면. 한 번 지나가면 같은 탭에서는 다시 보이지 않는다(sessionStorage).

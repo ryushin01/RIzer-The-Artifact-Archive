@@ -4,9 +4,9 @@ import type { Database } from "@/db/index";
 import { loginAttempts } from "@/db/schema";
 
 /** 연속으로 이만큼 틀리면 잠근다. */
-export const MAX_FAILURES = 5;
+const MAX_FAILURES = 5;
 /** 잠그는 시간, 그리고 실패 횟수를 이어서 세는 시간 */
-export const LOCK_MINUTES = 15;
+const LOCK_MINUTES = 15;
 const WINDOW = LOCK_MINUTES * 60_000;
 
 /**

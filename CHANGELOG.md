@@ -1,5 +1,26 @@
 # 변경 기록
 
+## 0.5.6 — 2026-11-13
+
+- 모니터링: load가 10초 전에 오면 기한을 거두고 한가할 때를 기다립니다. 전에는 load가 9초에 와도 10초 기한이 먼저 Sentry를 받기 시작해 한가할 때를 기다리지 않을 수 있었습니다(+테스트).
+
+## 0.5.5 — 2026-11-13
+
+- 모니터링: Sentry를 페이지를 다 받은 뒤(load) 한가할 때 받습니다. load가 10초 안에 오지 않으면 그때 바로 받습니다. Error가 아닌 일반 객체로 거부된 Promise의 필드 값(`extra.__serialized__`)도 보내기 전에 지웁니다.
+- 정리: 코드에서 쓰지 않는 의존성(`gsap`, `lenis`, `react-is`, 공개 사이트의 `@testing-library/user-event`)과 OpenSeadragon 6이 타입을 직접 싣고 있어 필요 없는 `@types/openseadragon`을 뺐습니다. 첫 버전부터 쓰이지 않던 관리 화면의 `use-dialog-form`도 지웠습니다.
+- 정리: 슬라이스 공개 API의 쓰지 않는 내보내기와 파일 안에서만 쓰는 상수의 export를 뗐습니다.
+
+## 0.5.4 — 2026-11-12
+
+- 이름 표기를 RIzer에서 Rizer로 바꿨습니다. GitHub 저장소는 `Rizer-The-Artifact-Archive`이고, 화면 제목·공유 이미지 설명·관리 화면·문서의 표기를 맞췄습니다. 배포 주소(`rizer-ryushin01.vercel.app`, `rizer-admin-ryushin01.vercel.app`)는 그대로입니다.
+
+## 0.5.3 — 2026-11-12
+
+- 접근성 린트: eslint-plugin-jsx-a11y의 recommended 규칙을 모두 켬
+- 모니터링: `NEXT_PUBLIC_SENTRY_DSN`이 있으면 처리하지 못한 오류와 나쁜 Web Vitals를 Sentry로 보냄. 오류 내용만 보내고, Sentry(약 31 kB gzip)와 web-vitals는 첫 화면 뒤에 따로 받음
+- 성능 예산: CI에서 size-limit(공개 사이트 전체 JS 440 kB, CSS 96 kB)과 Lighthouse CI(공개 사이트의 첫 화면·유물 목록·엑스칼리버 상세·영문 첫 화면이 데스크톱 기준 성능 90·접근성 100·권장 사항 95·SEO 90점, LCP 2.5초·TBT 200ms·CLS 0.1 이하)로 검사
+- 유물 목록: 쪽 제목(h1) 다음에 카드 제목(h3)이 바로 나와 제목 순서가 건너뛰던 것을, 화면 낭독기용 결과 목록 제목(h2)을 두어 고침
+
 ## 0.5.2 — 2026-11-11
 
 - 공개 사이트 글꼴을 바꿨습니다. 유물 이름은 중세 필사본 같은 블랙레터 UnifrakturCook(영문)과 붓맛이 있는 송명(한글), 해설은 나눔명조, 소장 번호와 라벨은 나눔고딕코딩입니다. Pretendard·Unbounded·Space Mono는 뺐고, 공유 이미지는 Pretendard Bold 그대로입니다.

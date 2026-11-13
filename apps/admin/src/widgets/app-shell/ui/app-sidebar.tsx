@@ -33,7 +33,7 @@ export function AppSidebar({ footer }: { footer: ReactNode }) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" render={<Link href="/" />}>
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-[#f4f1ea]">
-                <Image src="/brand/logo.png" alt="RIzer Archive" width={22} height={22} />
+                <Image src="/brand/logo.png" alt="Rizer Archive" width={22} height={22} />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate text-xs text-muted-foreground">전설 유물 관리</span>

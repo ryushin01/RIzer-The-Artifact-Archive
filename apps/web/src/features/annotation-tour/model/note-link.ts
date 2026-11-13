@@ -1,5 +1,5 @@
 /** 주석 바로가기 주소. `?note=2`는 투어 순서로 두 번째 주석이다(사람이 읽는 번호라 1부터). */
-export const NOTE_PARAM = "note";
+const NOTE_PARAM = "note";
 
 /** 주소 쿼리에서 고를 주석 id. 없거나 범위를 벗어나면 null */
 export function noteFromSearch(search: string, ids: string[]): string | null {

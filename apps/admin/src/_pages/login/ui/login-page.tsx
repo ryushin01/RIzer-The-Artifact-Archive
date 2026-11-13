@@ -40,7 +40,7 @@ export function LoginPage({ searchParams }: PageProps<"/login">) {
             <Landmark className="size-5" aria-hidden />
           </div>
           <CardTitle>
-            <h1 className="text-xl">RIzer Archive 관리</h1>
+            <h1 className="text-xl">Rizer Archive 관리</h1>
           </CardTitle>
           <CardDescription>
             전설 유물 아카이브의 유물·해설·주석을 관리합니다. 둘러보기만 하려면 게스트로 들어오세요.

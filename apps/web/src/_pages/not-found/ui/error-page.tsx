@@ -1,6 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { useMessages } from "@/shared/i18n";
+import { reportError } from "@/shared/lib/monitoring";
 import { Button } from "@/shared/ui";
 
 import { NotFoundPage } from "./not-found-page";
@@ -9,6 +12,7 @@ import { NotFoundPage } from "./not-found-page";
 export function ErrorPage({ error, retry }: { error: unknown; retry: () => void }) {
   const t = useMessages().notFound;
   const digest = error instanceof Error ? (error as Error & { digest?: string }).digest : undefined;
+  useEffect(() => reportError(error), [error]);
   return (
     <NotFoundPage
       title="Broken Seal"
