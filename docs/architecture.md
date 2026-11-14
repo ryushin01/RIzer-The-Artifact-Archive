@@ -45,7 +45,7 @@
 
 ## 딥줌과 주석
 
-1. 원본을 `packages/tiles`(sharp)가 254px+겹침 1px WebP 타일의 DZI 피라미드로 자른다. 미리보기(긴 변 1600px), LQIP(24px data URL), 대표 색도 만든다.
+1. 원본을 `packages/tiles`(sharp)가 겹침 1px WebP 타일의 DZI 피라미드로 자른다. 업로드와 시드 이미지는 510px 타일이다(254px보다 파일 수가 약 4분의 1이라 Vercel Blob 업로드 작업 한도를 덜 쓴다). 라이브러리 기본값과 `pnpm tiles` CLI는 254px이다. 미리보기(긴 변 1600px), LQIP(24px data URL), 대표 색도 만든다.
 2. 키에 버전(`artifacts/<id>/v<시각>/`)을 넣어, CDN이 1년 캐시해도 새 타일이 바로 보인다. 새로 자르면 이전 버전은 지운다.
 3. 운영에서는 브라우저가 서명된 주소로 Vercel Blob(또는 R2)에 원본을 직접 올리고(서버리스 요청 크기 제한 회피), 서버가 타일을 만든다. 80MB를 넘는 원본은 `pnpm tiles` CLI로 자른다.
 4. 주석은 W3C Web Annotation의 부분 집합이고, 영역은 **백분율**(`xywh=percent:x,y,w,h`)로 저장한다. 다시 타일링하거나 해상도가 바뀌어도 위치가 맞는다. `toWebAnnotation()`으로 JSON-LD를 내보낼 수 있다.
