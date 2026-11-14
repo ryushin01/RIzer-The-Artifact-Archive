@@ -114,9 +114,13 @@ test.describe("유물 화면", () => {
     await page.getByRole("button", { name: "다음 주석" }).click();
     await expect(page.getByText("03 / 04")).toBeVisible();
 
+    // 사진 속 실제 소장품은 이름만 보이고, 소장처·라이선스는 README의 출처에 있다.
     await expect(
-      page.getByRole("link", { name: /Hand-and-a-Half Sword/ }),
-    ).toHaveAttribute("href", /metmuseum\.org/);
+      page.getByRole("region", { name: "사진 속 실제 소장품" }),
+    ).toContainText("Hand-and-a-Half Sword");
+    await expect(
+      page.getByRole("contentinfo").getByRole("link", { name: /이미지·글꼴 출처 \(README\)/ }),
+    ).toHaveAttribute("href", /Rizer-The-Artifact-Archive#출처$/);
     await expectNoA11yViolations(page);
   });
 
@@ -182,16 +186,14 @@ test.describe("유물 화면", () => {
   test("합성 이미지는 구성 소장품을 모두 밝힌다", async ({ page }) => {
     await page.goto("/artifacts/cheonbuin");
     await expect(page.getByText(/합성 이미지입니다/)).toBeVisible();
+    // 구성 소장품 이름은 '사진 속 실제 소장품'에 보이고, 원본 링크는 README의 출처에 있다.
+    const objects = page.getByRole("region", { name: "사진 속 실제 소장품" });
     for (const name of [
       "Short Sword (Duan Jian)",
       "Mirror in Han style",
       "Dōtaku (Bronze Bell)",
     ]) {
-      await expect(
-        page.getByRole("link", {
-          name: new RegExp(name.replace(/[()]/g, "\\$&")),
-        }),
-      ).toBeVisible();
+      await expect(objects.getByText(name, { exact: true })).toBeVisible();
     }
   });
 

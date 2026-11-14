@@ -8,10 +8,10 @@ import styled from "styled-components";
 import { ArtifactCard } from "@/entities/artifact";
 import { CopyNoteLink, selected, selectTour } from "@/features/annotation-tour";
 import { useLocale, useLocalePath, useMessages, yearLabel } from "@/shared/i18n";
-import { IconArrowLeft, IconExternal, MonoLabel, RedDot } from "@/shared/ui";
+import { IconArrowLeft, MonoLabel, RedDot } from "@/shared/ui";
 
 /**
- * 유물 해설 패널: 이름·권능·기록, 해설, 주석 목록, 이미지 출처, 같은 전시실의 유물.
+ * 유물 해설 패널: 이름·권능·기록, 해설, 주석 목록, 사진 속 실제 소장품(출처는 README), 같은 전시실의 유물.
  * 주석을 고르면 뷰어가 그 부분으로 확대하고, 고른 주석의 설명을 화면 낭독기에 알린다.
  */
 export function ArtifactDossier({
@@ -29,7 +29,7 @@ export function ArtifactDossier({
   const gallery = galleryOf(artifact.gallery);
   const { source } = artifact;
   const locale = useLocale();
-  const { artifact: t, newWindow } = useMessages();
+  const { artifact: t } = useMessages();
   const path = useLocalePath();
   const galleryLabel = galleryName(artifact.gallery, locale);
   const untranslated = locale === "en" && artifact.contentLang === "ko";
@@ -122,14 +122,8 @@ export function ArtifactDossier({
             <ul>
               {source.parts.map((part) => (
                 <li key={part.objectId}>
-                  <a href={part.url} target="_blank" rel="noreferrer">
-                    {part.objectTitle}
-                    <IconExternal width={14} />
-                    <span className="sr-only">{newWindow}</span>
-                  </a>
-                  <span>
-                    {[part.objectCulture, part.objectDate].filter(Boolean).join(", ")} · {part.accessionNumber}
-                  </span>
+                  <span>{part.objectTitle}</span>
+                  <span>{[part.objectCulture, part.objectDate].filter(Boolean).join(", ")}</span>
                 </li>
               ))}
             </ul>
@@ -137,17 +131,10 @@ export function ArtifactDossier({
         ) : (
           <p>
             {t.photoBefore}
-            <a href={source.url} target="_blank" rel="noreferrer">
-              {source.objectTitle}
-              <IconExternal width={14} />
-              <span className="sr-only">{newWindow}</span>
-            </a>
-            ({[source.objectCulture, source.objectDate].filter(Boolean).join(", ")}){t.photoAfter}
+            {source.objectTitle}({[source.objectCulture, source.objectDate].filter(Boolean).join(", ")})
+            {t.photoAfter}
           </p>
         )}
-        <MonoLabel>
-          {source.institution} · {source.license} · {source.creditLine}
-        </MonoLabel>
       </Credit>
 
       {related.length > 0 && (
