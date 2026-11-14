@@ -8,6 +8,7 @@ import styled from "styled-components";
 
 import { selected, selectTour, TourControls } from "@/features/annotation-tour";
 import { selectReducedMotion } from "@/features/motion-preference";
+import { media } from "@/shared/config";
 import { useMessages } from "@/shared/i18n";
 import { IconArrowLeft, IconArrowRight, IconButton, IconExpand, IconHome, IconMinus, IconPlus, MonoLabel } from "@/shared/ui";
 
@@ -28,6 +29,8 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
   const { activeId, markersVisible } = useSelector(selectTour);
   const reduced = useSelector(selectReducedMotion);
   const hostRef = useRef<HTMLDivElement>(null);
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<OpenSeadragon.Viewer | null>(null);
   const [ready, setReady] = useState(false);
   const [zoomPercent, setZoomPercent] = useState(100);
@@ -36,20 +39,20 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
 
   useEffect(() => {
     let disposed = false;
+    let unlisten = () => {};
+    let unobserve = () => {};
     const sizeAtMount = { width: image.width, height: image.height };
     (async () => {
       const { default: OSD } = await import("openseadragon");
       if (disposed || !hostRef.current) return;
-      const wide = window.matchMedia("(min-width: 900px)").matches;
+      const wideQuery = window.matchMedia("(min-width: 900px)");
       const viewer = OSD({
         element: hostRef.current,
         tileSources: image.dziUrl,
         crossOriginPolicy: "Anonymous",
         showNavigationControl: false,
-        // 좁은 화면에서는 미니맵이 사진을 많이 가리므로 넓은 화면에서만 보인다.
-        showNavigator: wide,
-        // 위쪽 도구 막대(좁은 화면에서는 두 줄)와 아래쪽 이동 버튼에 사진과 주석 번호가 가리지 않게 여백을 둔다.
-        viewportMargins: { top: wide ? 72 : 124, bottom: 64, left: 12, right: 12 },
+        // 좁은 화면에서는 미니맵이 사진을 많이 가리므로 넓은 화면에서만 보인다(아래에서 너비 변화에 맞춘다).
+        showNavigator: true,
         navigatorPosition: "BOTTOM_RIGHT",
         navigatorAutoFade: false,
         navigatorBackground: "#050505",
@@ -91,10 +94,47 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
         const z = viewer.viewport.viewportToImageZoom(viewer.viewport.getZoom(true));
         setZoomPercent(Math.round(z * 100));
       });
+      // 위쪽 도구 막대와 아래쪽 줄(좁으면 두 줄로 넘어간다)에 사진과 주석 번호가 가리지 않게,
+      // 실제 높이를 재서 여백으로 둔다. 줄이 바뀌거나 창 크기가 바뀌면 다시 잰다.
+      const fitMargins = () => {
+        const viewport = viewer.viewport;
+        // 전체 보기였다면 새 여백으로 다시 맞추고, 사용자가 확대·이동해 둔 화면은 그대로 둔다.
+        // 애니메이션 중일 수 있으므로 지금 값이 아니라 목표 배율·중심으로 판단한다.
+        const home = viewport.getHomeZoom();
+        const homeCenter = viewport.getHomeBounds().getCenter();
+        const center = viewport.getCenter(false);
+        const span = viewport.getBounds(false).width;
+        const atHome =
+          Math.abs(viewport.getZoom(false) - home) / home < 0.01 &&
+          Math.abs(center.x - homeCenter.x) < span * 0.01 &&
+          Math.abs(center.y - homeCenter.y) < span * 0.01;
+        // 막대의 바깥 여백 12px + 사진과의 간격 8px. 주석 번호는 영역의 왼쪽 위에서 16px 밖으로 나오므로 위·왼쪽은 그만큼 더 둔다.
+        const gap = 20;
+        const marker = 16;
+        viewport.setMargins({
+          top: (toolbarRef.current?.offsetHeight ?? 44) + gap + marker,
+          bottom: (bottomRef.current?.offsetHeight ?? 44) + gap,
+          left: 12 + marker,
+          right: 12,
+        });
+        if (atHome) viewport.goHome(true);
+        else viewport.applyConstraints(true);
+      };
+      fitMargins();
+      const observer = new ResizeObserver(fitMargins);
+      [toolbarRef.current, bottomRef.current].forEach((el) => el && observer.observe(el));
+      unobserve = () => observer.disconnect();
+      // 창 너비가 바뀌어도 미니맵과 아래쪽 해상도 표시가 겹치지 않게 미니맵 표시를 맞춘다.
+      const syncNavigator = () => viewer.navigator?.setVisible(wideQuery.matches);
+      syncNavigator();
+      wideQuery.addEventListener("change", syncNavigator);
+      unlisten = () => wideQuery.removeEventListener("change", syncNavigator);
       viewerRef.current = viewer;
     })();
     return () => {
       disposed = true;
+      unlisten();
+      unobserve();
       viewerRef.current?.destroy();
       viewerRef.current = null;
     };
@@ -147,7 +187,7 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
       <p id={helpId} className="sr-only">
         {t.hint}
       </p>
-      <Toolbar>
+      <Toolbar ref={toolbarRef}>
         <TourControls />
         <Zoom role="group" aria-label={t.zoomGroup}>
           <IconButton type="button" aria-label={t.zoomIn} onClick={() => zoomBy(1.6)} disabled={!ready}>
@@ -170,25 +210,32 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
           </IconButton>
         </Zoom>
       </Toolbar>
-      <Pan role="group" aria-label={t.panGroup}>
-        <IconButton type="button" aria-label={t.panLeft} onClick={() => pan(-1, 0)} disabled={!ready}>
-          <IconArrowLeft />
-        </IconButton>
-        <IconButton type="button" aria-label={t.panUp} onClick={() => pan(0, -1)} disabled={!ready}>
-          <IconArrowRight style={{ transform: "rotate(-90deg)" }} />
-        </IconButton>
-        <IconButton type="button" aria-label={t.panDown} onClick={() => pan(0, 1)} disabled={!ready}>
-          <IconArrowRight style={{ transform: "rotate(90deg)" }} />
-        </IconButton>
-        <IconButton type="button" aria-label={t.panRight} onClick={() => pan(1, 0)} disabled={!ready}>
-          <IconArrowRight />
-        </IconButton>
-      </Pan>
-      <Resolution>
-        <MonoLabel>
-          {image.width.toLocaleString("ko-KR")} × {image.height.toLocaleString("ko-KR")} PX
-        </MonoLabel>
-      </Resolution>
+      <Bottom ref={bottomRef}>
+        <Pan role="group" aria-label={t.panGroup}>
+          <IconButton type="button" aria-label={t.panLeft} onClick={() => pan(-1, 0)} disabled={!ready}>
+            <IconArrowLeft />
+          </IconButton>
+          <IconButton type="button" aria-label={t.panUp} onClick={() => pan(0, -1)} disabled={!ready}>
+            <IconArrowRight style={{ transform: "rotate(-90deg)" }} />
+          </IconButton>
+          <IconButton type="button" aria-label={t.panDown} onClick={() => pan(0, 1)} disabled={!ready}>
+            <IconArrowRight style={{ transform: "rotate(90deg)" }} />
+          </IconButton>
+          <IconButton type="button" aria-label={t.panRight} onClick={() => pan(1, 0)} disabled={!ready}>
+            <IconArrowRight />
+          </IconButton>
+        </Pan>
+        <Resolution>
+          <MonoLabel>
+            <span className="full">
+              {image.width.toLocaleString("ko-KR")} × {image.height.toLocaleString("ko-KR")} PX
+            </span>
+            <span className="short">
+              {image.width}×{image.height}
+            </span>
+          </MonoLabel>
+        </Resolution>
+      </Bottom>
     </Wrap>
   );
 }
@@ -285,20 +332,46 @@ const ZoomLabel = styled.span`
   border-radius: 6px;
   background: rgba(5, 5, 5, 0.6);
 `;
-/** 왼쪽 아래. 넓은 화면의 미니맵은 오른쪽 아래에 있다. */
-const Pan = styled.div`
+/**
+ * 아래쪽 줄: 왼쪽에 이동 버튼, 오른쪽에 해상도 표시. 자리가 모자라면(320px 등) 표시가 버튼 위로 올라간다.
+ * 넓은 화면은 미니맵이 오른쪽 아래에 있으므로 표시를 늘 버튼 위에 둔다.
+ */
+const Bottom = styled.div`
   position: absolute;
   left: 12px;
+  right: 12px;
   bottom: 12px;
   display: flex;
-  gap: 6px;
+  flex-wrap: wrap-reverse;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: none;
+  ${media.md} {
+    right: auto;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
 `;
+const Pan = styled.div`
+  display: flex;
+  gap: 6px;
+  pointer-events: auto;
+`;
+/** 아주 좁은 화면(640px 미만)에서는 짧게 쓴다. */
 const Resolution = styled.div`
-  position: absolute;
-  left: 16px;
-  bottom: 66px;
   padding: 4px 10px;
   border-radius: 999px;
   background: rgba(5, 5, 5, 0.7);
-  pointer-events: none;
+  .full {
+    display: none;
+  }
+  ${media.sm} {
+    .full {
+      display: inline;
+    }
+    .short {
+      display: none;
+    }
+  }
 `;

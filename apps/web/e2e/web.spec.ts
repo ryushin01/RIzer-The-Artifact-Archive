@@ -139,6 +139,28 @@ test.describe("유물 화면", () => {
     await expect.poll(x).toBeGreaterThan(afterRight + 20);
   });
 
+  test("좁은 화면과 창 크기 변경에도 해상도 표시가 이동 버튼·미니맵과 겹치지 않는다", async ({ page }) => {
+    const overlaps = (a: { x: number; y: number; width: number; height: number }, b: typeof a) =>
+      a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
+    const label = page.getByText(/^\d+×\d+$|^[\d,]+ × [\d,]+ PX$/).filter({ visible: true });
+    const pan = page.getByRole("group", { name: "사진 이동" });
+    const navigator = page.locator(".navigator");
+
+    // 넓은 화면에서 열면 미니맵이 보인다.
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto("/artifacts/excalibur");
+    await expect(page.getByRole("button", { name: /^주석 1: / })).toBeVisible({ timeout: 20_000 });
+    await expect(navigator).toBeVisible();
+
+    // 창을 좁히면 미니맵이 숨고, 320px(WCAG 1.4.10 재배치 기준 너비)에서도 표시와 버튼이 겹치지 않는다.
+    for (const width of [700, 320]) {
+      await page.setViewportSize({ width, height: 800 });
+      await expect(navigator).toBeHidden();
+      await expect(label).toBeVisible();
+      expect(overlaps((await label.boundingBox())!, (await pan.boundingBox())!)).toBe(false);
+    }
+  });
+
   test("주석 바로가기 주소로 들어오면 그 주석이 열리고, 고르면 주소가 따라 바뀐다", async ({
     page,
   }) => {
