@@ -7,3 +7,5 @@ allowBuilds:
 # 운영 의존성 보안 경고 대응: @vercel/blob → @vercel/cli-config가 고정한 zod 4.1(GHSA-mrhx-c7xc-m3w5)을 같은 메이저의 수정 버전으로
 overrides:
   "zod@<4.6.6": ^4.6.7
+patchedDependencies:
+  '@ssgoi/core@7.5.0': patches/@ssgoi__core@7.5.0.patch
