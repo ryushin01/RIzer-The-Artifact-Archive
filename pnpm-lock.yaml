@@ -166,7 +166,7 @@ overrides:
   zod@<4.6.6: ^4.6.7
 
 patchedDependencies:
-  '@ssgoi/core@7.5.0': 4fa49625f1cad78a983d472bab7046af60b81e0bacbb08ad88091f1fc22b8a8d
+  '@ssgoi/core@7.5.0': 6a52c704bf8bec1b96b2b150b1bbcdb1ed800f499ec8a35050f5da4a5c56c333
 
 importers:
 
@@ -8679,12 +8679,12 @@ snapshots:
     dependencies:
       tslib: 2.9.1
 
-  '@ssgoi/core@7.5.0(patch_hash=4fa49625f1cad78a983d472bab7046af60b81e0bacbb08ad88091f1fc22b8a8d)': {}
+  '@ssgoi/core@7.5.0(patch_hash=6a52c704bf8bec1b96b2b150b1bbcdb1ed800f499ec8a35050f5da4a5c56c333)': {}
 
   '@ssgoi/react@7.5.0(next@16.4.5(@babel/core@7.29.13(supports-color@7.2.0))(@opentelemetry/api@1.10.0)(@playwright/test@1.65.0)(@types/node@24.19.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(supports-color@7.2.0)':
     dependencies:
       '@babel/core': 7.29.13(supports-color@7.2.0)
-      '@ssgoi/core': 7.5.0(patch_hash=4fa49625f1cad78a983d472bab7046af60b81e0bacbb08ad88091f1fc22b8a8d)
+      '@ssgoi/core': 7.5.0(patch_hash=6a52c704bf8bec1b96b2b150b1bbcdb1ed800f499ec8a35050f5da4a5c56c333)
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
       unplugin: 2.3.11

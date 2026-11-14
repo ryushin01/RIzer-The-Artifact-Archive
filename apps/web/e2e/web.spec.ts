@@ -508,7 +508,7 @@ test.describe("화면 전환", () => {
       await expect(page.locator("[data-ssgoi-transition]")).toHaveCount(1);
       await page.goBack();
       await expect(page).toHaveURL(/\/artifacts$/);
-      await expect.poll(() => scrollY(page)).toBeGreaterThan(position - 10);
+      await expect.poll(async () => Math.abs((await scrollY(page)) - position)).toBeLessThanOrEqual(10);
     });
 
     test(`첫 화면에서 아카이브로 갔다 뒤로 가면 첫 화면의 보던 자리로 돌아온다(움직임 ${motion})`, async ({ page }) => {
@@ -532,7 +532,7 @@ test.describe("화면 전환", () => {
       await page.goBack();
       await expect(page).toHaveURL(/\/$/);
       await expect(page.locator('[data-ssgoi-transition="/"]')).toBeVisible();
-      await expect.poll(() => scrollY(page)).toBeGreaterThan(position - 10);
+      await expect.poll(async () => Math.abs((await scrollY(page)) - position)).toBeLessThanOrEqual(10);
     });
   }
 
@@ -551,7 +551,7 @@ test.describe("화면 전환", () => {
     await page.reload();
     await waitForHydration(page);
     await waitForFrames(page);
-    expect(await scrollY(page)).toBeGreaterThan(position - 10);
+    expect(Math.abs((await scrollY(page)) - position)).toBeLessThanOrEqual(10);
   });
 
   test("전환 경계가 미리 그린 셸의 내용을 숨기지 않는다(자바스크립트 없이도 보임)", async ({ browser }) => {
