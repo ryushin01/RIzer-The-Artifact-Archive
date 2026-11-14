@@ -27,7 +27,8 @@ export const theme = {
     // 본문은 운영체제 명조(맥 AppleMyungjo, 안드로이드 Noto Serif CJK KR, 윈도 바탕), 번호는 고정폭.
     display:
       "var(--font-display-en), var(--font-display-ko), 'Old English Text MT', AppleMyungjo, 'Noto Serif CJK KR', Batang, serif",
-    body: "var(--font-body), AppleMyungjo, 'Noto Serif CJK KR', Batang, 'Times New Roman', serif",
+    // 영어판은 --font-body-en(Cormorant Garamond)이 앞에 오고, 한국어판은 이 변수가 없어 나눔명조부터 쓴다.
+    body: "var(--font-body-en, var(--font-body)), var(--font-body), AppleMyungjo, 'Noto Serif CJK KR', Batang, 'Times New Roman', serif",
     mono: "var(--font-mono), ui-monospace, 'SF Mono', Menlo, Consolas, D2Coding, monospace",
   },
   radius: { sm: "8px", md: "14px", lg: "24px", pill: "999px" },

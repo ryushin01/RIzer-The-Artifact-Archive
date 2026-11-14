@@ -1,7 +1,7 @@
 # Rizer — The Artifact Archive
 
 [![CI](https://github.com/ryushin01/Rizer-The-Artifact-Archive/actions/workflows/ci.yml/badge.svg)](https://github.com/ryushin01/Rizer-The-Artifact-Archive/actions/workflows/ci.yml)
-![version](https://img.shields.io/badge/version-0.5.8-e2283c)
+![version](https://img.shields.io/badge/version-0.5.9-e2283c)
 ![Storybook](https://img.shields.io/badge/Storybook-10-FF4785?logo=storybook&logoColor=white)
 
 엑스칼리버, 성배, 묠니르, 여의봉 같은 세계 곳곳의 전설이나 판타지 속에 등장하는 유물 100점을 고해상도 딥줌으로 확대해 보고, 사진의 부분마다 달린 해설을 읽는 온라인 전시실입니다. 큐레이터는 관리 화면에서 유물·해설·이미지 주석을 편집합니다.
@@ -55,7 +55,7 @@
 | 구분        | 사용 기술                                                                                                                              |
 | ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | 공통        | pnpm 워크스페이스 + Turborepo, Next.js 16 (App Router, Cache Components), React 19, TypeScript, zod                                    |
-| 공개 사이트 | styled-components, Redux Toolkit + redux-saga, OpenSeadragon, UnifrakturCook·Song Myung·Nanum Myeongjo·Nanum Gothic Coding             |
+| 공개 사이트 | styled-components, Redux Toolkit + redux-saga, OpenSeadragon, UnifrakturCook·Song Myung·Nanum Myeongjo·Cormorant Garamond(영어판)·Nanum Gothic Coding |
 | 관리 화면   | shadcn/ui(Base UI) + Tailwind CSS 4, Drizzle ORM + PostgreSQL(개발·테스트는 PGlite), Auth.js, Annotorious                              |
 | 이미지·배포 | sharp(DZI 타일·미리보기·LQIP), Vercel Blob(S3 호환 R2 드라이버도 있음), Vercel                                                         |
 | 품질        | ESLint(FSD 경계 규칙), Vitest + Testing Library, redux-saga-test-plan, Storybook 10 스토리 테스트(axe), Playwright E2E, eslint-plugin-jsx-a11y, size-limit, Lighthouse CI, GitHub Actions |
@@ -116,6 +116,7 @@ packages/
 | Song Myung(송명) 글꼴 (공개 사이트) | The Song Myung Project Authors | SIL OFL 1.1 | [Google Fonts](https://fonts.google.com/specimen/Song+Myung) |
 | Nanum Myeongjo(나눔명조) 글꼴 (공개 사이트) | NHN(네이버), 디자인 FONTRIX | SIL OFL 1.1 | [Google Fonts](https://fonts.google.com/specimen/Nanum+Myeongjo) |
 | Nanum Gothic Coding(나눔고딕코딩) 글꼴 (공개 사이트) | NHN(네이버), 디자인 산돌커뮤니케이션 | SIL OFL 1.1 | [Google Fonts](https://fonts.google.com/specimen/Nanum+Gothic+Coding) |
+| Cormorant Garamond 글꼴 (영어판 해설) | The Cormorant Project Authors(Christian Thalmann) | SIL OFL 1.1 | [Google Fonts](https://fonts.google.com/specimen/Cormorant+Garamond) |
 | Geist · Geist Mono 글꼴 (관리 화면) | The Geist Project Authors(Vercel) | SIL OFL 1.1 | [vercel/geist-font](https://github.com/vercel/geist-font) |
 | Pretendard 글꼴 (공유 이미지) | 길형진(orioncactus) | SIL OFL 1.1 | [orioncactus/pretendard](https://github.com/orioncactus/pretendard) |
 

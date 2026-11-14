@@ -1,6 +1,7 @@
 import type { Locale } from "@rizer/domain";
 import type { Metadata, Viewport } from "next";
 import {
+  Cormorant_Garamond,
   Nanum_Gothic_Coding,
   Nanum_Myeongjo,
   Song_Myung,
@@ -30,6 +31,14 @@ const body = Nanum_Myeongjo({
   subsets: ["latin"],
   variable: "--font-body",
   weight: ["400", "700", "800"],
+  preload: false,
+});
+// 영어판 해설의 영문은 박물관 도록 같은 Cormorant Garamond. 한글은 그대로 나눔명조로 이어진다.
+// 변수는 영어판 html에만 붙이므로 한국어판에서는 이 글꼴을 받지 않는다.
+const bodyEn = Cormorant_Garamond({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-body-en",
+  weight: ["400", "700"],
   preload: false,
 });
 const mono = Nanum_Gothic_Coding({
@@ -78,7 +87,7 @@ export function RootLayout({
   return (
     <html
       lang={locale}
-      className={`${display.variable} ${displayKo.variable} ${body.variable} ${mono.variable}`}
+      className={`${display.variable} ${displayKo.variable} ${body.variable} ${mono.variable}${locale === "en" ? ` ${bodyEn.variable}` : ""}`}
       suppressHydrationWarning
     >
       <head>
