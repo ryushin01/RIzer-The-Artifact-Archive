@@ -94,7 +94,7 @@
 
 ## 품질 예산
 
-- **번들 크기:** `pnpm --filter @rizer/web size`가 공개 사이트 전체 JS 455 kB, CSS 96 kB(gzip)를 넘으면 실패합니다. 기준은 `.size-limit.json`에 있습니다. 0.6.0에서 화면 전환(SSGOI, 약 13 kB)을 넣으며 440 kB에서 올렸습니다. 첫 화면 속도는 Lighthouse CI 기준을 그대로 지킵니다.
+- **번들 크기:** `pnpm --filter @rizer/web size`가 공개 사이트 전체 JS 470 kB, CSS 96 kB(gzip)를 넘으면 실패합니다. 기준은 `.size-limit.json`에 있습니다. 0.6.0에서 화면 전환(SSGOI, 약 32 kB)을 넣으며 440 kB에서 올렸습니다. 첫 화면 속도는 Lighthouse CI 기준을 그대로 지킵니다.
 - **Lighthouse:** `pnpm --filter @rizer/web lhci`가 공개 사이트의 첫 화면·유물 목록·엑스칼리버 상세·영문 첫 화면이 데스크톱 기준 성능 90·접근성 100·권장 사항 95·SEO 90점, LCP 2.5초·TBT 200ms·CLS 0.1 이하인지 3번씩 재서 확인합니다. 기준은 `lighthouserc.json`에 있습니다.
 - **접근성 린트:** `eslint-config-next`는 jsx-a11y 규칙을 몇 개만 켭니다. 플러그인은 이미 등록되어 있어 `eslint.config`에서 recommended 규칙만 더해 모두 켭니다.
 

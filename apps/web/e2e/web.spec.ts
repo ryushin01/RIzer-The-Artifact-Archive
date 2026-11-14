@@ -454,6 +454,17 @@ test.describe("화면 전환", () => {
     expect(await maxPages(page)).toBe(1);
   });
 
+  test("전환 경계가 미리 그린 셸의 내용을 숨기지 않는다(자바스크립트 없이도 보임)", async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    const page = await context.newPage();
+    // 목록과 유물 상세는 페이지의 Suspense가 따로 미룬다("불러오는 중"). 셸에 있던 아카이브 제목과 소개만 본다.
+    // (같은 SSGOI 경계를 쓴 다른 프로젝트에서, 경계가 품은 Suspense 때문에 자바스크립트 없이 내용이 숨은 일이 있었다.)
+    await page.goto("/artifacts?gallery=norse");
+    await expect(page.getByRole("heading", { level: 1, name: "Archive" })).toBeVisible();
+    await expect(page.getByText("세계 곳곳의 전설 속 유물을")).toBeVisible();
+    await context.close();
+  });
+
   test("없는 주소는 화면 전환 영역 밖에서 404로 응답한다", async ({ request }) => {
     expect((await request.get("/no/such/page")).status()).toBe(404);
     expect((await request.get("/en/no/such/page")).status()).toBe(404);
