@@ -404,17 +404,22 @@ test.describe("디자인 시스템", () => {
 test.describe("화면 전환", () => {
   test.beforeEach(async ({ page }) => skipGate(page));
 
-  /** 겹쳐 있는 화면(라우트 경계) 수의 최댓값을 기록한다. 전환 중에는 떠나는 화면과 들어오는 화면이 함께 있다. */
+  /**
+   * 겹쳐 있는 화면(라우트 경계) 수의 최댓값과, 두 화면이 함께 보인 프레임 수를 기록한다.
+   * 전환 중에는 떠나는 화면과 들어오는 화면이 함께 있다.
+   */
   async function trackOverlap(page: Page) {
     await page.evaluate(() => {
-      const w = window as unknown as { __maxPages: number };
+      const w = window as unknown as { __maxPages: number; __overlapFrames: number };
       w.__maxPages = 0;
+      w.__overlapFrames = 0;
       // cacheComponents는 이전 화면을 지우지 않고 숨겨 두므로, 화면에 보이는 것만 센다.
       const count = () => {
         const visible = [...document.querySelectorAll("[data-ssgoi-transition]")].filter(
           (el) => el.getClientRects().length > 0,
         );
         w.__maxPages = Math.max(w.__maxPages, visible.length);
+        if (visible.length > 1) w.__overlapFrames += 1;
       };
       // 그려진 프레임만 센다. DOM이 바뀌는 순간(MutationObserver)에는 전환이 없어도 SSGOI가 떠나는 화면을
       // 잠깐 다시 붙였다 떼는 상태가 잡히는데, 이 상태는 그려지지 않는다. 실제 전환은 수백 ms 동안 겹친다.
@@ -426,6 +431,43 @@ test.describe("화면 전환", () => {
     });
   }
   const maxPages = (page: Page) => page.evaluate(() => (window as unknown as { __maxPages: number }).__maxPages);
+  const overlapFrames = (page: Page) =>
+    page.evaluate(() => (window as unknown as { __overlapFrames: number }).__overlapFrames);
+
+  /** 수화(hydration)가 끝나 클라이언트 이동이 될 때까지 기다린다. */
+  async function waitForHydration(page: Page) {
+    await page.waitForFunction(() => Boolean((window as unknown as { next?: { router?: unknown } }).next?.router));
+  }
+
+  /**
+   * 화면이 열린 뒤 몇 프레임 기다린다. SSGOI는 화면이 열린 직후 10프레임 동안의 스크롤을 기록하지 않으므로
+   * (스크롤 복원 중의 움직임을 사용자의 스크롤로 착각하지 않으려는 것), 사람이 스크롤하듯 그 뒤에 움직인다.
+   */
+  const waitForFrames = (page: Page, frames = 15) =>
+    page.evaluate(
+      (count) =>
+        new Promise<void>((resolve) => {
+          let left = count;
+          const tick = () => (--left <= 0 ? resolve() : requestAnimationFrame(tick));
+          requestAnimationFrame(tick);
+        }),
+      frames,
+    );
+  const scrollY = (page: Page) => page.evaluate(() => Math.round(window.scrollY));
+  const reduceMotion = (page: Page) => page.addInitScript(() => localStorage.setItem("rizer:motion", "reduce"));
+
+  /** 아카이브를 내려 여덟 번째 카드가 보이게 하고, 그 위치와 카드의 slug를 돌려준다. */
+  async function scrollArchive(page: Page) {
+    await page.goto("/artifacts");
+    await waitForHydration(page);
+    await waitForFrames(page);
+    const card = page.locator("[data-zoom-exit-key]").nth(7);
+    await card.scrollIntoViewIfNeeded();
+    await waitForFrames(page, 3);
+    const position = await scrollY(page);
+    expect(position).toBeGreaterThan(0);
+    return { position, slug: (await card.getAttribute("data-zoom-exit-key"))! };
+  }
 
   async function openFirstArtifact(page: Page) {
     await page.goto("/artifacts");
@@ -443,15 +485,73 @@ test.describe("화면 전환", () => {
   test("유물 카드를 누르면 두 화면이 겹쳐 움직이고, 끝나면 하나만 남는다", async ({ page }) => {
     await openFirstArtifact(page);
     expect(await maxPages(page)).toBe(2);
+    // 실측: 움직이면 두 화면이 약 24프레임 겹친다.
+    expect(await overlapFrames(page)).toBeGreaterThan(10);
     await page.goBack();
     await expect(page).toHaveURL(/\/artifacts$/);
     await expect(page.locator("[data-ssgoi-transition]")).toHaveCount(1);
   });
 
-  test("사이트의 움직임 설정을 끄면 화면 전환 없이 바로 바뀐다", async ({ page }) => {
-    await page.addInitScript(() => localStorage.setItem("rizer:motion", "reduce"));
+  test("사이트의 움직임 설정을 끄면 움직이지 않고 바로 바뀐다(겹침은 몇 프레임 안)", async ({ page }) => {
+    await reduceMotion(page);
     await openFirstArtifact(page);
-    expect(await maxPages(page)).toBe(1);
+    // 스크롤 정책을 지키려고 규칙은 그대로 두고 전환만 즉시 끝나게 하므로, 준비와 정리 동안 두 화면이 몇 프레임 함께 보인다(실측 3~4).
+    expect(await overlapFrames(page)).toBeLessThanOrEqual(6);
+  });
+
+  for (const motion of ["켬", "끔"] as const) {
+    test(`아카이브에서 유물 상세로 갔다 뒤로 가면 보던 자리로 돌아온다(움직임 ${motion})`, async ({ page }) => {
+      if (motion === "끔") await reduceMotion(page);
+      const { position, slug } = await scrollArchive(page);
+      await page.locator(`a[href$="/artifacts/${slug}"]`).first().click();
+      await expect(page).toHaveURL(new RegExp(`/artifacts/${slug}$`));
+      await expect(page.locator("[data-ssgoi-transition]")).toHaveCount(1);
+      await page.goBack();
+      await expect(page).toHaveURL(/\/artifacts$/);
+      await expect.poll(() => scrollY(page)).toBeGreaterThan(position - 10);
+    });
+
+    test(`첫 화면에서 아카이브로 갔다 뒤로 가면 첫 화면의 보던 자리로 돌아온다(움직임 ${motion})`, async ({ page }) => {
+      if (motion === "끔") await reduceMotion(page);
+      await page.goto("/");
+      await waitForHydration(page);
+      // 첫 화면의 섹션은 셸보다 늦게 온다. 다 온 뒤에 내린다.
+      await expect(page.getByRole("heading", { name: "처음 글로 남은 순간" })).toBeAttached();
+      await waitForFrames(page);
+      await page.evaluate(() => window.scrollTo(0, 1200));
+      await waitForFrames(page, 3);
+      const position = await scrollY(page);
+      expect(position).toBe(1200);
+      // 머리글의 아카이브 링크를 누른 것과 같은 클라이언트 이동
+      await page.evaluate(() =>
+        (window as unknown as { next: { router: { push: (href: string) => void } } }).next.router.push("/artifacts"),
+      );
+      await expect(page).toHaveURL(/\/artifacts$/);
+      await expect(page.locator('[data-ssgoi-transition="/artifacts"]')).toBeVisible();
+      await expect(page.locator('[data-ssgoi-transition="/"]')).toBeHidden();
+      await page.goBack();
+      await expect(page).toHaveURL(/\/$/);
+      await expect(page.locator('[data-ssgoi-transition="/"]')).toBeVisible();
+      await expect.poll(() => scrollY(page)).toBeGreaterThan(position - 10);
+    });
+  }
+
+  /**
+   * SSGOI 7.5.0은 문서의 첫 화면을 맨 위로 보내 브라우저가 되살린 위치를 지웠다. patches/@ssgoi__core@7.5.0.patch로 고친다.
+   * 목록은 셸보다 늦게 와서, 브라우저가 위치를 되살리는 때와 SSGOI가 화면을 여는(수화) 때의 순서가 매번 달라진다.
+   * 자바스크립트를 1초 늦게 줘서, 느린 기기처럼 브라우저가 목록까지 받아 되살린 뒤에 SSGOI가 열리게 한다.
+   */
+  test("새로고침해도 보던 자리를 지킨다", async ({ page }) => {
+    const { position } = await scrollArchive(page);
+    // 가로채기를 켜면 HTTP 캐시를 쓰지 않으므로 새로고침에서도 청크를 다시 받는다.
+    await page.route("**/_next/static/chunks/**", async (route) => {
+      await new Promise((resolve) => setTimeout(resolve, 1_000));
+      await route.continue();
+    });
+    await page.reload();
+    await waitForHydration(page);
+    await waitForFrames(page);
+    expect(await scrollY(page)).toBeGreaterThan(position - 10);
   });
 
   test("전환 경계가 미리 그린 셸의 내용을 숨기지 않는다(자바스크립트 없이도 보임)", async ({ browser }) => {

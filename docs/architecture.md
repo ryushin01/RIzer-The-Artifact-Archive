@@ -57,7 +57,10 @@
 - **화면 전환:** SSGOI가 맡는다. 각 언어의 라우트 그룹 `(site)` 레이아웃(`_app/layouts/page-transitions.tsx`)이 `Ssgoi`와 라우트 경계(`RouteBoundary`: `usePathname`을 `key`와 `data-ssgoi-transition`으로 쓰는 요소)를 둔다. 유물 카드 사진(`data-zoom-exit-key`)과 상세 화면의 딥줌 뷰어 틀(`data-zoom-enter-key`)에 같은 slug를 달아, 아카이브와 관련 유물에서 카드가 뷰어로 커진다. SSGOI는 누른 요소가 아니라 같은 키의 첫 요소에서 커지므로, 같은 유물이 두 번 나오는 첫 화면(히어로 바로가기·컬렉션)은 fade로 둔다. 규칙은 `page-transitions.config.ts`에 있고, `/en` 접두어는 middleware로 떼고 비교한다.
   - SSGOI의 Next.js용 경계(`SsgoiRouteBoundary`, 안에 Suspense를 둠)는 쓰지 않는다. 이 경계로는 Lighthouse CI(데스크톱 시뮬레이션)에서 유물 목록 LCP가 0.37초에서 1.26초로 늦어졌다(실제 브라우저 측정은 같아 원인은 확인하지 못함). `(site)`의 화면들은 바닥글처럼 `usePathname`을 Suspense 밖에서 읽어도 멈추지 않으므로 SSGOI 문서의 수동 경계처럼 직접 둔다.
   - 없는 주소(`[...missing]`)는 `(site)` 바깥에 둔다. 경계가 페이지보다 먼저 `usePathname`을 읽으면, 페이지가 `notFound()`를 내기 전에 미리 그리기가 멈춘다(`CLIENT_HOOK_DYNAMIC`).
-  - SSGOI는 `prefers-reduced-motion`을 스스로 읽지 않는다. 움직임 설정(`selectReducedMotion`)이 꺼짐이면 전환이 없는 설정으로 바꾼다.
+  - 스크롤 위치도 규칙이 정한다. 쌍 규칙(`from`·`to`)은 새로 가는 화면을 맨 위에서 열고, 뒤로 가면 보던 자리로 돌려놓는다. `on` 규칙은 범위 안끼리 오갈 때 두 화면 모두 처음 위치로 돌아가므로 쓰지 않는다.
+  - SSGOI는 `prefers-reduced-motion`을 스스로 읽지 않는다. 움직임 설정(`selectReducedMotion`)이 꺼짐이면 같은 규칙·middleware에 전환만 한 프레임 안에 끝나는 설정(`reducedConfig`)으로 바꾼다. 규칙을 비우면 들어오는 화면이 늘 맨 위로 가서 뒤로 가도 보던 자리를 잃는다.
+  - `patches/@ssgoi__core@7.5.0.patch`: SSGOI 7.5.0은 문서의 첫 화면을 맨 위로 보내, 새로고침 때 브라우저가 되살린 위치를 지운다. 첫 화면에서는 지금 위치를 기록만 하게 고쳤다(`dist/internal.js`와 같은 내용을 `internal.cjs`에도). SSGOI를 올릴 때는 업스트림이 고쳤는지 확인해 패치를 지우거나, 새 버전에 맞게 `pnpm patch @ssgoi/core`로 다시 만든다. E2E '새로고침해도 보던 자리를 지킨다'가 이 동작을 검사한다.
+  - SSGOI는 화면이 열린 직후 10프레임 동안의 스크롤을 기록하지 않는다(스크롤 복원 중의 움직임을 사용자의 스크롤로 착각하지 않으려는 것). E2E에서 스크롤 위치를 검사할 때는 그 뒤에 스크롤한다(`waitForFrames`).
 - **화면 문구:** `shared/i18n/messages.ts`의 사전과 `useMessages()`를 쓴다. 번역 도구를 넣지 않은 것은 Cache Components와 맞추려면 요청 정보를 읽지 않는 편이 단순하기 때문이다. 언어는 라우트가 정적으로 넘긴다.
 - **유물 내용:** 번역 원본은 `packages/domain/src/seed/en`이다. 공개 API는 `locale=en`일 때 **DB 값이 시드 한국어와 같은 필드만** 번역으로 바꾼다. 큐레이터가 고친 내용을 낡은 번역으로 덮지 않기 위해서이고, 제목이나 해설이 번역되지 않으면 `contentLang: "ko"`로 알려 화면에 `lang`을 표시한다.
 - **영어 검색:** DB에 영어가 없으므로 `searchEnglish()`가 시드 번역에서 찾은 slug를 저장소 질의의 `alsoSlugs`·`rankSlugs`로 넘긴다.
