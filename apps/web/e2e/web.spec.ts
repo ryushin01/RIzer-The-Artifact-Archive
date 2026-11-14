@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 
 import { expectNoA11yViolations, expectNotFound, skipGate } from "./helpers";
 
@@ -90,6 +90,32 @@ test.describe("아카이브", () => {
   });
 });
 
+/** 딥줌 뷰어의 주석 번호 버튼이 20프레임 동안 조금도 움직이지 않을 때까지 기다린다(감속하는 끝부분까지). */
+async function waitForMarkersToSettle(page: Page) {
+  // 번호가 하나도 없으면 아래 검사가 그냥 통과하므로 먼저 확인한다.
+  await expect(page.locator(".rz-marker").first()).toBeVisible();
+  await page.waitForFunction(
+    () =>
+      new Promise<boolean>((resolve) => {
+        const read = () =>
+          [...document.querySelectorAll(".rz-marker")].map((m) => {
+            const r = m.getBoundingClientRect();
+            return `${r.x.toFixed(2)},${r.y.toFixed(2)}`;
+          }).join("|");
+        const start = read();
+        let frames = 0;
+        const check = () => {
+          if (read() !== start) return resolve(false);
+          if (++frames >= 20) return resolve(true);
+          requestAnimationFrame(check);
+        };
+        requestAnimationFrame(check);
+      }),
+    undefined,
+    { polling: 100 },
+  );
+}
+
 test.describe("유물 화면", () => {
   test.beforeEach(async ({ page }) => skipGate(page));
 
@@ -121,6 +147,8 @@ test.describe("유물 화면", () => {
     await expect(
       page.getByRole("contentinfo").getByRole("link", { name: /이미지·글꼴 출처 \(README\)/ }),
     ).toHaveAttribute("href", /Rizer-The-Artifact-Archive#출처$/);
+    // 뷰어가 주석으로 움직이는 동안에는 번호 버튼이 도구 막대 밑을 잠깐 지나간다. 멈춘 뒤에 검사한다.
+    await waitForMarkersToSettle(page);
     await expectNoA11yViolations(page);
   });
 
@@ -325,10 +353,12 @@ test.describe("영어판", () => {
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
   });
 
-  test("유물별 공유 이미지가 만들어진다", async ({ request }) => {
-    const response = await request.get(
-      "/en/artifacts/excalibur/opengraph-image",
-    );
+  test("유물별 공유 이미지가 만들어진다", async ({ page, request }) => {
+    // 라우트 그룹 안의 공유 이미지는 주소 끝에 해시가 붙으므로, 화면의 og:image가 가리키는 주소를 받는다.
+    await page.goto("/en/artifacts/excalibur");
+    const url = await page.locator('meta[property="og:image"]').first().getAttribute("content");
+    expect(url).toMatch(/\/en\/artifacts\/excalibur\/opengraph-image/);
+    const response = await request.get(new URL(url!).pathname);
     expect(response.status()).toBe(200);
     expect(response.headers()["content-type"]).toContain("image/png");
   });
@@ -368,5 +398,75 @@ test.describe("디자인 시스템", () => {
     );
     const home = await request.get("/");
     expect(home.headers()["x-frame-options"]).toBe("DENY");
+  });
+});
+
+test.describe("화면 전환", () => {
+  test.beforeEach(async ({ page }) => skipGate(page));
+
+  /** 겹쳐 있는 화면(라우트 경계) 수의 최댓값을 기록한다. 전환 중에는 떠나는 화면과 들어오는 화면이 함께 있다. */
+  async function trackOverlap(page: Page) {
+    await page.evaluate(() => {
+      const w = window as unknown as { __maxPages: number };
+      w.__maxPages = 0;
+      // cacheComponents는 이전 화면을 지우지 않고 숨겨 두므로, 화면에 보이는 것만 센다.
+      const count = () => {
+        const visible = [...document.querySelectorAll("[data-ssgoi-transition]")].filter(
+          (el) => el.getClientRects().length > 0,
+        );
+        w.__maxPages = Math.max(w.__maxPages, visible.length);
+      };
+      // 그려진 프레임만 센다. DOM이 바뀌는 순간(MutationObserver)에는 전환이 없어도 SSGOI가 떠나는 화면을
+      // 잠깐 다시 붙였다 떼는 상태가 잡히는데, 이 상태는 그려지지 않는다. 실제 전환은 수백 ms 동안 겹친다.
+      const tick = () => {
+        count();
+        requestAnimationFrame(tick);
+      };
+      tick();
+    });
+  }
+  const maxPages = (page: Page) => page.evaluate(() => (window as unknown as { __maxPages: number }).__maxPages);
+
+  async function openFirstArtifact(page: Page) {
+    await page.goto("/artifacts");
+    const card = page.locator("[data-zoom-exit-key]").first();
+    await expect(card).toBeVisible();
+    const slug = await card.getAttribute("data-zoom-exit-key");
+    await trackOverlap(page);
+    await page.locator(`a[href$="/artifacts/${slug}"]`).first().click();
+    await expect(page).toHaveURL(new RegExp(`/artifacts/${slug}$`));
+    // 카드 사진과 같은 키를 단 뷰어로 커진다.
+    await expect(page.locator(`[data-zoom-enter-key="${slug}"]`)).toBeVisible();
+    await expect(page.locator("[data-ssgoi-transition]")).toHaveCount(1);
+  }
+
+  test("유물 카드를 누르면 두 화면이 겹쳐 움직이고, 끝나면 하나만 남는다", async ({ page }) => {
+    await openFirstArtifact(page);
+    expect(await maxPages(page)).toBe(2);
+    await page.goBack();
+    await expect(page).toHaveURL(/\/artifacts$/);
+    await expect(page.locator("[data-ssgoi-transition]")).toHaveCount(1);
+  });
+
+  test("사이트의 움직임 설정을 끄면 화면 전환 없이 바로 바뀐다", async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem("rizer:motion", "reduce"));
+    await openFirstArtifact(page);
+    expect(await maxPages(page)).toBe(1);
+  });
+
+  test("전환 경계가 미리 그린 셸의 내용을 숨기지 않는다(자바스크립트 없이도 보임)", async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    const page = await context.newPage();
+    // 목록과 유물 상세는 페이지의 Suspense가 따로 미룬다("불러오는 중"). 셸에 있던 아카이브 제목과 소개만 본다.
+    // (같은 SSGOI 경계를 쓴 다른 프로젝트에서, 경계가 품은 Suspense 때문에 자바스크립트 없이 내용이 숨은 일이 있었다.)
+    await page.goto("/artifacts?gallery=norse");
+    await expect(page.getByRole("heading", { level: 1, name: "Archive" })).toBeVisible();
+    await expect(page.getByText("세계 곳곳의 전설 속 유물을")).toBeVisible();
+    await context.close();
+  });
+
+  test("없는 주소는 화면 전환 영역 밖에서 404로 응답한다", async ({ request }) => {
+    expect((await request.get("/no/such/page")).status()).toBe(404);
+    expect((await request.get("/en/no/such/page")).status()).toBe(404);
   });
 });

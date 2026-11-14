@@ -24,6 +24,8 @@ export function ArtifactCard({ artifact, priority = false }: { artifact: Artifac
           <img
             src={image.previewUrl}
             alt={artifact.imageAlt}
+            // 상세 화면의 딥줌 뷰어(data-zoom-enter-key)로 커지는 화면 전환의 출발점
+            data-zoom-exit-key={artifact.slug}
             loading={priority ? "eager" : "lazy"}
             decoding="async"
             width={image.width}

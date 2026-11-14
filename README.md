@@ -1,7 +1,7 @@
 # Rizer — The Artifact Archive
 
 [![CI](https://github.com/ryushin01/Rizer-The-Artifact-Archive/actions/workflows/ci.yml/badge.svg)](https://github.com/ryushin01/Rizer-The-Artifact-Archive/actions/workflows/ci.yml)
-![version](https://img.shields.io/badge/version-0.5.9-e2283c)
+![version](https://img.shields.io/badge/version-0.6.0-e2283c)
 ![Storybook](https://img.shields.io/badge/Storybook-10-FF4785?logo=storybook&logoColor=white)
 
 엑스칼리버, 성배, 묠니르, 여의봉 같은 세계 곳곳의 전설이나 판타지 속에 등장하는 유물 100점을 고해상도 딥줌으로 확대해 보고, 사진의 부분마다 달린 해설을 읽는 온라인 전시실입니다. 큐레이터는 관리 화면에서 유물·해설·이미지 주석을 편집합니다.
@@ -42,7 +42,7 @@
 
 | 영역        | 내용                                                                                                                                                                                                                                        |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 공개 사이트 | 입장 화면, 스크롤 연출(고정 문장·컬렉션·열 개 전시실·전승 지도·시대별 첫 기록 연표·질문), 아카이브 검색(이름·해설·주석 본문까지, 전시실·종류·정렬, 주소 동기화, 24점씩 "더 보기"), 영어판(`/en`, 유물 100점 해설·주석 번역)                 |
+| 공개 사이트 | 입장 화면, 스크롤 연출(고정 문장·컬렉션·열 개 전시실·전승 지도·시대별 첫 기록 연표·질문), 아카이브 검색(이름·해설·주석 본문까지, 전시실·종류·정렬, 주소 동기화, 24점씩 "더 보기"), 영어판(`/en`, 유물 100점 해설·주석 번역), 유물 카드 사진이 딥줌 뷰어로 커지는 화면 전환 |
 | 딥줌 뷰어   | DZI 타일, 키보드 확대·이동, 끌기 없이 누르는 이동 버튼, 주석 번호 버튼, 안내 투어(자동 재생·멈춤), 주석 바로가기 링크(`?note=N`), 미니맵, 전체 화면, 유물별 공유 이미지                                                                     |
 | 관리 화면   | 유물 목록(검색·전시실·상태, 30점씩 쪽 나누기), 유물 작성·수정·공개·삭제, 원본 업로드와 타일 생성, 주석 편집기(끌어서 그리기 + 키보드용 '보이는 영역으로 추가'·숫자 입력, W3C Web Annotation JSON 내보내기·가져오기), 게스트(읽기 전용) 계정 |
 | 연동        | 관리 화면에서 저장하면 공개 사이트 캐시를 바로 비운다(캐시 태그)                                                                                                                                                                            |
@@ -55,7 +55,7 @@
 | 구분        | 사용 기술                                                                                                                              |
 | ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | 공통        | pnpm 워크스페이스 + Turborepo, Next.js 16 (App Router, Cache Components), React 19, TypeScript, zod                                    |
-| 공개 사이트 | styled-components, Redux Toolkit + redux-saga, OpenSeadragon, UnifrakturCook·Song Myung·Nanum Myeongjo·Cormorant Garamond(영어판)·Nanum Gothic Coding |
+| 공개 사이트 | styled-components, Redux Toolkit + redux-saga, OpenSeadragon, SSGOI(화면 전환), UnifrakturCook·Song Myung·Nanum Myeongjo·Cormorant Garamond(영어판)·Nanum Gothic Coding |
 | 관리 화면   | shadcn/ui(Base UI) + Tailwind CSS 4, Drizzle ORM + PostgreSQL(개발·테스트는 PGlite), Auth.js, Annotorious                              |
 | 이미지·배포 | sharp(DZI 타일·미리보기·LQIP), Vercel Blob(S3 호환 R2 드라이버도 있음), Vercel                                                         |
 | 품질        | ESLint(FSD 경계 규칙), Vitest + Testing Library, redux-saga-test-plan, Storybook 10 스토리 테스트(axe), Playwright E2E, eslint-plugin-jsx-a11y, size-limit, Lighthouse CI, GitHub Actions |

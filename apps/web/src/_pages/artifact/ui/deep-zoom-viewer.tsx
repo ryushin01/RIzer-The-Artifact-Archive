@@ -14,7 +14,14 @@ import { IconArrowLeft, IconArrowRight, IconButton, IconExpand, IconHome, IconMi
 
 import { padRect, regionToImageRect } from "../model/geometry";
 
-type Props = { title: string; image: DeepZoomImage; imageAlt: string; annotations: Annotation[] };
+type Props = {
+  title: string;
+  image: DeepZoomImage;
+  imageAlt: string;
+  annotations: Annotation[];
+  /** 유물 카드 사진(data-zoom-exit-key)에서 이 뷰어로 커지는 화면 전환의 짝. 유물 slug */
+  transitionKey?: string;
+};
 
 /**
  * 딥줌 뷰어(OpenSeadragon). 화면에 보이는 타일만 내려받는다.
@@ -23,7 +30,7 @@ type Props = { title: string; image: DeepZoomImage; imageAlt: string; annotation
  * - 키보드: 사진에 초점을 두고 화살표로 움직이고, +/-로 확대·축소, 0으로 전체 보기.
  * - 끌기 없이 한 번 누르기로도 옮길 수 있게 이동 버튼을 둔다(KWCAG 6.5.1 단일 포인터).
  */
-export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
+export function DeepZoomViewer({ title, image, imageAlt, annotations, transitionKey }: Props) {
   const t = useMessages().viewer;
   const dispatch = useDispatch();
   const { activeId, markersVisible } = useSelector(selectTour);
@@ -176,7 +183,7 @@ export function DeepZoomViewer({ title, image, imageAlt, annotations }: Props) {
   };
 
   return (
-    <Wrap aria-label={t.label(title)} $markers={markersVisible}>
+    <Wrap aria-label={t.label(title)} $markers={markersVisible} data-zoom-enter-key={transitionKey}>
       {/* 뷰어 안에 초점을 받는 캔버스와 주석 버튼이 있어 role="img"를 쓰지 않고, 사진 설명은 글로 둔다. */}
       <p className="sr-only">{t.photo}: {imageAlt}</p>
       <Stage
