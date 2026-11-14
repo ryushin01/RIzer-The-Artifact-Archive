@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -68,7 +69,7 @@ export function SiteNav() {
       </Progress>
       <Nav aria-label={t.label}>
         <Logo href={path("/")} aria-label={t.home}>
-          <span aria-hidden>R</span>
+          <Image src="/brand/logo.png" alt="" width={30} height={30} />
         </Logo>
         <Links>
           {SECTIONS.map((id) => (

@@ -1,6 +1,6 @@
 {
   "name": "rizer",
-  "version": "0.5.5",
+  "version": "0.5.7",
   "private": true,
   "packageManager": "pnpm@12.16.1",
   "scripts": {

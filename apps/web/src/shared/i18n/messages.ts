@@ -35,13 +35,8 @@ const ko = {
     off: "움직임 효과 끄기",
   },
   footer: {
-    before:
-      "전설 속 유물은 실물이 없습니다. 이 아카이브의 사진은 모습이 닮은 실제 소장품을 빌려 썼으며, 모두 ",
-    met: "메트로폴리탄 미술관",
-    and: "과 ",
-    cleveland: "클리블랜드 미술관",
-    after:
-      "의 Open Access(CC0) 자료입니다. 해설과 주석은 이 프로젝트에서 새로 썼습니다.",
+    note: "전설 속 유물은 실물이 없습니다. 이 아카이브의 사진은 모습이 닮은 실제 소장품을 빌려 썼으며, 해설과 주석은 이 프로젝트에서 새로 썼습니다.",
+    sources: "이미지·글꼴 출처 (README)",
     admin: "관리 화면 데모",
     storybook: "디자인 시스템(Storybook)",
     language: "English",
@@ -97,7 +92,7 @@ const ko = {
       },
       {
         q: "그럼 사진 속 물건은 무엇인가요?",
-        a: "모습이 닮은 실제 박물관 소장품입니다. 예를 들어 성배 자리에는 한때 '진짜 성배'로 소개된 6세기 비잔티움의 안티오크 성배를, 쿠사나기 자리에는 6세기 일본의 곧은 칼들을 두었습니다. 유물 화면의 '이미지 출처'에서 실제 소장품 이름과 소장처를 확인할 수 있습니다. 천부인은 세 소장품 사진을 이어 붙인 합성 이미지입니다.",
+        a: "모습이 닮은 실제 박물관 소장품입니다. 예를 들어 성배 자리에는 한때 '진짜 성배'로 소개된 6세기 비잔티움의 안티오크 성배를, 쿠사나기 자리에는 6세기 일본의 곧은 칼들을 두었습니다. 유물 화면의 '사진 속 실제 소장품'에서 실제 소장품 이름을 확인할 수 있고, 소장처와 사용 허락은 저장소 README의 출처에 있습니다. 천부인은 세 소장품 사진을 이어 붙인 합성 이미지입니다.",
       },
       {
         q: "사진을 어떻게 그렇게 크게 확대할 수 있나요?",
@@ -164,7 +159,7 @@ const ko = {
     gallery: "전시실",
     notes: "사진 속 주석",
     story: "해설",
-    credit: "이미지 출처",
+    credit: "사진 속 실제 소장품",
     composite: (n: number) =>
       `아래 소장품 사진 ${n}장을 이어 붙여 이 아카이브가 만든 합성 이미지입니다.`,
     photoBefore: "사진은 ",
@@ -248,12 +243,8 @@ const en: Messages = {
     off: "Turn motion effects off",
   },
   footer: {
-    before:
-      "Legendary artifacts have no physical originals. The photographs here borrow real museum objects that resemble them, all from the Open Access (CC0) collections of ",
-    met: "The Metropolitan Museum of Art",
-    and: " and ",
-    cleveland: "The Cleveland Museum of Art",
-    after: ". The commentary and annotations were written for this project.",
+    note: "Legendary artifacts have no physical originals. The photographs here borrow real museum objects that resemble them, and the commentary and annotations were written for this project.",
+    sources: "Image and font credits (README)",
     admin: "Admin demo",
     storybook: "Design system (Storybook)",
     language: "한국어",
@@ -309,7 +300,7 @@ const en: Messages = {
       },
       {
         q: "Then what is in the photographs?",
-        a: "Real museum objects that resemble them. The Holy Grail, for example, is represented by the sixth-century Byzantine Antioch “Chalice,” once promoted as the true Grail, and Kusanagi by straight swords from sixth-century Japan. The “Image credit” section on each artifact page names the real object and its museum. Cheonbuin is a composite made from photographs of three objects.",
+        a: "Real museum objects that resemble them. The Holy Grail, for example, is represented by the sixth-century Byzantine Antioch “Chalice,” once promoted as the true Grail, and Kusanagi by straight swords from sixth-century Japan. The “Object in the photo” section on each artifact page names the real object, and the museums and licenses are listed in the credits of the repository README. Cheonbuin is a composite made from photographs of three objects.",
       },
       {
         q: "How can the photographs zoom so far?",
@@ -378,7 +369,7 @@ const en: Messages = {
     gallery: "Gallery",
     notes: "Notes on the photograph",
     story: "Story",
-    credit: "Image credit",
+    credit: "The object in the photo",
     composite: (n: number) =>
       `A composite image made by this archive from the ${n} museum photographs below.`,
     photoBefore: "The photograph shows ",

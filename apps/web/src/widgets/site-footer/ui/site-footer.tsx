@@ -13,7 +13,10 @@ const STORYBOOK_URL =
     ? "http://localhost:6006"
     : "/storybook/index.html";
 
-/** 바닥글: 이미지 출처와 프로젝트 정보 */
+/** 이미지·글꼴의 출처는 화면이 아니라 README의 '출처' 표에 있습니다. */
+const SOURCES_URL = "https://github.com/ryushin01/Rizer-The-Artifact-Archive#출처";
+
+/** 바닥글: 프로젝트 정보와 README 출처 링크 */
 export function SiteFooter({ adminUrl }: { adminUrl?: string }) {
   const locale = useLocale();
   const { footer: t, newWindow } = useMessages();
@@ -27,25 +30,11 @@ export function SiteFooter({ adminUrl }: { adminUrl?: string }) {
             <MonoLabel>THE ARTIFACT ARCHIVE</MonoLabel>
           </div>
           <p>
-            {t.before}
-            <a
-              href="https://www.metmuseum.org/hubs/open-access"
-              target="_blank"
-              rel="noreferrer"
-            >
-              {t.met}
+            {t.note}{" "}
+            <a href={SOURCES_URL} target="_blank" rel="noreferrer">
+              {t.sources}
               <span className="sr-only">{newWindow}</span>
             </a>
-            {t.and}
-            <a
-              href="https://www.clevelandart.org/open-access"
-              target="_blank"
-              rel="noreferrer"
-            >
-              {t.cleveland}
-              <span className="sr-only">{newWindow}</span>
-            </a>
-            {t.after}
           </p>
           <Links>
             {adminUrl && (
